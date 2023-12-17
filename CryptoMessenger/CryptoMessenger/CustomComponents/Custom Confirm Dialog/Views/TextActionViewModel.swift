@@ -83,6 +83,52 @@ extension TextActionViewModel {
         }
     }
     
+    enum LeaveChat {
+        static func actions(
+            _ shouldShow: Binding<Bool>
+        ) -> [TextActionViewModel] {
+            [
+                TextActionViewModel(
+                    text: makeAttributedTextItem(),
+                    action: {
+                        shouldShow.wrappedValue = false
+                    }),
+                TextActionViewModel(
+                    text: Text("Покинуть чат ")
+                        .font(.title3Regular20)
+                        .foregroundColor(.spanishCrimson)
+                        .frame(alignment: .center)
+                ) {
+                    shouldShow.wrappedValue = false
+                }
+            ]
+        }
+        
+        static func cancelActions(_ shouldShow: Binding<Bool>) -> [TextActionViewModel] {
+            [
+                TextActionViewModel(
+                    text: Text("Отмена")
+                        .font(.title3Semibold20)
+                        .foregroundColor(.dodgerBlue)
+                ) {
+                    debugPrint("confirmationDialog Cancel Button")
+                    shouldShow.wrappedValue = false
+                }
+            ]
+        }
+        
+        @ViewBuilder
+        private static func makeAttributedTextItem() -> some View {
+            let text1 = Text("Вы уверены, что хотите выйти из чата?")
+                .font(.footnoteSemibold13)
+                .foregroundColor(.chineseBlack)
+            .font(.footnoteRegular13)
+            .foregroundColor(.romanSilver)
+            return text1
+        }
+    }
+
+    
     enum LeaveChannel {
         static func actions(
             _ shouldShow: Binding<Bool>,

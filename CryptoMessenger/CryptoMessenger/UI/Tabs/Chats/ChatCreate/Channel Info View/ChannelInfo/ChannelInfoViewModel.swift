@@ -20,6 +20,7 @@ final class ChannelInfoViewModel {
     @Published var showUserProfile = false
     @Published var showUserSettings = false
     @Published var showLeaveChannel = false
+    @Published var showLeaveChat = false
     @Published var showSelectOwner = false
     @Published var showSelectCurrentUserRole = false
     @Published var channelTopic = ""

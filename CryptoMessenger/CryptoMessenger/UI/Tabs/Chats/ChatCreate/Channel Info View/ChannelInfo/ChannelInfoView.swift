@@ -184,10 +184,24 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                              viewModel.isRoomPublicValue) {
                         viewModel.onLeaveChannel()
                     }
-            }, cancelActions: {
+            }, 
+            cancelActions: {
                 TextActionViewModel
                     .LeaveChannel
                     .cancelActions($viewModel.showLeaveChannel)
+            })
+        .customConfirmDialog(
+            isPresented: $viewModel.showLeaveChat,
+            actionsAlignment: .center,
+            actions: {
+                TextActionViewModel
+                    .LeaveChat
+                    .actions($viewModel.showLeaveChat)
+            },
+            cancelActions: {
+                TextActionViewModel
+                    .LeaveChat
+                    .cancelActions($viewModel.showLeaveChat)
             })
         .popup(
             isPresented: viewModel.isSnackbarPresented,
@@ -458,7 +472,11 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             image: R.image.channelSettings.leaveChannellOrChat.image
         )
         .onTapGesture {
-            viewModel.showLeaveChannel = true
+            if viewModel.isChannel {
+                viewModel.showLeaveChannel = true
+            }else{
+                viewModel.showLeaveChat = true
+            }
         }
     }
 

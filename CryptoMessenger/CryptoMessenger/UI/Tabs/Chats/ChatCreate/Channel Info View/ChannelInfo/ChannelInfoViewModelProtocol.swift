@@ -41,6 +41,8 @@ protocol ChannelInfoViewModelProtocol: ObservableObject {
     var showMakeNewRole: Bool { get set }
     
     var showLeaveChannel: Bool { get set }
+    
+    var showLeaveChat: Bool { get set }
 
     var showUserSettings: Bool { get set }
 
