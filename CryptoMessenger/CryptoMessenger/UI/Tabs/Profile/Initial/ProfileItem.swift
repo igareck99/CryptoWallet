@@ -10,6 +10,7 @@ struct ProfileItem: Identifiable {
     var status = "Всем привет! Я использую AURA!"
     var note = ""
     var info = ""
+    var dialCode = ""
     var phone = "Номер не заполнен"
     var photos: [Image] = []
     var photosUrls: [URL] = []
