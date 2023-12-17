@@ -30,6 +30,7 @@
 "Verification.Description" = "СМС с кодом была отправлена\nна %@";
 "Verification.ResendTitle" = "Не получили смс?\nОтправить повторно (%@)";
 "Verification.ResendButton" = "Отправить повторно";
+"Verification.ResendCode" = "Отправить код повторно";
 "Verification.Seconds" = "сек";
 "Verification.WrongOTP" = "Неправильный пин-код";
 

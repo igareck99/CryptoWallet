@@ -43,11 +43,11 @@ struct CodeVerificationView<ViewModel: VerificationPresenterProtocol>: View {
                     .padding(.top, 1)
                     .opacity(viewModel.errorTextOpacity.wrappedValue)
                     .foregroundColor(viewModel.colors.errorTextColor.wrappedValue)
-
-                Text(viewModel.resources.resendText + " (\(viewModel.seconds) " + viewModel.resources.seconds + ")")
+                
+                Text(viewModel.timeButtonText)
                     .multilineTextAlignment(.center)
                     .font(.subheadlineRegular15)
-                    .foregroundColor(viewModel.colors.resendTextColor.wrappedValue)
+                    .foregroundColor(viewModel.timeButtonColor)
                     .padding(.horizontal, 47)
                     .padding(.top, 80)
                     .onTapGesture {

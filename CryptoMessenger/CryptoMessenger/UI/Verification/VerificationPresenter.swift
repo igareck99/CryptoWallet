@@ -15,6 +15,8 @@ protocol VerificationPresenterProtocol: ObservableObject {
 
     var seconds: Int { get }
     var phoneNumber: String { get }
+    var timeButtonColor: Color { get }
+    var timeButtonText: String { get }
     var numberOfInputs: Int { get }
     var errorTextOpacity: Binding<Double> { get }
     var verificationCode: Binding<String> { get set }
@@ -61,7 +63,7 @@ final class VerificationPresenter<Colors: VerificationColorable> {
     var phoneNumber: String {
         keychainService.apiUserPhoneNumber ?? ""
     }
-    
+
     private var verificationState: VerifiacationState = .inputOTP {
         didSet {
             updateOpacity()
@@ -72,6 +74,20 @@ final class VerificationPresenter<Colors: VerificationColorable> {
     
     let resources: CodeVerificationResourcable.Type
     let colors: Colors
+    
+    var timeButtonColor: Color {
+        if seconds != 0 {
+            return colors.subtitleColor.wrappedValue
+        }
+        return colors.resendTextColor.wrappedValue
+    }
+    
+    var timeButtonText: String {
+        if seconds != 0 {
+            return resources.resendText + " (\(seconds) " + resources.seconds + ")"
+        }
+        return resources.resendCode
+    }
     
     private weak var delegate: VerificationSceneDelegate?
     private var apiClient: APIClientManager
