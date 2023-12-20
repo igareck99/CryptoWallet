@@ -298,6 +298,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                         self.updateToggles()
                         self.room = auraRoom
                         self.roomAvatarUrl = auraRoom.roomAvatar
+                        self.objectWillChange.send()
                     }
                     self.matrixUseCase.markAllAsRead(roomId: self.room.roomId)
                     self.updateData()
@@ -320,17 +321,15 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                 let currentEvents: [RoomEvent] = self.getCurrentEvents(currentRoom)
                 var currentViews: [any ViewGeneratable] = self.getCurrentViews(currentEvents)
                 currentViews = self.makeDisplayItems(currentViews)
-                DispatchQueue.main.async {
-                    self.itemsFromMatrix = currentViews
-                    self.room = currentRoom
-                    self.room.events = currentEvents
-                    self.displayItems = self.itemsFromMatrix
-                    delay(0.1) {
-                        guard !self.itemsFromMatrix.isEmpty else { return }
-                        self.scroolString = self.displayItems.last?.id ?? UUID()
-                    }
-                    self.objectWillChange.send()
+                self.itemsFromMatrix = currentViews
+                self.room = currentRoom
+                self.room.events = currentEvents
+                self.displayItems = self.itemsFromMatrix
+                delay(0.1) {
+                    guard !self.itemsFromMatrix.isEmpty else { return }
+                    self.scroolString = self.displayItems.last?.id ?? UUID()
                 }
+                self.objectWillChange.send()
             }
             .store(in: &subscriptions)
 
@@ -379,8 +378,16 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     }
 
     func joinRoom(roomId: String) {
-        self.matrixUseCase.joinRoom(roomId: roomId) { result in
-            debugPrint("MATRIX DEBUG ChatViewModel joinRoom: \(result) : \(roomId)")
+        // проверка на уже присоединенную комнату
+        guard let isInvited: Bool = self.matrixUseCase.isInvitedToRoom(
+            roomId: room.roomId
+        ), isInvited == true else {
+            return
+        }
+        debugPrint("MATRIX DEBUG ChatViewModel matrixUseCase.joinRoom isInvited \(isInvited)")
+        debugPrint("MATRIX DEBUG ChatViewModel joinRoom: \(roomId)")
+        self.matrixUseCase.joinRoom(roomId: room.roomId) { response in
+            debugPrint("MATRIX DEBUG ChatViewModel matrixUseCase.joinRoom \(response)")
         }
     }
 
@@ -567,7 +574,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             }
         )
     }
-    
+
     private func setEditedOrReplyEvent(_ event: RoomEvent, _ action: QuickActionCurrentUser) {
         withAnimation(.easeIn(duration: 0.25)) {
             self.activeEditMessage = event
@@ -576,7 +583,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             self.coordinator.dismissCurrentSheet()
         }
     }
-    
+
     private func removeMessage(_ eventId: String) {
         guard let event = self.room.events.first(where: { $0.eventId == eventId }) else { return }
         self.room.events = self.room.events.filter({ $0.eventId != eventId })
@@ -755,14 +762,14 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
         self.room.events.append(event)
         self.displayItems.append(view)
     }
-    
+
     func showSnackBar(text: String) {
         DispatchQueue.main.async { [weak self] in
             self?.messageText = text
             self?.isSnackbarPresented = true
             self?.objectWillChange.send()
         }
-        
+
         delay(3) { [weak self] in
             self?.messageText = ""
             self?.isSnackbarPresented = false
