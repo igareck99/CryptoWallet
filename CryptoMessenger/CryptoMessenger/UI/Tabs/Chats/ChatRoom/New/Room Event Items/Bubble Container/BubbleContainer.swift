@@ -5,6 +5,7 @@ struct BubbleContainer: Identifiable, ViewGeneratable {
     let fillColor: Color // bubbles
     let edges: Edge.Set
     let offset: CGFloat
+    let isFromCurrentUser: Bool
     let cornerRadius: CornersRadius
     let content: any ViewGeneratable
     let bottomContent: any ViewGeneratable
@@ -14,6 +15,7 @@ struct BubbleContainer: Identifiable, ViewGeneratable {
     init(
         edges: Edge.Set = .all,
         offset: CGFloat = 8.0,
+        isFromCurrentUser: Bool = true,
         fillColor: Color,
         cornerRadius: CornersRadius,
         content: any ViewGeneratable,
@@ -24,6 +26,7 @@ struct BubbleContainer: Identifiable, ViewGeneratable {
         self.edges = edges
         self.offset = offset
         self.fillColor = fillColor
+        self.isFromCurrentUser = isFromCurrentUser
         self.cornerRadius = cornerRadius
         self.content = content
         self.bottomContent = bottomContent

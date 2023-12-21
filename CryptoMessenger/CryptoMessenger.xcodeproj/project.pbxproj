@@ -473,7 +473,6 @@
 		8BC6F2EA2A7AF1C700F7451B /* RoomDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC6F2E92A7AF1C700F7451B /* RoomDataFactory.swift */; };
 		8BC6F2EE2A7AF6E900F7451B /* AuraRoomData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC6F2ED2A7AF6E900F7451B /* AuraRoomData.swift */; };
 		8BC6F2F12A7BF6DB00F7451B /* ChatHistoryFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC6F2F02A7BF6DB00F7451B /* ChatHistoryFactory.swift */; };
-		8BC723FB2AA7A8D3004C7D44 /* EventBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC723FA2AA7A8D3004C7D44 /* EventBubbleView.swift */; };
 		8BC723FD2AA9112C004C7D44 /* RoomEventsFactory+Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC723FC2AA9112C004C7D44 /* RoomEventsFactory+Audio.swift */; };
 		8BC723FF2AAA0A33004C7D44 /* StaticRoomEventsSizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC723FE2AAA0A33004C7D44 /* StaticRoomEventsSizes.swift */; };
 		8BC7240B2AB32E42004C7D44 /* RoomMessageMenuAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC7240A2AB32E42004C7D44 /* RoomMessageMenuAssembly.swift */; };
@@ -1497,7 +1496,6 @@
 		8BC6F2E92A7AF1C700F7451B /* RoomDataFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomDataFactory.swift; sourceTree = "<group>"; };
 		8BC6F2ED2A7AF6E900F7451B /* AuraRoomData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuraRoomData.swift; sourceTree = "<group>"; };
 		8BC6F2F02A7BF6DB00F7451B /* ChatHistoryFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistoryFactory.swift; sourceTree = "<group>"; };
-		8BC723FA2AA7A8D3004C7D44 /* EventBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventBubbleView.swift; sourceTree = "<group>"; };
 		8BC723FC2AA9112C004C7D44 /* RoomEventsFactory+Audio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RoomEventsFactory+Audio.swift"; sourceTree = "<group>"; };
 		8BC723FE2AAA0A33004C7D44 /* StaticRoomEventsSizes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticRoomEventsSizes.swift; sourceTree = "<group>"; };
 		8BC7240A2AB32E42004C7D44 /* RoomMessageMenuAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomMessageMenuAssembly.swift; sourceTree = "<group>"; };
@@ -4003,7 +4001,6 @@
 				D4137AFB2A94A008001241B6 /* Text Item */,
 				D400B6862A8F4D4A00D5CAD3 /* SystemEventItem.swift */,
 				D400B68A2A8F4E1F00D5CAD3 /* ReplyItem.swift */,
-				8BC723FA2AA7A8D3004C7D44 /* EventBubbleView.swift */,
 			);
 			path = "Room Event Items";
 			sourceTree = "<group>";
@@ -5608,7 +5605,6 @@
 				D46C8FDD2942CBA700DD0B01 /* TransactionSection.swift in Sources */,
 				8BCE67B32ADDB98E004F02F6 /* SelectContactChipsItemView.swift in Sources */,
 				5A187DF126807011001957D3 /* AuthCoordinator.swift in Sources */,
-				8BC723FB2AA7A8D3004C7D44 /* EventBubbleView.swift in Sources */,
 				8BB2F8E728B663A40034D902 /* PhoneView.swift in Sources */,
 				8B0353ED2A943D860033965D /* ChatCreateSection.swift in Sources */,
 				D48DBE462AB2EBDA00D671E1 /* RoomEventsFactory+SystemEvents.swift in Sources */,

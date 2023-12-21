@@ -586,6 +586,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
 
     private func removeMessage(_ eventId: String) {
         guard let event = self.room.events.first(where: { $0.eventId == eventId }) else { return }
+        
         self.room.events = self.room.events.filter({ $0.eventId != eventId })
         self.displayItems = self.displayItems.filter({ $0.id != event.id })
     }

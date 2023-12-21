@@ -63,6 +63,7 @@ struct ActionSheetNewView: View {
                         }
                     }
                 }
+                .padding(.horizontal, 16)
             }
         }.frame(height: 98, alignment: .center)
     }
