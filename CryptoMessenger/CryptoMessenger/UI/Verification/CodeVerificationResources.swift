@@ -6,6 +6,7 @@ protocol CodeVerificationResourcable {
     static var resendText: String { get }
     static var seconds: String { get }
     static var wrongOTP: String { get }
+    static var resendCode: String { get }
 }
 
 // MARK: - CodeVerificationResourcable
@@ -29,5 +30,9 @@ enum CodeVerificationResources: CodeVerificationResourcable {
 
     static var wrongOTP: String {
         R.string.localizable.verificationWrongOTP()
+    }
+    
+    static var resendCode: String {
+        R.string.localizable.verificationResendCode()
     }
 }
