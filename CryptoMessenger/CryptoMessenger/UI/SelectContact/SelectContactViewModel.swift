@@ -125,7 +125,6 @@ final class SelectContactViewModel: ObservableObject, SelectContactViewModelDele
                             return result
                         }
                         withAnimation(.easeOut(duration: 0.25)) {
-                            
                             self.usersForCreate = self.usersForCreateItems
                         }
                     }

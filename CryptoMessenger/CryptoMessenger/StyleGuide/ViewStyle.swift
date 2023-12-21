@@ -40,4 +40,23 @@ extension View {
     func font(_ style: FontDecor) -> some View {
         font(style.suFont)
     }
+
+    func addBorder<S>(_ content: S, width: CGFloat = 1, cornerRadius: CGFloat) -> some View where S : ShapeStyle {
+        let roundedRect = RoundedRectangle(cornerRadius: cornerRadius)
+        return clipShape(roundedRect)
+            .overlay(roundedRect.strokeBorder(content, lineWidth: width))
+    }
+    
+    func addRectangleBorder<S>(_ content: S, width: CGFloat = 1, topLeadingRadius: CGFloat,
+                               bottomLeadingRadius: CGFloat, bottomTrailingRadius: CGFloat,
+                               topTrailingRadius: CGFloat
+    ) -> some View where S : ShapeStyle {
+        let rectangle = Rectangle()
+        return clipShape(rectangle)
+            .cornerRadius(radius: topLeadingRadius, corners: .topLeft)
+            .cornerRadius(radius: bottomLeadingRadius, corners: .bottomLeft)
+            .cornerRadius(radius: bottomTrailingRadius, corners: .bottomRight)
+            .cornerRadius(radius: topTrailingRadius, corners: .topRight)
+            .overlay(rectangle.strokeBorder(content, lineWidth: width))
+    }
 }

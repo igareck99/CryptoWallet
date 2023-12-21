@@ -1,15 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "2021-08-12 19.14.29.jpg",
+      "filename" : "unpin.svg",
       "idiom" : "universal"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
-  },
-  "properties" : {
-    "preserves-vector-representation" : true
   }
 }

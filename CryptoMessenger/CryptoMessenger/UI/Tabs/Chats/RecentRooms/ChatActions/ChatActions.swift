@@ -9,11 +9,14 @@ enum ChatActions: CaseIterable {
     case pin
     case watchProfile
     case removeChat
-
-    var image: Image {
+    
+    func image(_ isPinned: Bool) -> Image {
         switch self {
         case .pin:
-            return R.image.chatHistory.pin.image
+            if isPinned {
+                return R.image.chatHistory.pin.image
+            }
+            return R.image.chatHistory.unpin.image
         case .watchProfile:
             return R.image.chatHistory.person.image
         case .removeChat:
@@ -24,12 +27,12 @@ enum ChatActions: CaseIterable {
     var color: Color {
         switch self {
         case .pin, .watchProfile:
-            return Color.chineseBlack04
+            return .chineseBlack
         case .removeChat:
-            return Color.spanishCrimson
+            return .spanishCrimson
         }
     }
-    
+
     func text(_ isPinned: Bool) -> String {
         switch self {
         case .pin:

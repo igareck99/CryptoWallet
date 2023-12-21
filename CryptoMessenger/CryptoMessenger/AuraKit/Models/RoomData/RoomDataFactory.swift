@@ -48,7 +48,7 @@ extension RoomEventObjectFactory: RoomEventObjectFactoryProtocol {
             var url: URL?
             var reactions: [Reaction] = []
             let isFromCurrentUser = event.sender == matrixUseCase.getUserId()
-            reactions = eventCollections.reactions(for: event)
+            reactions = eventCollections.reactions(forEvent: event, currentUserId: matrixUseCase.getUserId())
             
             if let nextEvent = roomEvents[safe: model.offset + 1],
                nextEvent.timestamp.dayAndMonthAndYear != event.timestamp.dayAndMonthAndYear {
@@ -97,12 +97,11 @@ extension RoomEventObjectFactory: RoomEventObjectFactoryProtocol {
 
         var type: MessageType = .none
         let homeServer = Configuration.shared.matrixURL
-
         switch messageType {
             case kMXMessageTypeText:
                 if event.isReply() {
                     let reply = MXReplyEventParser().parse(event)
-                    type = .text(reply?.bodyParts.replyText ?? "")
+                    type = .text(reply?.bodyParts.replyText ?? text(event: event))
                 } else if event.isEdit() {
                     type = .none
                 } else {

@@ -42,6 +42,7 @@ struct EmptyInfoViewModelView: View {
                         .padding(.top, 80)
                 }
             }
+            .frame(height: 218)
             Spacer()
         }
     }

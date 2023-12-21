@@ -12,6 +12,7 @@ final class AttachActionViewModel: ObservableObject {
     @Published var isTransactionAvailable = false
     @Published var images: [UIImage] = []
     @Published var actions = [ActionItem]()
+    let isDirectChat: Bool
     var tappedAction: (AttachAction) -> Void
     var onCamera: () -> Void
     var onSendPhoto: (UIImage) -> Void
@@ -33,10 +34,12 @@ final class AttachActionViewModel: ObservableObject {
         matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,
         coreDataService: CoreDataServiceProtocol = CoreDataService.shared,
         interlocutorId: String? = nil,
+        isDirectChat: Bool,
         tappedAction: @escaping (AttachAction) -> Void,
         onCamera: @escaping () -> Void,
         onSendPhoto: @escaping (UIImage) -> Void
     ) {
+        self.isDirectChat = isDirectChat
         self.apiClient = apiClient
         self.matrixUseCase = matrixUseCase
         self.coreDataService = coreDataService
@@ -72,6 +75,13 @@ final class AttachActionViewModel: ObservableObject {
         let moneyAction = AttachAction.moneyTransfer(receiverWallet: receiverWallet)
         tappedAction(moneyAction)
     }
+    
+    func computeHeight() -> CGFloat {
+        if isTransactionAvailable && isDirectChat && receiverWalletData != nil {
+            return 413
+        }
+        return 361
+    }
 
     // MARK: - Private Methods
 
@@ -89,7 +99,6 @@ final class AttachActionViewModel: ObservableObject {
         // TODO: Отключил для тестов
         // TODO: нужно включить флаг в Firebase
         isTransactionAvailable = true //  togglesFacade.isTransactionAvailable
-        
         // Есть ли созданные кошельки у текущего пользователя
         let wallets = coreDataService.getWalletNetworks()
         isTransactionAvailable = wallets.isEmpty == false

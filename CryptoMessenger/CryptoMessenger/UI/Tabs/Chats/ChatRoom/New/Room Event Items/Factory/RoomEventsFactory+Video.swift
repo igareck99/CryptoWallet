@@ -42,7 +42,7 @@ extension RoomEventsFactory {
 
         let bubbleContainer = BubbleContainer(
             offset: 0,
-            fillColor: .diamond,
+            fillColor: event.isFromCurrentUser ? .water : .white,
             cornerRadius: .equal,
             content: videoEventItem,
             onSwipe: { onSwipeReply(event) },

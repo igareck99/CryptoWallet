@@ -14,6 +14,10 @@ protocol ChatRoomSourcesable {
     static var phoneButton: Image { get }
 
     static var plus: Image { get }
+    
+    static var video: Image { get }
+
+    static var phone: Image { get }
 
     static var videoFill: Image { get }
 
@@ -105,7 +109,7 @@ enum ChatRoomResources: ChatRoomSourcesable {
     }
 
     static var plus: Image {
-        R.image.chat.plus.image
+        Image(systemName: "plus")
     }
 
     static var videoFill: Image {
@@ -118,6 +122,14 @@ enum ChatRoomResources: ChatRoomSourcesable {
 
     static var paperPlane: Image {
         Image(systemName: "paperplane.fill")
+    }
+    
+    static var video: Image { 
+        Image(systemName: "video")
+    }
+
+    static var phone: Image { 
+        Image(systemName: "phone")
     }
 
     // Text

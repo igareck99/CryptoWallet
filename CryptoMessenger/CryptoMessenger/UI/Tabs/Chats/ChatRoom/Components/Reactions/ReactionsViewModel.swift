@@ -8,8 +8,7 @@ final class ReactionsViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    @Published var people: [ReactionUser] = [ReactionUser(name: "Кирилл П.",
-                                                    avatar: R.image.chat.mockFeed2.image )]
+    @Published var people: [ReactionUser] = []
     @Published var reactions: [String: Int]
     @Published var activeEditMessage: RoomMessage?
     var reactionsKeys: [String] = []

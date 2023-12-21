@@ -17,58 +17,54 @@ struct ActionSheetNewView: View {
 
     var body: some View {
         content
+            .presentationDragIndicator(.visible)
+            .presentationDetents([.height(viewModel.computeHeight())])
             .onReceive(viewModel.$images) { value in
                 self.images = value
             }
     }
 
     private var content: some View {
-        ScrollView {
-            VStack(spacing: 8) {
-                mediaFeedView
-                ForEach(viewModel.actions, id: \.id) { item in
-                    cellAction(item: item)
-                }
+        VStack(spacing: .zero) {
+            mediaFeedView
+                .padding(.top, 10)
+            ForEach(viewModel.actions, id: \.id) { item in
+                cellAction(item: item)
             }
-            .padding(.top, 16)
-            .background(.white)
-            .cornerRadius(14)
         }
+        .background(.white)
+        .cornerRadius(12)
     }
 
     private var mediaFeedView: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 8) {
-                ZStack {
-                    CodeScannerView(codeTypes: []) { _ in }
-                    .frame(width: 80, height: 80)
-                    .cornerRadius(8)
-
+        HStack(alignment: .center) {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
                     ZStack(alignment: .center) {
-                        Image(R.image.chat.camera.name)
-                    }
-                }
-                .frame(width: 80, height: 80)
-                .onTapGesture {
-                    viewModel.onCamera()
-                }
-                ForEach(images, id: \.self) { item in
-                    Group {
-                        Image(uiImage: item)
-                            .resizable()
-                            .scaledToFill()
+                        CodeScannerView(codeTypes: []) { _ in }
                             .frame(width: 80, height: 80)
-                            .cornerRadius(radius: 10, corners: .allCorners)
-                            .onTapGesture {
-                                viewModel.onSendPhoto(item)
-                            }
+                            .cornerRadius(8)
+                        R.image.chat.camera.image
+                    }
+                    .frame(width: 80, height: 80)
+                    .onTapGesture {
+                        viewModel.onCamera()
+                    }
+                    ForEach(images, id: \.self) { item in
+                        Group {
+                            Image(uiImage: item)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 80, height: 80)
+                                .cornerRadius(radius: 10, corners: .allCorners)
+                                .onTapGesture {
+                                    viewModel.onSendPhoto(item)
+                                }
+                        }
                     }
                 }
             }
-        }
-        .frame(height: 80)
-        .padding(.horizontal, 16)
-        .padding(.bottom, 8)
+        }.frame(height: 98, alignment: .center)
     }
 
     private func cellAction(item: ActionItem) -> some View {
@@ -76,19 +72,18 @@ struct ActionSheetNewView: View {
             vibrate()
             viewModel.didTap(action: item.action)
         }, label: {
-            HStack(spacing: 16) {
-                HStack {
+            VStack(alignment: .center) {
+                HStack(spacing: 8) {
                     item.action.image
+                    Text(item.action.title)
+                        .font(.calloutRegular16)
+                        .foregroundColor(.chineseBlack)
+                    Spacer()
                 }
-                .cornerRadius(20)
-                Text(item.action.title)
-                    .font(.calloutRegular16)
-                    .foregroundColor(.chineseBlack)
-                Spacer()
+                .background(Color.white)
+                .frame(maxWidth: .infinity, idealHeight: 57, maxHeight: 57)
+                .padding(.horizontal, 16)
             }
-            .background(Color.white)
-            .frame(height: 57)
-            .padding(.horizontal, 16)
         })
     }
 }
