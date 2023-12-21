@@ -142,7 +142,9 @@ extension ViewsBaseFactory {
         case let .createContact(coordinator):
             CreateContactsAssembly.build(coordinator: coordinator)
         case let .createChannel(coordinator, contacts):
-            CreateChannelAssemby.make(coordinator: coordinator)
+            ChatGroupAssembly.build(type: .channel,
+                                    users: [],
+                                    coordinator: coordinator)
         case let .selectContact(coordinator):
             SelectContactAssembly.build(
                 mode: .groupCreate,

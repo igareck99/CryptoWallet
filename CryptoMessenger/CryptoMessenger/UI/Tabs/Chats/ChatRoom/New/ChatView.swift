@@ -72,6 +72,7 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
         .onTapGesture {
             hideKeyboard()
         }
+        .toolbarBackground(.visible, for: .navigationBar)
         .toolbarRole(.editor)
         .toolbar(.hidden, for: .tabBar)
         .toolbar(.visible, for: .navigationBar)
