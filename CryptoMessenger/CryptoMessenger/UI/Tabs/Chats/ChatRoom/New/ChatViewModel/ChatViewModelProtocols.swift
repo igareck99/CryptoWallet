@@ -17,8 +17,6 @@ protocol ChatViewModelProtocol: ObservableObject {
 
     var scroolString: UUID { get set }
 
-    var scrollId: Published<UUID> { get }
-
     var scrollIdPublisher: Published<UUID>.Publisher { get }
 
     var displayItems: [any ViewGeneratable] { get }

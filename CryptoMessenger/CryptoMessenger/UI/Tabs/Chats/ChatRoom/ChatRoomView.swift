@@ -337,36 +337,36 @@ struct ChatRoomView: View {
                       expandedPosition: .custom(UIScreen.main.bounds.height - 580)) {
                 VStack {
                     if let message = activeEditMessage {
-                        QuickMenuView(
-                            isCurrentUser: message.isCurrentUser,
-                            isChannel: viewModel.isChannel,
-                            userRole: viewModel.getUserRole(),
-                            onAction: {
-                                switch $0 {
-                                case .copy:
-                                    viewModel.onCopyTap(text: message.description)
-                                case .delete:
-                                    viewModel.send(.onDelete(messageId))
-                                case .edit:
-                                    inputViewIsFocused = true
-                                case .reply:
-                                    inputViewIsFocused = true
-                                    quickAction = .reply
-                                case .reaction:
-                                    if viewModel.isReactionsAvailable {
-                                        showReaction = true
-                                    }
-                                default:
-                                    ()
+                        RoomMessageMenuAssembly.build(messageType: activeEditMessage?.type ?? .none,
+                                                      hasReactions: !(activeEditMessage?.reactions.isEmpty ?? false),
+                                                      hasAccessToWrite: viewModel.userHasAccessToMessage,
+                                                      isCurrentUser: activeEditMessage?.isCurrentUser ?? true,
+                                                      isChannel: viewModel.isChannel,
+                                                      userRole: viewModel.getUserRole(),
+                                                      onAction: {
+                            switch $0 {
+                            case .copy:
+                                viewModel.onCopyTap(text: message.description)
+                            case .delete:
+                                viewModel.send(.onDelete(messageId))
+                            case .edit:
+                                inputViewIsFocused = true
+                            case .reply:
+                                inputViewIsFocused = true
+                                quickAction = .reply
+                            case .reaction:
+                                if viewModel.isReactionsAvailable {
+                                    showReaction = true
                                 }
-                                quickAction = $0
-                                
-                            },
-                            onReaction: { reaction in
-                                debugPrint("emotions \(reaction)")
-                                viewModel.send(.onAddReaction(messageId: message.id, reactionId: reaction))
+                            default:
+                                ()
                             }
-                        ).padding(.vertical, 16)
+                            quickAction = $0
+                        }, onReaction: { reaction in
+                            debugPrint("emotions \(reaction)")
+                            viewModel.send(.onAddReaction(messageId: message.id, reactionId: reaction))
+                            
+                        })
                     }
                 }
             }

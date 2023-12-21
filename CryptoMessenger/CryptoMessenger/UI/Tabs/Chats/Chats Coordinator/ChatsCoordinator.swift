@@ -244,6 +244,9 @@ extension ChatsCoordinator: ChatsCoordinatable {
     }
 
     func messageReactions(
+        messageType: MessageType,
+        hasReactions: Bool,
+        hasAccessToWrite: Bool,
         isCurrentUser: Bool,
         isChannel: Bool,
         userRole: ChannelRole,
@@ -251,6 +254,9 @@ extension ChatsCoordinator: ChatsCoordinatable {
         onReaction: @escaping GenericBlock<String>
     ) {
         router.messageReactions(
+            messageType: messageType,
+            hasReactions: hasReactions,
+            hasAccessToWrite: hasAccessToWrite,
             isCurrentUser: isCurrentUser,
             isChannel: isChannel,
             userRole: userRole,

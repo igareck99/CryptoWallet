@@ -17,7 +17,6 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     var itemsFromMatrix = [any ViewGeneratable]()
     @Published var inputText = ""
     @Published var scroolString = UUID()
-    var scrollId: Published<UUID> { _scroolString }
     var scrollIdPublisher: Published<UUID>.Publisher { $scroolString }
     @Published var activeEditMessage: RoomEvent?
     @Published var quickAction: QuickActionCurrentUser?
@@ -538,6 +537,9 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             roomPowerLevels: roomPowerLevels
         )
         coordinator.messageReactions(
+            messageType: event.eventType,
+            hasReactions: !event.reactions.isEmpty,
+            hasAccessToWrite: userHasAccessToMessage,
             isCurrentUser: event.isFromCurrentUser,
             isChannel: room.isChannel,
             userRole: role,

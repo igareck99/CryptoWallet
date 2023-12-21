@@ -91,6 +91,9 @@ extension ViewsBaseFactory {
                 fileName: fileName
             )
         case let .messageReactions(
+            messageType: messageType,
+            hasReactions: hasReactions,
+            hasAccessToWrite: hasAccessToWrite,
             isCurrentUser: isCurrentUser,
             isChannel: isChannel,
             userRole: userRole,
@@ -98,17 +101,15 @@ extension ViewsBaseFactory {
             onReaction: onReaction
         ):
             RoomMessageMenuAssembly.build(
+                messageType: messageType,
+                hasReactions: hasReactions,
+                hasAccessToWrite: hasAccessToWrite,
                 isCurrentUser: isCurrentUser,
                 isChannel: isChannel,
                 userRole: userRole,
                 onAction: onAction,
                 onReaction: onReaction
             )
-            // TODO: Удалить это отсюда
-            .presentationDetents(
-                [.height(CGFloat(QiuckMenyViewSize.size(isCurrentUser, isChannel, userRole)))]
-            )
-            .anyView()
         case let .sendingMessageMenu(event, onTapItem):
             NotSendedMessageMenuAssembly.build(event, onTapItem)
                 // TODO: Удалить это отсюда
