@@ -67,7 +67,7 @@ final class Configuration: ConfigType {
     }
 
     private var currentConfig: UrlsConfig {
-        releaseConfig
+        stageConfig
     }
 
     var devTeamId: String {
