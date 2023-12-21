@@ -453,8 +453,7 @@ extension MatrixService {
             return
         }
         var localEcho: MXEvent?
-        // swiftlint:disable:next force_try
-        let content = try! EditEvent(eventId: eventId, text: text).encodeContent()
+        let content = EditEvent(eventId: eventId, text: text).encodeContent()
         // TODO: Use localEcho to show sent message until it actually comes back
         room.sendMessage(withContent: content, localEcho: &localEcho) { _ in }
     }

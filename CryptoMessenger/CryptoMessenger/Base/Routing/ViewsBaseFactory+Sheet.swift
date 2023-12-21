@@ -12,8 +12,6 @@ extension ViewsBaseFactory {
             GeneratePhraseViewAssembly.build(coordinator: coordinator)
         case let .chatRoomMenu(model):
             ActionSheetViewAssembly.build(model: model)
-                // TODO: Удалить это отсюда
-                    .presentationDetents([.height(435)])
         case let .createChat(view, onDisappear):
             view()
             // TODO: Удалить это отсюда

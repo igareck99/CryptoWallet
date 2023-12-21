@@ -206,7 +206,7 @@ struct ProfileView<ViewModel: ProfileViewModelProtocol>: View {
                             Circle()
                                 .cornerRadius(50)
                                 .frame(width: 100, height: 100)
-                                .foregroundColor(viewModel.resources.buttonBackground)
+                                .foregroundColor(viewModel.resources.avatarBackgorund)
                             Text(viewModel.profile.name.firstLetter.uppercased())
                                 .foregroundColor(.white)
                                 .font(.largeTitleRegular34)

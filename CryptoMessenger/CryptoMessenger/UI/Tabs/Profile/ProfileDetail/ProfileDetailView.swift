@@ -81,6 +81,7 @@ struct ProfileDetailView: View {
                 Text(R.string.localizable.profileAboutUser())
                     .foregroundColor(.romanSilver)
                     .font(.calloutRegular16)
+                    .padding(.leading, 4)
                 TextEditor(text: $viewModel.profile.status)
                     .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0))
                     .background(Color.white)
@@ -101,6 +102,7 @@ struct ProfileDetailView: View {
                 )
                 .background(.white)
                 .frame(height: 22)
+                .padding(.horizontal, 16)
                 .onTapGesture {
                     viewModel.send(.onSocial)
                 }
@@ -201,11 +203,10 @@ struct ProfileDetailView: View {
                         ZStack {
                             Circle()
                                 .foregroundColor(.diamond)
-                                .frame(width: 50, height: 50)
+                                .frame(width: 68, height: 68)
                             Text(viewModel.profile.name.firstLetter.uppercased())
                                 .foregroundColor(.white)
                                 .font(.title1Bold28)
-                                .frame(width: 68, height: 68)
                         }
                     },
                     result: {
@@ -229,8 +230,9 @@ struct ProfileDetailView: View {
     }
     
     private var mainView: some View {
-        HStack(alignment: .center, spacing: 8) {
+        HStack(alignment: .center, spacing: 16) {
             avatarView
+                .padding(.leading, 4 )
             TextField("", text: $viewModel.profile.name)
                 .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0))
                 .foregroundColor(.chineseBlack)
@@ -239,32 +241,6 @@ struct ProfileDetailView: View {
                 .background(Color.white
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                 )
-        }
-    }
-    
-    private func info(_ title: String) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(title.uppercased(), [
-                .paragraph(.init(lineHeightMultiple: 1.54, alignment: .left))
-            ]).font(.caption1Medium12)
-                .frame(height: 22)
-                .foregroundColor(.romanSilver)
-            ZStack(alignment: .leading) {
-                if viewModel.profile.info.isEmpty {
-                    Text(title.firstUppercased)
-                        .foregroundColor(.romanSilver07)
-                        .font(.subheadlineRegular15)
-                        .padding([.leading, .trailing], 16)
-                }
-                
-                TextEditor(text: $viewModel.profile.info)
-                    .foregroundColor(.chineseBlack)
-                    .font(.subheadlineRegular15)
-                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 44, maxHeight: 140)
-                    .padding([.leading, .trailing], 14)
-            }
-            .background(.white)
-            .cornerRadius(8)
         }
     }
     

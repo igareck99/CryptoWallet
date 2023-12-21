@@ -6,6 +6,7 @@ extension ChatViewModel {
     func showChatRoomMenu() {
         let model = ActionsViewModel(
             interlocutorId: opponentId(),
+            isDirect: self.room.isDirect,
             tappedAction: { [weak self] action in
                 guard let self = self else { return }
                 self.onTapped(action: action)

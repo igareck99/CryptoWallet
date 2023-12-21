@@ -22,7 +22,7 @@ struct ChatRoomView: View {
     // MARK: - Internal Properties
 
     @StateObject var viewModel: ChatRoomViewModel
-    @StateObject var attachViewModel = AttachActionViewModel(tappedAction: { _ in  }, onCamera: {  }, onSendPhoto: { _ in  } )
+    @StateObject var attachViewModel = AttachActionViewModel(isDirectChat: false, tappedAction: { _ in  }, onCamera: {  }, onSendPhoto: { _ in  } )
     @State var photosToSend: [UIImage] = []
     @State var playingAudioId = ""
     @State var sendPhotos = false
@@ -271,15 +271,14 @@ struct ChatRoomView: View {
                 VStack(spacing: 0) {
                     if quickAction == .reply {
                         ReplyView(
-                            text: activeEditMessage?.description ?? "",
+                            text: activeEditMessage?.description ?? "", viewType: .reply,
                             onReset: { activeEditMessage = nil; quickAction = nil }
                         ).transition(.opacity)
                     }
                     if quickAction == .edit {
-                        EditView(
-                            text: activeEditMessage?.description ?? "",
-                            onReset: { activeEditMessage = nil;
-                                quickAction = nil }
+                        ReplyView(
+                            text: activeEditMessage?.description ?? "", viewType: .edit,
+                            onReset: { activeEditMessage = nil; quickAction = nil }
                         ).transition(.opacity)
                     }
                     if viewModel.userHasAccessToMessage {

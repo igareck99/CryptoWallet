@@ -19,7 +19,7 @@ struct ContactRow: View {
                     defaultUrl: contact.avatar,
                     placeholder: {
                         ZStack {
-                            Color.aliceBlue
+                            Color.diamond
                             Text(contact.name.firstLetter.uppercased())
                                 .foregroundColor(.white)
                                 .font(.title2Regular22)

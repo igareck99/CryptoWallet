@@ -6,8 +6,8 @@ enum AttachAction: CaseIterable, Identifiable {
     static var allCases: [AttachAction] = [
         .media,
         .document,
-        .location,
         .contact,
+        .location,
         .moneyTransfer(receiverWallet: .mock)
     ]
 
@@ -26,7 +26,7 @@ enum AttachAction: CaseIterable, Identifiable {
     var title: String {
         switch self {
         case .media:
-            return "Фото/ Видео"
+            return "Фото / Видео"
         case .document:
             return "Документ"
         case .location:

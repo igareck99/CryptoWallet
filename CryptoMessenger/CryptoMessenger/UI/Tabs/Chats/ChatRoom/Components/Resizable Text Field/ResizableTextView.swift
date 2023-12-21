@@ -33,9 +33,11 @@ struct ResizeableTextView: UIViewRepresentable {
             }
 		}
         DispatchQueue.main.async {
-            self.height = textView.contentSize.height > 36 ? textView.contentSize.height : 36
+            if self.height != textView.contentSize.height {
+                self.height = textView.contentSize.height > 34 ? textView.contentSize.height : 34
+            }
             textView.backgroundColor = fieldBackgroundColor
-            textView.textContainerInset = UIEdgeInsets(top: 10, left: 6, bottom: 6, right: 6)
+            textView.textContainerInset = UIEdgeInsets(top: 6, left: 12, bottom: 6, right: 0)
         }
 	}
 

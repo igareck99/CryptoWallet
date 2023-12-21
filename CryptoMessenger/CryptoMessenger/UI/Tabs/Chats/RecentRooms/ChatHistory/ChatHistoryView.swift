@@ -18,6 +18,7 @@ struct ChatHistoryView<ViewModel: ChatHistoryViewDelegate>: View {
 
     var body: some View {
         content
+            .hideKeyboardOnTap()
             .onAppear {
                 viewModel.onAppear()
             }

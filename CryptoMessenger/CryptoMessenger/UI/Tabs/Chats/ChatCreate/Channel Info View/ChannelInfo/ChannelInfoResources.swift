@@ -73,6 +73,8 @@ protocol ChannelInfoResourcable {
     
     static var textColor: Color { get }
     
+    static var avatarColor: Color { get }
+    
     static var negativeColor: Color { get}
     
     static var buttonBackground: Color { get }
@@ -207,6 +209,10 @@ enum ChannelInfoResources: ChannelInfoResourcable {
     
     static var buttonBackground: Color {
         .dodgerBlue
+    }
+    
+    static var avatarColor: Color {
+        .diamond
     }
     
     static var blockUserDescription: String {

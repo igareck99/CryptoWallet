@@ -30,7 +30,7 @@ struct AvatarView: View {
                 defaultUrl: data.avatarUrl,
                 placeholder: {
                     ZStack {
-                        Color(.aliceBlue)
+                        Color(.diamond)
                         Text(data.roomName.firstLetter.uppercased())
                             .foreground(.white)
                             .font(.title1Bold28)

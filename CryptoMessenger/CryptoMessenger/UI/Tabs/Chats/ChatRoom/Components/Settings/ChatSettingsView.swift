@@ -77,7 +77,7 @@ struct ChatSettingsView: View {
                     defaultUrl: viewModel.roomImageUrl,
                     placeholder: {
                         ZStack {
-                            viewModel.resources.textBoxBackground
+                            viewModel.resources.avatarColor
                             Text(viewModel.roomNameLetters)
                                 .foregroundColor(viewModel.resources.background)
                                 .font(.system(size: 20, weight: .medium))

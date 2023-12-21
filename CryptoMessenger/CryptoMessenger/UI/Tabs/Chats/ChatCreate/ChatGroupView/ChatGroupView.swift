@@ -105,7 +105,7 @@ struct ChatGroupView: View {
                             .frame(width: 68, height: 68, alignment: .center)
                             .cornerRadius(34)
                     } else {
-                        RoundedRectangle(cornerRadius: 30)
+                        Circle()
                             .background(viewModel.resources.buttonBackground)
                             .cornerRadius(34)
                             .frame(width: 68, height: 68, alignment: .center)

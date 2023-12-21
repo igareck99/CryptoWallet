@@ -25,6 +25,16 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
                         }
                     }
                 }
+                .background(content: {
+                    R.image.chat.chatBackground.image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(idealWidth: UIScreen.main.bounds.width,
+                               minHeight: UIScreen.main.bounds.height - 167,
+                               idealHeight: UIScreen.main.bounds.height - 167,
+                               maxHeight: UIScreen.main.bounds.height - 167)
+                        .padding(.top, viewModel.quickAction == .reply || viewModel.quickAction == .edit ? 50 : 0)
+                })
                 .onChange(of: viewModel.isKeyboardVisible) { newValue in
                     withAnimation {
                         if newValue {
@@ -80,7 +90,7 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
             })
         }
         ToolbarItem(placement: .navigationBarLeading) {
-            HStack(spacing: 0) {
+            HStack(alignment: .center, spacing: 10) {
                 AsyncImage(
                     defaultUrl: viewModel.roomAvatarUrl,
                     updatingPhoto: true,
@@ -88,7 +98,7 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
                     isAvatarLoading: $viewModel.isAvatarLoading,
                     placeholder: {
                         ZStack {
-                            Color.aliceBlue
+                            Color.diamond
                             Text(viewModel.roomName.firstLetter.uppercased())
                                 .foregroundColor(.white)
                                 .font(.title3Semibold20)
@@ -100,35 +110,31 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
                 )
                 .frame(width: 36, height: 36)
                 .cornerRadius(18)
-                .padding(.trailing, 12)
-
-                VStack(alignment: .leading, spacing: 0) {
+                VStack(alignment: .leading, spacing: .zero) {
                     Text(viewModel.roomName)
                         .lineLimit(1)
                         .font(.callout2Semibold16)
                         .foregroundColor(.chineseBlack)
-
-                    HStack(spacing: 0) {
-                        if viewModel.isDirect {
-                            Text(
-                                viewModel.isOnline ?
-                                viewModel.resources.chatOnline :
-                                    viewModel.resources.chatOffline
-                            )
+                    if viewModel.isDirect {
+                        Text(
+                            viewModel.isOnline ?
+                            viewModel.resources.chatOnline :
+                                viewModel.resources.chatOffline
+                        )
+                        .lineLimit(1)
+                        .font(.footnoteRegular13)
+                        .foregroundColor(viewModel.isOnline ? .greenCrayola : .chineseBlack04)
+                    } else {
+                        Text("Участники (\(viewModel.participants.count))")
                             .lineLimit(1)
                             .font(.footnoteRegular13)
-                            .foregroundColor(viewModel.isOnline ? .dodgerBlue : .chineseBlack04)
-                        } else {
-                            Text("Участники (\(viewModel.participants.count))")
-                                .lineLimit(1)
-                                .font(.footnoteRegular13)
-                                .foregroundColor(.chineseBlack04)
-                        }
-                        Spacer()
+                            .foregroundColor(.chineseBlack04)
                     }
                 }
+                Spacer()
             }
             .background(Color.clear)
+            .padding(.bottom, 4)
             .onTapGesture {
                 viewModel.onNavBarTap(
                     chatData: $viewModel.chatData,
@@ -143,21 +149,21 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
                     Button(action: {
                         viewModel.p2pVideoCallPublisher.send()
                     }, label: {
-                        viewModel.resources.videoFill.tint(.chineseBlack)
+                        viewModel.resources.video.tint(Color.dodgerBlue)
                     }).disabled(!$viewModel.isVideoCallAvailablility.wrappedValue)
                 }
                 if viewModel.isVoiceCallAvailable {
                     Button(action: {
                         viewModel.p2pVoiceCallPublisher.send()
                     }, label: {
-                        viewModel.resources.phoneFill.tint(.chineseBlack)
+                        viewModel.resources.phone.tint(Color.dodgerBlue)
                     }).disabled(!$viewModel.isVoiceCallAvailablility.wrappedValue)
                 }
                 if viewModel.isGroupCall {
                     Button(action: {
                         viewModel.groupCallPublisher.send()
                     }, label: {
-                        viewModel.resources.videoFill.tint(.chineseBlack)
+                        viewModel.resources.phone.tint(Color.dodgerBlue)
                     })
                 }
                 /*

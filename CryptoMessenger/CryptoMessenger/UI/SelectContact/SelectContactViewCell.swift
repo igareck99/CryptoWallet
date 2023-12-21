@@ -25,7 +25,7 @@ struct SelectContactViewCell: View {
                         defaultUrl: data.avatar,
                         placeholder: {
                             ZStack {
-                                Color.aliceBlue
+                                Color.diamond
                                 Text(data.name.firstLetter.uppercased())
                                     .foreground(.white)
                                     .font(.system(size: 22, weight: .medium))

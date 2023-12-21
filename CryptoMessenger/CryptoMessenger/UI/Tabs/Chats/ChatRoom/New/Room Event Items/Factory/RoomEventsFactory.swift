@@ -31,19 +31,20 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
         _ event: RoomEvent,
         onReactionTap: @escaping (ReactionNewEvent) -> Void
     ) -> [ReactionNewEvent] {
-        let reactionColor: Color = event.isFromCurrentUser ? .diamond : .aliceBlue
         var data: [ReactionNewEvent] = []
         var emojiList: [String] = []
         for reaction in event.reactions {
             if !emojiList.contains(reaction.emoji) {
                 emojiList.append(reaction.emoji)
+                let background = computeReactionColor(reaction, event, [])
+                let textColor = computeTextColor(reaction, event, [])
                 data.append(ReactionNewEvent(eventId: reaction.id,
                                              sender: "",
                                              relatedEvent: event.eventId,
                                              timestamp: Date(),
                                              emoji: reaction.emoji,
-                                             color: event.isFromCurrentUser ? .azureRadianceApprox : reactionColor,
-                                             emojiString: "",
+                                             color: background,
+                                             emojiString: "", textColor: textColor,
                                              sendersIds: [reaction.sender],
                                              isFromCurrentUser: reaction.isFromCurrentUser,
                                              onTap: { reaction in
@@ -55,13 +56,16 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                     let isFromCurrentUser = data[index].isFromCurrentUser || reaction.isFromCurrentUser
                     var senders = data[index].sendersIds
                     senders.append(reaction.sender)
+                    let background: Color = computeReactionColor(reaction, event, senders)
+                    let textColor = computeTextColor(reaction, event, senders)
                     data[index] = ReactionNewEvent(eventId: reaction.id,
                                                    sender: "",
                                                    relatedEvent: event.eventId,
                                                    timestamp: Date(),
                                                    emoji: reaction.emoji,
-                                                   color: event.isFromCurrentUser ? .azureRadianceApprox : reactionColor,
+                                                   color: background,
                                                    emojiString: emojiCount.value,
+                                                   textColor: textColor,
                                                    emojiCount: emojiCount,
                                                    sendersIds: senders,
                                                    isFromCurrentUser: isFromCurrentUser,
@@ -74,17 +78,49 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
         data = data.sorted(by: { $0.emojiCount > $1.emojiCount })
         return data
     }
-
+    
+    static func computeReactionColor(_ reaction: Reaction,
+                                     _ event: RoomEvent,
+                                     _ senders: [String]) -> Color {
+        var background: Color
+        if senders.contains(MatrixUseCase.shared.getUserId()) {
+            background = .brilliantAzure
+        } else if reaction.isFromCurrentUser {
+            background = .brilliantAzure
+        } else {
+            if event.isFromCurrentUser {
+                background = .diamond
+            } else {
+                background = .aliceBlue
+            }
+        }
+        return background
+    }
+    
+    static func computeTextColor(_ reaction: Reaction,
+                                 _ event: RoomEvent,
+                                 _ senders: [String]) -> Color {
+        var textColor: Color
+        if senders.contains(MatrixUseCase.shared.getUserId()) {
+            textColor = .white
+        } else if reaction.isFromCurrentUser {
+            textColor = .white
+        } else {
+            textColor = .brilliantAzure
+        }
+        return textColor
+    }
+    
     static func makeOneEventView(
-      value: RoomEvent,
-      events: [RoomEvent],
-      currentEvents: [RoomEvent] = [],
-      oldViews: [any ViewGeneratable],
-      delegate: ChatEventsDelegate,
-      onLongPressMessage: @escaping (RoomEvent) -> Void,
-      onReactionTap: @escaping (ReactionNewEvent) -> Void,
-      onTapNotSendedMessage: @escaping (RoomEvent) -> Void,
-      onSwipeReply: @escaping (RoomEvent) -> Void
+        value: RoomEvent,
+        events: [RoomEvent],
+        currentEvents: [RoomEvent] = [],
+        oldViews: [any ViewGeneratable],
+        delegate: ChatEventsDelegate,
+        onLongPressMessage: @escaping (RoomEvent) -> Void,
+        onReactionTap: @escaping (ReactionNewEvent) -> Void,
+        onTapNotSendedMessage: @escaping (RoomEvent) -> Void,
+        onSwipeReply: @escaping (RoomEvent) -> Void
     ) -> (any ViewGeneratable)? {
         switch value.eventType {
         case let .text(string):
@@ -338,7 +374,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
             )
         } else {
             contatiner = BubbleContainer(
-                fillColor: .water,
+                fillColor: .white,
                 cornerRadius: .left,
                 content: textEvent, onSwipe: {
                     onSwipeReply(event)

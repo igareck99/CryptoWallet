@@ -24,7 +24,7 @@ protocol ChatGroupResourcable {
 
     static var buttonBackground: Color { get }
 
-    static var textBoxBackground: Color { get }
+    static var avatarBackgorund: Color { get }
 
     static var background: Color { get }
 }
@@ -80,5 +80,9 @@ enum ChatGroupResources: ChatGroupResourcable {
 
     static var background: Color {
         .white
+    }
+    
+    static var avatarBackgorund: Color {
+        .diamond
     }
 }

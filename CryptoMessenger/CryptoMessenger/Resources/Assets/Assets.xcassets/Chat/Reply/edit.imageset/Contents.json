@@ -1,15 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "Group 6938 (1).pdf",
+      "filename" : "edit.svg",
       "idiom" : "universal"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
-  },
-  "properties" : {
-    "preserves-vector-representation" : true
   }
 }

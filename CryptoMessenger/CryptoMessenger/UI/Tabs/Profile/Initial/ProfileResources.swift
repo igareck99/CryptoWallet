@@ -36,7 +36,7 @@ enum ProfileResources: ProfileResourcable {
     }
 
     static var avatarBackgorund: Color {
-        .dodgerTransBlue
+        .diamond
     }
 
     static var profileFromGallery: String {
