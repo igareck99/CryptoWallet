@@ -134,6 +134,7 @@
 "PhotoEditor.Title" = "Фото";
 "PhotoEditor.AlertTitle" = "Удалить фото?";
 "PhotoEditor.AlertMessage" = "Это действие нельзя отменить";
+"PhotoEditor.AlertApprove" = "Вы уверены, что хотите удалить фотографию? ";
 "PhotoEditor.AlertCancel" = "Отмена";
 "PhotoEditor.AlertDelete" = "Удалить";
 

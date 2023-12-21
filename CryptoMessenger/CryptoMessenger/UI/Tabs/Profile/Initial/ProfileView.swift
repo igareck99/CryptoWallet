@@ -8,7 +8,6 @@ struct ProfileView<ViewModel: ProfileViewModelProtocol>: View {
 
     @StateObject var viewModel: ViewModel
     @State var showImageEdtior = false
-    @State var showImageViewer = false
     @State var selectedAvatarImage: UIImage?
 
     // MARK: - Private Properties
@@ -51,20 +50,31 @@ struct ProfileView<ViewModel: ProfileViewModelProtocol>: View {
             .fullScreenCover(isPresented: $viewModel.showWebView) {
                 viewModel.safari
             }
-            .fullScreenCover(isPresented: $showImageViewer, content: {
+            .fullScreenCover(isPresented: $viewModel.showImageViewer, content: {
                 ImageViewerRemote(
                     selectedItem: getTagItem(),
                     imageURL: $viewModel.selectedPhoto,
-                    viewerShown: $showImageViewer,
+                    viewerShown: $viewModel.showImageViewer,
                     urls: viewModel.profile.photosUrls,
                     onDelete: {
-                        viewModel.deleteImageByUrl { showImageViewer = false }
+                        showDeletePhotoAlert = true
                     },
                     onShare: {
                         viewModel.shareImage { showShareImage = true }
                     }
                 )
                 .ignoresSafeArea()
+                .actionSheet(isPresented: $showDeletePhotoAlert, content: {
+                    ActionSheet(title: Text(viewModel.resources.deletePhoto),
+                                message: nil,
+                                buttons: [
+                                    .cancel(Text(viewModel.resources.cancele)),
+                                    .destructive(
+                                        Text(viewModel.resources.delete),
+                                        action: viewModel.deleteImageByUrl
+                                    )
+                                ])
+                })
                 .sheet(isPresented: $showShareImage, content: {
                     FeedShareSheet(image: viewModel.imageToShare)
                 })
@@ -260,7 +270,7 @@ struct ProfileView<ViewModel: ProfileViewModelProtocol>: View {
                             .clipped()
                             .onTapGesture {
                                 viewModel.selectedPhoto = url
-                                showImageViewer = true
+                                viewModel.showImageViewer = true
                             }
                     }
                 }

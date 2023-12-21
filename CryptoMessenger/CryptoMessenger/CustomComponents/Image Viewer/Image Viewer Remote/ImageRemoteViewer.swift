@@ -54,38 +54,32 @@ struct ImageViewerRemote: View {
                                 Image(systemName: "xmark")
                                     .foregroundColor(Color(UIColor.white))
                                     .font(.title2Regular22)
-                                    .padding()
                             }
                             .padding(.top, 64)
-                            .padding(.trailing, 16)
+                            .padding([.trailing, .bottom], 16)
                         }
+                        .background(Color.chineseBlack04)
                         Spacer()
-                    }
-                    .padding()
-                    .zIndex(2)
+                    }.zIndex(2)
                     if !urls.isEmpty {
                         TabView(selection: $selectedItem) {
                             ForEach(Array(urls.enumerated()), id: \.element) { index, value in
-                                VStack {
-                                    ZStack {
-                                        AsyncImage(
-                                            defaultUrl: value,
-                                            placeholder: {
-                                                ProgressView()
-                                                    .frame(width: 48,
-                                                           height: 48)
-                                            },
-                                            result: {
-                                                Image(uiImage: $0)
-                                                    .resizable()
-                                            }
-                                        )
-                                        .aspectRatio(contentMode: .fit)
-                                        .padding([.top, .bottom], 50)
-                                        .offset(y: self.dragOffset.height)
-                                        .pinchToZoom()
+                                AsyncImage(
+                                    defaultUrl: value,
+                                    placeholder: {
+                                        ProgressView()
+                                            .frame(width: 48,
+                                                   height: 48)
+                                    },
+                                    result: {
+                                        Image(uiImage: $0)
+                                            .resizable()
                                     }
-                                }
+                                )
+                                .ignoresSafeArea()
+                                .aspectRatio(contentMode: .fit)
+                                .offset(y: self.dragOffset.height)
+                                .pinchToZoom()
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                                 .background(
                                     Color(
@@ -98,49 +92,70 @@ struct ImageViewerRemote: View {
                                 .zIndex(1)
                                 .tag(index)
                             }
-                        }.tabViewStyle(.page(indexDisplayMode: .never))
+                        }
+                        .gesture(DragGesture()
+                            .onChanged { value in
+                                self.dragOffset = value.translation
+                                self.dragOffsetPredicted = value.predictedEndTranslation
+                            }
+                            .onEnded { value in
+                                debugPrint("value: \(value)")
+                                if (abs(self.dragOffset.height) + abs(self.dragOffset.width) > 570) ||
+                                    ((abs(self.dragOffsetPredicted.height)) / (abs(self.dragOffset.height)) > 3) ||
+                                    ((abs(self.dragOffsetPredicted.width)) / (abs(self.dragOffset.width))) > 3 {
+                                    withAnimation(.spring()) {
+                                        self.dragOffset = self.dragOffsetPredicted
+                                    }
+                                    self.viewerShown = false
+                                    return
+                                }
+                                withAnimation(.interactiveSpring()) {
+                                    self.dragOffset = .zero
+                                }
+                            }
+                        )
+                        .tabViewStyle(.page(indexDisplayMode: .never))
                     } else {
                         VStack {
-                            ZStack {
-                                AsyncImage(
-                                    defaultUrl: self.imageURL,
-                                    placeholder: {
-                                        ProgressView()
-                                            .frame(width: 48,
-                                                   height: 48)
-                                    },
-                                    result: {
-                                        Image(uiImage: $0)
-                                            .resizable()
-                                    }
-                                )
-                                .aspectRatio(contentMode: .fit)
-                                .offset(y: self.dragOffset.height)
-                                .rotationEffect(.init(degrees: Double(self.dragOffset.width / 30)))
-                                .pinchToZoom()
-                                .gesture(DragGesture()
-                                    .onChanged { value in
-                                        self.dragOffset = value.translation
-                                        self.dragOffsetPredicted = value.predictedEndTranslation
-                                    }
-                                    .onEnded { value in
-                                        debugPrint("value: \(value)")
-                                        if (abs(self.dragOffset.height) + abs(self.dragOffset.width) > 570) ||
-                                            ((abs(self.dragOffsetPredicted.height)) / (abs(self.dragOffset.height)) > 3) ||
-                                            ((abs(self.dragOffsetPredicted.width)) / (abs(self.dragOffset.width))) > 3 {
-                                            withAnimation(.spring()) {
-                                                self.dragOffset = self.dragOffsetPredicted
-                                            }
-                                            self.viewerShown = false
-                                            return
+                            AsyncImage(
+                                defaultUrl: self.imageURL,
+                                placeholder: {
+                                    ProgressView()
+                                        .frame(width: 48,
+                                               height: 48)
+                                },
+                                result: {
+                                    Image(uiImage: $0)
+                                        .resizable()
+                                }
+                            )
+                            .aspectRatio(contentMode: .fit)
+                            .offset(y: self.dragOffset.height)
+                            .rotationEffect(.init(degrees: Double(self.dragOffset.width / 30)))
+                            .pinchToZoom()
+                            .gesture(DragGesture()
+                                .onChanged { value in
+                                    self.dragOffset = value.translation
+                                    self.dragOffsetPredicted = value.predictedEndTranslation
+                                }
+                                .onEnded { value in
+                                    debugPrint("value: \(value)")
+                                    if (abs(self.dragOffset.height) + abs(self.dragOffset.width) > 570) ||
+                                        ((abs(self.dragOffsetPredicted.height)) / (abs(self.dragOffset.height)) > 3) ||
+                                        ((abs(self.dragOffsetPredicted.width)) / (abs(self.dragOffset.width))) > 3 {
+                                        withAnimation(.spring()) {
+                                            self.dragOffset = self.dragOffsetPredicted
                                         }
-                                        withAnimation(.interactiveSpring()) {
-                                            self.dragOffset = .zero
-                                        }
+                                        self.viewerShown = false
+                                        return
                                     }
-                                )
-                            }
+                                    withAnimation(.interactiveSpring()) {
+                                        self.dragOffset = .zero
+                                    }
+                                }
+                            )
                         }
+                        .ignoresSafeArea()
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .background(
                             Color(
@@ -164,7 +179,7 @@ struct ImageViewerRemote: View {
                                 }
                                 .padding(.leading, 16)
                                 .padding(.bottom, 16)
-
+                                
                                 Spacer()
                             }
                             if deleteActionAvailable {
@@ -179,8 +194,10 @@ struct ImageViewerRemote: View {
                                 .padding(.bottom, 16)
                             }
                         }
+                        .padding(.top, 16)
+                        .padding(.bottom, 48)
+                        .background(Color.chineseBlack04)
                     }
-                    .padding()
                     .zIndex(2)
                 }
                 .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))

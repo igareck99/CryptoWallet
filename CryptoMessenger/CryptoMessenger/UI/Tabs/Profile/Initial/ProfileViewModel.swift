@@ -4,6 +4,7 @@ import SwiftUI
 protocol ProfileViewModelProtocol: ObservableObject {
     var isEmptyFeed: Bool { get set }
     var showWebView: Bool { get set }
+    var showImageViewer: Bool { get set }
     var isSnackbarPresented: Bool { get set }
     var messageText: String { get set }
     var selectedImage: UIImage? { get set }
@@ -16,7 +17,7 @@ protocol ProfileViewModelProtocol: ObservableObject {
     var fullNumber: String { get set }
     var resources: ProfileResourcable.Type { get }
 
-    func deleteImageByUrl(completion: @escaping () -> Void)
+    func deleteImageByUrl()
     func shareImage(completion: @escaping () -> Void)
     func send(_ event: ProfileFlow.Event)
     func onUserIdCopyTap()
@@ -64,6 +65,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     @Published var isEmptyFeed = true
     @Published var urlToOpen: URL?
     @Published var showWebView = false
+    @Published var showImageViewer = false
     var safari: SFSafariViewWrapper?
 
     // MARK: - Private Properties
@@ -268,7 +270,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
         }
     }
 
-    func deleteImageByUrl(completion: @escaping () -> Void) {
+    func deleteImageByUrl() {
         guard let url = self.selectedPhoto else {
             return
         }
@@ -276,7 +278,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
             self.mediaService.getPhotoFeedPhotos(userId: self.matrixUseCase.getUserId()) { urls in
                 self.profile.photosUrls = urls
                 self.isEmptyFeed = self.profile.photosUrls.isEmpty
-                completion()
+                self.showImageViewer = false
             }
         }
     }
