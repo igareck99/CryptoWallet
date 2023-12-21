@@ -13,6 +13,7 @@ protocol ProfileViewModelProtocol: ObservableObject {
     var imageToShare: UIImage? { get set }
     var socialListEmpty: Bool { get set }
     var profile: ProfileItem { get set }
+    var fullNumber: String { get set }
     var resources: ProfileResourcable.Type { get }
 
     func deleteImageByUrl(completion: @escaping () -> Void)
@@ -28,6 +29,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
 
     var coordinator: ProfileCoordinatable?
     @Published var isSnackbarPresented = false
+    @Published var fullNumber: String = ""
     @Published var messageText: String = ""
     @Published var selectedImage: UIImage?
     @Published var selectedVideo: URL?
@@ -383,7 +385,9 @@ final class ProfileViewModel: ProfileViewModelProtocol {
         }
         getSocialList()
         if let phoneNumber = keychainService.apiUserPhoneNumber {
-            profile.phone = PhoneHelper.formatToNationalNumber(phoneNumber, forRegion: PhoneHelper.userRegionCode) ?? ""
+            profile.dialCode = PhoneHelper.getDialCode(forPhoneNumber: phoneNumber) ?? ""
+            profile.phone =  PhoneHelper.formatToInternationalNumber(phoneNumber, forRegion: PhoneHelper.userRegionCode) ?? ""
+            fullNumber = profile.dialCode + " " + profile.phone
         }
     }
 

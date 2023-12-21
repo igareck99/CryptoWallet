@@ -154,7 +154,7 @@ struct ProfileView<ViewModel: ProfileViewModelProtocol>: View {
                                     .stroke(viewModel.resources.buttonBackground, lineWidth: 1)
                             )
                         }
-                        Text(viewModel.profile.phone)
+                        Text(viewModel.fullNumber)
                             .padding(.top, 1)
                     }
                 }
