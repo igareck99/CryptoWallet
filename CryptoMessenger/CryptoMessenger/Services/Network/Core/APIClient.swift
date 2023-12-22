@@ -78,7 +78,7 @@ final class APIClient: NSObject, APIClientManager {
                     token: token.isUserAuthenticated ? token : nil
                 )
             }
-            .tryCatch { error -> AnyPublisher<Data, Error> in
+            .tryCatch { [weak self] error -> AnyPublisher<Data, Error> in
 
                 guard (error as? URLError)?.code != .notConnectedToInternet
                 else {
@@ -89,7 +89,7 @@ final class APIClient: NSObject, APIClientManager {
                     throw error
                 }
 
-                guard case let .apiError(statusCode, _) = error
+                guard case let .apiError(statusCode, data) = error
                 else {
                     throw APIError.serverError
                 }
@@ -99,6 +99,9 @@ final class APIClient: NSObject, APIClientManager {
                 }
 
                 if statusCode == 401 || statusCode == 403 {
+
+                    guard let self = self else { throw APIError.apiClientDeallocated }
+
                     return self.authenticator.validToken(forceRefresh: true)
                         .flatMap { token in
                             // we can now use this new token to authenticate the second attempt at making this request
@@ -108,6 +111,17 @@ final class APIClient: NSObject, APIClientManager {
                 }
 
                 if statusCode == 400 {
+                    guard let self = self else { throw APIError.apiClientDeallocated }
+                    if  let refreshData = data,
+                        let refreshError: RefreshErrorResponse = Parser.parse(
+                            data: refreshData, 
+                            to: RefreshErrorResponse.self
+                        ),
+                        let errorType = ResponseErrorType(rawValue: refreshError.type),
+                        errorType == .invalidRefreshToken {
+                        self.notifyTokenRefreshFailure()
+                        throw APIError.refreshTokenUpdateFailure
+                    }
                     throw APIError.apiError(4, nil)
                 }
 
@@ -116,6 +130,15 @@ final class APIClient: NSObject, APIClientManager {
             .tryMap { try requestConvertible.handle(data: $0) }
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
+    }
+
+    private func notifyTokenRefreshFailure() {
+        NotificationCenter
+            .default
+            .post(
+                name: .didFailRefreshToken,
+                object: nil
+            )
     }
 }
 

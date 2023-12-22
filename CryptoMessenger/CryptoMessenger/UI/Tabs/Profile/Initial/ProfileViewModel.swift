@@ -84,6 +84,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     private let userSettings: UserCredentialsStorage & UserFlowsStorage
     private let keychainService: KeychainServiceProtocol
     private let pasteboardService: PasteboardServiceProtocol
+    private let privateDataCleaner: PrivateDataCleanerProtocol
     let resources: ProfileResourcable.Type
 
     // MARK: - Lifecycle
@@ -92,16 +93,19 @@ final class ProfileViewModel: ProfileViewModelProtocol {
         coordinator: ProfileCoordinatable? = nil,
         userSettings: UserCredentialsStorage & UserFlowsStorage,
         keychainService: KeychainServiceProtocol,
+        privateDataCleaner: PrivateDataCleanerProtocol = PrivateDataCleaner.shared,
         resources: ProfileResourcable.Type = ProfileResources.self,
         pasteboardService: PasteboardServiceProtocol = PasteboardService()
     ) {
         self.coordinator = coordinator
         self.userSettings = userSettings
         self.keychainService = keychainService
+        self.privateDataCleaner = privateDataCleaner
         self.resources = resources
         self.pasteboardService = pasteboardService
         bindInput()
         bindOutput()
+        subscribeToNotifications()
     }
 
     deinit {
@@ -234,17 +238,23 @@ final class ProfileViewModel: ProfileViewModelProtocol {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in }
             .store(in: &subscriptions)
-
+        
         matrixUseCase.loginStatePublisher.sink { [weak self] status in
+            debugPrint("MATRIX DEBUG ProfileDetailViewModel loginStatePublisher \(status)")
             switch status {
-            case .loggedOut:
-                self?.userSettings.isAuthFlowFinished = false
-                self?.userSettings.isOnboardingFlowFinished = false
-                self?.keychainService.removeObject(forKey: .apiUserPinCode)
-                // self?.coordinator?.restartFlow()
-            case .failure(_):
-                self?.showSnackBar(text: "Не удалось разлогиниться")
-            default: break
+                case .loggedOut:
+                    self?.userSettings.isAuthFlowFinished = false
+                    self?.userSettings.isOnboardingFlowFinished = false
+                    self?.keychainService.isPinCodeEnabled = false
+                    self?.keychainService.removeObject(forKey: .apiUserPinCode)
+                    self?.privateDataCleaner.clearWalletPrivateData()
+                    self?.privateDataCleaner.clearMatrixPrivateData()
+                    self?.matrixUseCase.clearCredentials()
+                    DispatchQueue.main.async {
+                        self?.coordinator?.onLogout()
+                    }
+                default:
+                    break
             }
         }
         .store(in: &subscriptions)
@@ -408,5 +418,29 @@ final class ProfileViewModel: ProfileViewModelProtocol {
             profile.status = matrixUseCase.getStatus()
         }
         self.objectWillChange.send()
+    }
+
+    private func subscribeToNotifications() {
+        NotificationCenter.default.addObserver(
+            forName: .didFailRefreshToken,
+            object: nil,
+            queue: nil) { [weak self] _ in
+                self?.logout()
+            }
+    }
+
+    private func logout() {
+        self.matrixUseCase.logoutDevices { [weak self] _ in
+            debugPrint("MATRIX DEBUG ProfileDetailViewModel matrixUseCase.logoutDevices")
+            // TODO: Обработать результат
+            self?.matrixUseCase.closeSession()
+            self?.privateDataCleaner.clearWalletPrivateData()
+            self?.privateDataCleaner.clearMatrixPrivateData()
+            self?.matrixUseCase.clearCredentials()
+            self?.keychainService.isApiUserAuthenticated = false
+            self?.keychainService.isPinCodeEnabled = false
+            NotificationCenter.default.post(name: .userDidLoggedOut, object: nil)
+            debugPrint("ProfileDetailViewModel: LOGOUT")
+        }
     }
 }

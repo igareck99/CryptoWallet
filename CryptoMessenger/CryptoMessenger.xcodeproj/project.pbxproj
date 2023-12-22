@@ -896,6 +896,7 @@
 		D4C8CF502A45C0AC007CC925 /* AppTimeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C8CF4F2A45C0AC007CC925 /* AppTimeService.swift */; };
 		D4C8CF522A45C6DA007CC925 /* AppCoordinator+AppLifeCycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C8CF512A45C6DA007CC925 /* AppCoordinator+AppLifeCycle.swift */; };
 		D4C8CF542A45C891007CC925 /* AppDelegateApplicationLifeCycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C8CF532A45C891007CC925 /* AppDelegateApplicationLifeCycle.swift */; };
+		D4C91E392B35B2A9008F29F5 /* RefreshErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C91E382B35B2A9008F29F5 /* RefreshErrorResponse.swift */; };
 		D4C9B72E283C20380060BFD3 /* ChatRoomViewModelAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C9B72D283C20380060BFD3 /* ChatRoomViewModelAssembly.swift */; };
 		D4CA6C0929FA795400C96053 /* TransactionSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CA6C0829FA795400C96053 /* TransactionSections.swift */; };
 		D4CA6C0C29FB15FC00C96053 /* WalletAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CA6C0A29FA79C800C96053 /* WalletAddress.swift */; };
@@ -1932,6 +1933,7 @@
 		D4C8CF4F2A45C0AC007CC925 /* AppTimeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTimeService.swift; sourceTree = "<group>"; };
 		D4C8CF512A45C6DA007CC925 /* AppCoordinator+AppLifeCycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppCoordinator+AppLifeCycle.swift"; sourceTree = "<group>"; };
 		D4C8CF532A45C891007CC925 /* AppDelegateApplicationLifeCycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateApplicationLifeCycle.swift; sourceTree = "<group>"; };
+		D4C91E382B35B2A9008F29F5 /* RefreshErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshErrorResponse.swift; sourceTree = "<group>"; };
 		D4C9B72D283C20380060BFD3 /* ChatRoomViewModelAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModelAssembly.swift; sourceTree = "<group>"; };
 		D4CA6C0829FA795400C96053 /* TransactionSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSections.swift; sourceTree = "<group>"; };
 		D4CA6C0A29FA79C800C96053 /* WalletAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAddress.swift; sourceTree = "<group>"; };
@@ -2357,6 +2359,7 @@
 				5A187F012680CF49001957D3 /* Endpoint.swift */,
 				5A2EC771279F3A6C00857248 /* APILogger.swift */,
 				5A2EC773279F410900857248 /* Publishers+Retry.swift */,
+				D4C91E382B35B2A9008F29F5 /* RefreshErrorResponse.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -5723,6 +5726,7 @@
 				8B200FF0274459E400A847D5 /* SessionItem.swift in Sources */,
 				8B200FEE2744596300A847D5 /* SessionView.swift in Sources */,
 				8B8B9C2527F331C90061F5E6 /* SocialListFlow.swift in Sources */,
+				D4C91E392B35B2A9008F29F5 /* RefreshErrorResponse.swift in Sources */,
 				8B8298912983CB150038C546 /* ChannelAddUserViewCell.swift in Sources */,
 				D4F322912AA1C1560021AFAE /* AudioEventItem.swift in Sources */,
 				8BD4BBEC2AA4E7DE00075F76 /* ReactionsNewViewModel.swift in Sources */,

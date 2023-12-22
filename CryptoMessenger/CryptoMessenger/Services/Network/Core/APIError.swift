@@ -16,6 +16,8 @@ enum APIError: Error, Equatable {
     case noRefreshToken
     case publisherCreationFailure
     case noAllApiTokens
+    case refreshTokenUpdateFailure
+    case apiClientDeallocated
 }
 
 // MARK: - APIError (LocalizedError)
@@ -40,6 +42,10 @@ extension APIError: LocalizedError {
             return "Нет refresh token, нечем обновить сессию"
         case .noAllApiTokens:
             return "Отсутствуют apiToken и apiRefreshtoken"
+        case .refreshTokenUpdateFailure:
+            return "Ответ на refresh token 401"
+        case .apiClientDeallocated:
+            return "Api Client deallocated"
 		default: return "Что-то пошло не так"
         }
     }
