@@ -384,8 +384,11 @@ final class ProfileViewModel: ProfileViewModelProtocol {
             self.isEmptyFeed = self.profile.photosUrls.isEmpty
         }
         getSocialList()
-        if let phoneNumber = keychainService.apiUserPhoneNumber {
-            profile.dialCode = PhoneHelper.getDialCode(forPhoneNumber: phoneNumber) ?? ""
+        if var phoneNumber = keychainService.apiUserPhoneNumber {
+            if phoneNumber.firstLetter != "+"{
+                phoneNumber = "+" + phoneNumber
+            }
+            profile.dialCode = PhoneHelper.getDialCode(forPhoneNumber:phoneNumber) ?? ""
             profile.phone =  PhoneHelper.formatToInternationalNumber(phoneNumber, forRegion: PhoneHelper.userRegionCode) ?? ""
             fullNumber = profile.dialCode + " " + profile.phone
         }
