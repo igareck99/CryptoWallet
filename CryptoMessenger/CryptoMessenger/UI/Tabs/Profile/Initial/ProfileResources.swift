@@ -7,6 +7,9 @@ protocol ProfileResourcable {
     static var profileCopied: String { get }
     static var profileAddSocial: String { get }
     static var profileAdd: String { get }
+    static var deletePhoto: String { get }
+    static var cancele: String { get }
+    static var delete: String { get }
 
     static var title: Color { get }
     static var backgroundFodding: Color { get }
@@ -18,6 +21,18 @@ protocol ProfileResourcable {
 }
 
 enum ProfileResources: ProfileResourcable {
+    
+    static var deletePhoto: String {
+        R.string.localizable.photoEditorAlertApprove()
+    }
+    
+    static var cancele: String {
+        R.string.localizable.photoEditorAlertCancel()
+    }
+    
+    static var delete: String {
+        R.string.localizable.photoEditorAlertDelete()
+    }
 
     static var title: Color {
         .chineseBlack
