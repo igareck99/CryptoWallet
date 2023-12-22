@@ -19,5 +19,6 @@ extension Notification.Name {
     static let locationAccessLevelDidChange = Notification.Name("LocationAccessLevelDidChange")
     
     static let didRefreshToken = Notification.Name("SessionTokensDidRefresh")
+    static let didFailRefreshToken = Notification.Name("SessionTokensDidNotRefresh")
     static let didExpireMatrixSessionToken = Notification.Name("MatrixSessionTokensDidExpire")
 }

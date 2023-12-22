@@ -94,7 +94,10 @@ final class Authenticator {
                     self?.keychainService.apiRefreshToken = token.refresh
                     self?.keychainService.isApiUserAuthenticated = token.isUserAuthenticated
                     self?.notifyTokenUpdate()
-                }, receiveCompletion: { [weak self] _ in
+                }, receiveCompletion: { [weak self] value in
+                    if case let .failure(error) = value {
+                        self?.handleRefreshTokenFailure(error: error)
+                    }
                     self?.queue.sync { [weak self] in
                         self?.refreshPublisher = nil
                     }
@@ -109,6 +112,28 @@ final class Authenticator {
             self?.refreshPublisher = unwrappedPublisher
             return unwrappedPublisher
         }
+    }
+    func handleRefreshTokenFailure(error: Error) {
+        if case let APIError.apiError(responseCode, refreshData) = error,
+           responseCode == 400,
+           let data = refreshData,
+           let refreshError: RefreshErrorResponse = Parser.parse(
+            data: data,
+            to: RefreshErrorResponse.self
+           ),
+           let errorType = ResponseErrorType(rawValue: refreshError.type),
+           errorType == .invalidRefreshToken {
+            self.notifyTokenRefreshFailure()
+        }
+    }
+
+    private func notifyTokenRefreshFailure() {
+        NotificationCenter
+            .default
+            .post(
+                name: .didFailRefreshToken,
+                object: nil
+            )
     }
 
     private func notifyTokenUpdate() {
