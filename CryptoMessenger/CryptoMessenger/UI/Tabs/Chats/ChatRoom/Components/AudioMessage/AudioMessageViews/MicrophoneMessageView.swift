@@ -79,7 +79,7 @@ struct MicrophoneMessageView: View {
                     .fill(Color.white)
                     .overlay(content: {
                         RoundedRectangle(cornerRadius: 45)
-                            .stroke(Color.gray, lineWidth: 1)
+                            .stroke(Color.gainsboro, lineWidth: 0.5)
                     })
                     .frame(width: blockAudioRecord ? 34 : 73 - blockDragPadding,
                            height: 34)
