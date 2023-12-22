@@ -282,6 +282,9 @@ extension ChatsRouter: ChatsRouterable {
     }
 
     func messageReactions(
+        messageType: MessageType,
+        hasReactions: Bool,
+        hasAccessToWrite: Bool,
         isCurrentUser: Bool,
         isChannel: Bool,
         userRole: ChannelRole,
@@ -289,6 +292,9 @@ extension ChatsRouter: ChatsRouterable {
         onReaction: @escaping GenericBlock<String>
     ) {
         state.presentedItem = .messageReactions(
+            messageType: messageType,
+            hasReactions: hasReactions,
+            hasAccessToWrite: hasAccessToWrite,
             isCurrentUser: isCurrentUser,
             isChannel: isChannel,
             userRole: userRole,

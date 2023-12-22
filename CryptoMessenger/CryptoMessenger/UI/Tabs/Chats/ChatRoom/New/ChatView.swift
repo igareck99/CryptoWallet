@@ -15,7 +15,7 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
     var body: some View {
         ScrollViewReader { proxy in
             VStack {
-                ScrollView(.vertical) {
+                ReversedScrollView(.vertical) {
                     LazyVStack {
                         ForEach(viewModel.displayItems, id: \.id) { item in
                             item.view()

@@ -72,7 +72,7 @@ enum ChatHistorySources: ChatHistorySourcesable {
 	}
 
 	static var chatReactionDelete: Image {
-		R.image.chat.reaction.delete.image
+		R.image.chat.messageMenu.trash.image
 	}
 
 	static var ellipsisCircle: Image {

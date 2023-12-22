@@ -66,8 +66,10 @@ enum BaseSheetLink: Hashable, Identifiable {
     )
 
     case file(name: String, fileUrl: URL)
-
     case messageReactions(
+        messageType: MessageType,
+        hasReactions: Bool,
+        hasAccessToWrite: Bool,
         isCurrentUser: Bool,
         isChannel: Bool,
         userRole: ChannelRole,

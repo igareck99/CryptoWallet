@@ -132,6 +132,9 @@ protocol ChatsRouterable: View {
     )
 
     func messageReactions(
+        messageType: MessageType,
+        hasReactions: Bool,
+        hasAccessToWrite: Bool,
         isCurrentUser: Bool,
         isChannel: Bool,
         userRole: ChannelRole,

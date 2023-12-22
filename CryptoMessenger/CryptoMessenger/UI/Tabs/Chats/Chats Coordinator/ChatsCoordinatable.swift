@@ -96,6 +96,9 @@ protocol ChatsCoordinatable: Coordinator {
     )
 
     func messageReactions(
+        messageType: MessageType,
+        hasReactions: Bool,
+        hasAccessToWrite: Bool,
         isCurrentUser: Bool,
         isChannel: Bool,
         userRole: ChannelRole,
