@@ -58,9 +58,7 @@ final class AttachActionViewModel: ObservableObject {
             tappedAction(action)
             return
         }
-    
         guard let rData = receiverWalletData else { return }
-        
         let receiverWallet = UserWallletData(
             name: rData.name,
             bitcoin: rData.bitcoin,
@@ -78,9 +76,9 @@ final class AttachActionViewModel: ObservableObject {
     
     func computeHeight() -> CGFloat {
         if isTransactionAvailable && isDirectChat && receiverWalletData != nil {
-            return 413
+            return 413 - 34
         }
-        return 361
+        return 361 - 34
     }
 
     // MARK: - Private Methods

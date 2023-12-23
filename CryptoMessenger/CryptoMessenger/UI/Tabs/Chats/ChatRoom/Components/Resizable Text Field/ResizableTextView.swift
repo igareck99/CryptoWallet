@@ -21,7 +21,7 @@ struct ResizeableTextView: UIViewRepresentable {
 		textView.text = placeholderText
 		textView.delegate = context.coordinator
 		textView.textColor = .chineseBlack
-		textView.font = UIFont.systemFont(ofSize: 15)
+		textView.font = UIFont.systemFont(ofSize: 17)
 		return textView
 	}
 

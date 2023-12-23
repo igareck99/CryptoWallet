@@ -30,10 +30,10 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(idealWidth: UIScreen.main.bounds.width,
-                               minHeight: UIScreen.main.bounds.height - 167,
-                               idealHeight: UIScreen.main.bounds.height - 167,
-                               maxHeight: UIScreen.main.bounds.height - 167)
-                        .padding(.top, viewModel.quickAction == .reply || viewModel.quickAction == .edit ? 50 : 0)
+                               minHeight: UIScreen.main.bounds.height - 165,
+                               idealHeight: UIScreen.main.bounds.height - 165,
+                               maxHeight: UIScreen.main.bounds.height - 165)
+                        .padding(.top, viewModel.quickAction == .reply || viewModel.quickAction == .edit ? 53 : 3)
                 })
                 .onChange(of: viewModel.isKeyboardVisible) { newValue in
                     withAnimation {
@@ -73,6 +73,7 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
             hideKeyboard()
         }
         .toolbarBackground(.visible, for: .navigationBar)
+        .toolbarBackground(.visible, for: .bottomBar)
         .toolbarRole(.editor)
         .toolbar(.hidden, for: .tabBar)
         .toolbar(.visible, for: .navigationBar)
@@ -111,6 +112,9 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
                 )
                 .frame(width: 36, height: 36)
                 .cornerRadius(18)
+                .onTapGesture {
+                    viewModel.onRoomAvatarTap(chatData: $viewModel.chatData, isLeaveChannel: $isLeaveChannel)
+                }
                 VStack(alignment: .leading, spacing: .zero) {
                     Text(viewModel.roomName)
                         .lineLimit(1)

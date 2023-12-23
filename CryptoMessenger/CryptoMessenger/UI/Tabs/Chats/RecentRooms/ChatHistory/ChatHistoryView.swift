@@ -62,22 +62,21 @@ struct ChatHistoryView<ViewModel: ChatHistoryViewDelegate>: View {
             }
         }
         ToolbarItem(placement: .navigationBarTrailing) {
-            HStack(spacing: 4) {
+            HStack(spacing: 16) {
                 Button {
                     viewModel.eventSubject.send(.onCreateChat)
                 } label: {
                     viewModel.resources.squareAndPencil
-                        .renderingMode(.original)
-                        .foregroundColor(Color(.init(r: 14, g:142, b: 243)))
+                        .resizable()
+                        .frame(width: 28, height: 28, alignment: .center)
                 }
                 Button(action: {
                     showReadAll.toggle()
                 }, label: {
                     viewModel.resources.ellipsisCircle
-                        .renderingMode(.original)
-                        .foregroundColor(Color(.init(14, 142, 243)))
+                        .resizable()
+                        .frame(width: 28, height: 28, alignment: .center)
                 })
-                .padding(.trailing, 0)
             }
         }
     }

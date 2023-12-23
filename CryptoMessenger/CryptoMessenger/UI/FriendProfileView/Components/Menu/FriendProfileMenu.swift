@@ -25,7 +25,7 @@ enum FriendProfileSettingsMenu: CaseIterable, Identifiable {
         case .media:
             return (strings.friendProfileMedia(), images.groupMenu.media.image)
         case .addNote:
-            return (strings.friendProfileNotes(), images.groupMenu.edit.image)
+            return (strings.friendProfileNotes(), images.messageMenu.edit.image)
         case .complain:
             return (strings.friendProfileComplain(), images.groupMenu.blackList.image)
         case .block:

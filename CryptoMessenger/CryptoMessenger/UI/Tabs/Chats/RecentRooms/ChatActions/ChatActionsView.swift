@@ -8,21 +8,24 @@ struct ChatActionsView: View {
 
     let room: ChatActionsList
     let onSelect: GenericBlock<ChatActions>
-    @State var sheetHeight: CGFloat = 223
+    @State var sheetHeight: CGFloat = 177
 
     // MARK: - Body
 
     private var content: some View {
-        ForEach(ChatActions.getAvailableActions(room.isWatchProfileAvailable,
-                                                room.isLeaveAvailable), id: \.self) { value in
-            ChatActionsCellView(value: value, isPinned: room.isPinned)
-                .background(.white)
-                .frame(height: 57)
-                .onTapGesture {
-                    onSelect(value)
-                }
-                .listRowSeparator(.hidden)
+        VStack(alignment: .center, spacing: .zero) {
+            ForEach(ChatActions.getAvailableActions(room.isWatchProfileAvailable,
+                                                    room.isLeaveAvailable), id: \.self) { value in
+                ChatActionsCellView(value: value, isPinned: room.isPinned)
+                    .background(.white)
+                    .frame(height: 52)
+                    .onTapGesture {
+                        onSelect(value)
+                    }
+                    .listRowSeparator(.hidden)
+            }
         }
+        .padding(.top, 10)
     }
 
     var body: some View {
@@ -46,12 +49,14 @@ struct ChatActionsCellView: View {
     let isPinned: Bool
 
     var body: some View {
-        HStack(alignment: .center, spacing: 8) {
-            value.image(isPinned)
-            Text(value.text(isPinned))
-                .font(.calloutRegular16)
-                .foreground(value.color)
-            Spacer()
+        VStack(alignment: .center) {
+            HStack(alignment: .center, spacing: 10) {
+                value.image(isPinned)
+                Text(value.text(isPinned))
+                    .font(.calloutRegular16)
+                    .foreground(value.color)
+                Spacer()
+            }
         }
         .padding(.horizontal, 16)
     }

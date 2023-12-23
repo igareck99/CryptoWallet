@@ -14,7 +14,6 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var saveData = false
     @Published var inputText = ""
     @Published var attachAction: AttachAction?
-    @Published var groupAction: GroupAction?
     @Published var directAction: DirectAction?
     @Published var translateAction: TranslateAction?
     @Published var dismissScreen = false
@@ -625,24 +624,6 @@ final class ChatRoomViewModel: ObservableObject {
                 }
             }
             .store(in: &subscriptions)
-        
-        $groupAction
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] action in
-                switch action {
-                case .translate:
-                    self?.showTranslate = true
-                case .delete:
-                    self?.dismissScreen = true
-                    guard let roomId = self?.room.room.roomId else { return }
-                    self?.matrixUseCase.leaveRoom(roomId: roomId,
-                                                  completion: { _ in })
-                default:
-                    break
-                }
-            }
-            .store(in: &subscriptions)
-        
         
         $directAction
             .receive(on: DispatchQueue.main)

@@ -62,11 +62,9 @@ struct MicrophoneMessageView: View {
                 }
                 .padding(.top, blockDragPadding)
             } else {
-                R.image.chat.audio.microfoneImage.image
-                    .foregroundColor(.dodgerBlue)
-                    .frame(width: 24, height: 24)
-                    .clipShape(Circle())
-                    .padding(.trailing, 16)
+                R.image.chat.audio.microfone.image
+                    .frame(width: 30, height: 30)
+                    .padding(.trailing, 6)
             }
         }
         .padding(.trailing, showAudioView ? 52 : 8)
@@ -75,21 +73,24 @@ struct MicrophoneMessageView: View {
     private var recordView: some View {
         VStack(alignment: .center, spacing: blockAudioRecord ? 20 : 40) {
             ZStack {
-                RoundedRectangle(cornerRadius: 45)
+                RoundedRectangle(cornerRadius: 40)
                     .fill(Color.white)
                     .overlay(content: {
-                        RoundedRectangle(cornerRadius: 45)
-                            .stroke(Color.gainsboro, lineWidth: 0.5)
+                        RoundedRectangle(cornerRadius: 40)
+                            .stroke(Color.lightGray, lineWidth: 0.5)
                     })
                     .frame(width: blockAudioRecord ? 34 : 73 - blockDragPadding,
                            height: 34)
                     .rotationEffect(Angle(degrees: 90))
                 if blockAudioRecord {
                     R.image.chat.audio.closedlockImage.image
+                        .frame(width: 20, height: 20, alignment: .center)
                 } else {
                     VStack(spacing: 25 - blockDragPadding) {
                         R.image.chat.audio.openedlockImage.image
+                            .frame(width: 20, height: 20, alignment: .center)
                         R.image.chat.audio.upblueArrow.image
+                            .frame(width: 20, height: 10, alignment: .center)
                     }
                 }
             }

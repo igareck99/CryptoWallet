@@ -109,7 +109,7 @@ enum ChatRoomResources: ChatRoomSourcesable {
     }
 
     static var plus: Image {
-        Image(systemName: "plus")
+        R.image.chat.plus.image
     }
 
     static var videoFill: Image {
@@ -121,7 +121,7 @@ enum ChatRoomResources: ChatRoomSourcesable {
     }
 
     static var paperPlane: Image {
-        Image(systemName: "paperplane.fill")
+        R.image.chat.send.image
     }
     
     static var video: Image { 

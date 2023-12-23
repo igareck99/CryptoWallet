@@ -37,7 +37,7 @@ final class QuickMenuViewModel: ObservableObject {
     // MARK: - Private Methods
     
     private func computeHeight() {
-        height = CGFloat(55 + 21 + 52 * items.count + 34)
+        height = CGFloat(55 + 21 + 52 * items.count)
     }
     
     private func initData() {

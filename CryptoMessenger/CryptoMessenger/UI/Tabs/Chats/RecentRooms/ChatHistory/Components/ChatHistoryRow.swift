@@ -21,7 +21,7 @@ struct ChatHistoryRow: View {
                 }.padding(.init(top: 10, leading: 10, bottom: 0, trailing: 0))
             }
             Divider()
-                .foregroundColor(Color(.init(216, 216, 217)))
+                .foregroundColor(.brightGray)
                 .frame(height: 0.5)
                 .padding(.leading, 88)
         }

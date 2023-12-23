@@ -501,6 +501,25 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             }
         }
     }
+    
+    func onRoomAvatarTap(
+        chatData: Binding<ChatData>,
+        isLeaveChannel: Binding<Bool>
+    ) {
+        if room.isDirect {
+            guard let userId = participants.first(where: { $0.matrixId != matrixUseCase.getUserId() }) else { return }
+            coordinator.friendProfile(userId: userId.matrixId, roomId: self.room.roomId)
+        } else {
+            self.room.participants = participants
+            coordinator.roomSettings(
+                isChannel: isChannel,
+                chatData: chatData,
+                room: self.room,
+                isLeaveChannel: isLeaveChannel,
+                coordinator: coordinator
+            )
+        }
+    }
 
     func onNavBarTap(
         chatData: Binding<ChatData>,

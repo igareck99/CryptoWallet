@@ -33,17 +33,16 @@ struct ActionSheetNewView: View {
             }
         }
         .background(.white)
-        .cornerRadius(12)
     }
 
     private var mediaFeedView: some View {
-        HStack(alignment: .center) {
+        VStack(alignment: .center) {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
                     ZStack(alignment: .center) {
                         CodeScannerView(codeTypes: []) { _ in }
                             .frame(width: 80, height: 80)
-                            .cornerRadius(8)
+                            .cornerRadius(radius: 10, corners: .allCorners)
                         R.image.chat.camera.image
                     }
                     .frame(width: 80, height: 80)
@@ -63,9 +62,10 @@ struct ActionSheetNewView: View {
                         }
                     }
                 }
-                .padding(.horizontal, 16)
             }
-        }.frame(height: 98, alignment: .center)
+        }
+        .frame(height: 98, alignment: .center)
+        .padding(.leading, 16)
     }
 
     private func cellAction(item: ActionItem) -> some View {
@@ -81,9 +81,9 @@ struct ActionSheetNewView: View {
                         .foregroundColor(.chineseBlack)
                     Spacer()
                 }
+                .frame(maxWidth: .infinity, idealHeight: 52, maxHeight: 52)
                 .background(Color.white)
-                .frame(maxWidth: .infinity, idealHeight: 57, maxHeight: 57)
-                .padding(.horizontal, 16)
+                .padding(.leading, 16)
             }
         })
     }

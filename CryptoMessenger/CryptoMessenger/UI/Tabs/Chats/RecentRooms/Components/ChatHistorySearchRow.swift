@@ -49,7 +49,7 @@ struct ChatHistorySearchRow: View {
             url: $url,
             placeholder: {
                 ZStack {
-                    Color(.aliceBlue)
+                    Color(.diamond)
                     Text(data.name.firstLetter.uppercased())
                         .foreground(.white)
                         .font(.title3Semibold20)

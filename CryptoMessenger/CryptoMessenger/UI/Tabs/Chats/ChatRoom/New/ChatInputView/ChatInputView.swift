@@ -15,13 +15,13 @@ struct ChatInputView: View {
     @State var isPlusShown = true
     @State var recordingDataModel: RecordingDataModel?
     var sources: ChatRoomSourcesable.Type = ChatRoomResources.self
-    
+
     // MARK: - Body
-    
+
     var body: some View {
         switch data.isWriteEnable {
         case true:
-            VStack(spacing: 0) {
+            VStack(spacing: .zero) {
                 if data.quickAction == .reply {
                     ReplyView(text: data.replyDescriptionText,
                               viewType: .reply) {
@@ -39,16 +39,12 @@ struct ChatInputView: View {
                 inputView
             }
             .onChange(of: data.inputText) { value in
-                withAnimation(.linear(duration: 0.05)) {
-                    isPlusShown = value.isEmpty &&
-                    !(data.$quickAction.wrappedValue == .reply || data.$quickAction.wrappedValue == .edit)
-                }
+                isPlusShown = value.isEmpty &&
+                !(data.$quickAction.wrappedValue == .reply || data.$quickAction.wrappedValue == .edit)
             }
             .onChange(of: data.quickAction) { value in
-                withAnimation(.linear(duration: 0.05)) {
-                    isPlusShown = data.$inputText.wrappedValue.isEmpty &&
-                    !(value == .reply || value == .edit)
-                }
+                isPlusShown = data.$inputText.wrappedValue.isEmpty &&
+                !(value == .reply || value == .edit)
             }
         case false:
             accessDeniedView
@@ -71,8 +67,8 @@ struct ChatInputView: View {
     }
     
     var inputView: some View {
-        VStack(spacing: 0) {
-            HStack(alignment: .center) {
+        VStack(spacing: .zero) {
+            HStack(alignment: .center, spacing: .zero) {
                 if showAudioView {
                     HStack(alignment: .center) {
                         AudioInputMessageView(audioUrl: $recordingDataModel,
@@ -94,13 +90,12 @@ struct ChatInputView: View {
                         }, label: {
                             sources.plus
                                 .resizable()
-                                .foreground(.romanSilver)
-                                .frame(width: 20, height: 20)
+                                .frame(width: 30, height: 30)
                                 .onTapGesture {
                                     data.onChatRoomMenu()
                                 }
                         })
-                        .padding(.leading, 11)
+                        .padding(.leading, 6)
                     }
                     ResizeableTextView(
                         text: data.$inputText,
@@ -110,7 +105,7 @@ struct ChatInputView: View {
                     .cornerRadius(radius: 60, corners: .allCorners)
                     .addBorder(Color.gainsboro, width: 0.5, cornerRadius: 60)
                     .padding(.leading, isPlusShown ? 11 : 16)
-                    .padding(.trailing, isPlusShown ? 6 : 10)
+                    .padding(.trailing, isPlusShown ? 18 : 16)
                     .frame(height: min(textViewHeight, 160))
                     .keyboardType(.default)
                 }
@@ -123,8 +118,7 @@ struct ChatInputView: View {
                     }, label: {
                         sources.paperPlane
                             .foregroundColor(.dodgerBlue)
-                            .frame(width: 24, height: 24)
-                            .clipShape(Circle())
+                            .frame(width: 28, height: 28)
                             .padding(.trailing, 10)
                     })
                 } else {
@@ -134,8 +128,8 @@ struct ChatInputView: View {
                                           textDragPadding: $textDragPadding,
                                           resetAudio: $resetAudio,
                                           sendAudio: $sendAudio)
-                    .frame(width: 24,
-                           height: 24)
+                    .frame(width: 30,
+                           height: 30)
                 }
             }
         }
