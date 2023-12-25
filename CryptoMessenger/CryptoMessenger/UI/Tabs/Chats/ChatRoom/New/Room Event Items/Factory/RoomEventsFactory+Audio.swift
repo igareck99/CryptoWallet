@@ -45,6 +45,7 @@ extension RoomEventsFactory {
                                        reactions: viewModel,
                                        eventData: eventData)
         let bubbleContainer = BubbleContainer(
+            isFromCurrentUser: event.isFromCurrentUser,
             fillColor: event.isFromCurrentUser ? .bubbles : .white,
             cornerRadius: event.isFromCurrentUser ? .right : .left,
             content: audioItem, onSwipe: {

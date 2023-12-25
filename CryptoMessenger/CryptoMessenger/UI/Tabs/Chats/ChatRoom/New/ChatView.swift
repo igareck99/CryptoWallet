@@ -13,7 +13,7 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
 
     var body: some View {
         ScrollViewReader { proxy in
-            VStack {
+            VStack(spacing: .zero) {
                 ReversedScrollView(.vertical) {
                     LazyVStack {
                         ForEach(viewModel.displayItems, id: \.id) { item in
@@ -24,16 +24,6 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
                         }
                     }
                 }
-                .background(content: {
-                    R.image.chat.chatBackground.image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(idealWidth: UIScreen.main.bounds.width,
-                               minHeight: UIScreen.main.bounds.height - 165,
-                               idealHeight: UIScreen.main.bounds.height - 165,
-                               maxHeight: UIScreen.main.bounds.height - 165)
-                        .padding(.top, viewModel.quickAction == .reply || viewModel.quickAction == .edit ? 53 : 3)
-                })
                 .onChange(of: viewModel.isKeyboardVisible) { newValue in
                     withAnimation {
                         if newValue {
@@ -57,6 +47,7 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
                 }
                 inputView
             }
+            .modifier(BackgroundImage())
             .popup(
                 isPresented: viewModel.isSnackbarPresented,
                 alignment: .bottom

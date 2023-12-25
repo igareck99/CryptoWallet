@@ -15,7 +15,7 @@ struct BubbleContainer: Identifiable, ViewGeneratable {
     init(
         edges: Edge.Set = .all,
         offset: CGFloat = 8.0,
-        isFromCurrentUser: Bool = true,
+        isFromCurrentUser: Bool,
         fillColor: Color,
         cornerRadius: CornersRadius,
         content: any ViewGeneratable,
