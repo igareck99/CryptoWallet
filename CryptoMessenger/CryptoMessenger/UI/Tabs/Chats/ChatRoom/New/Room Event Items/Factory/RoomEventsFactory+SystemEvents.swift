@@ -8,7 +8,7 @@ extension RoomEventsFactory {
         let systemEvent = SystemEvent(
             text: text,
             textColor: .white,
-            backColor: .gray
+            backColor: .chineseBlack04
         ) {
             debugPrint("systemEvent onTap")
             onTap()

@@ -10,7 +10,6 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
 
     @Published private(set) var auraRooms: [AuraRoomData] = []
     @Published private(set) var chatHistoryRooms: [ChatHistoryData] = []
-    @Published var groupAction: GroupAction?
     @Published var isFromCurrentUser = false
     @Published var isLoading = false
     @Published var isSearching = false

@@ -9,8 +9,6 @@ protocol ChatHistoryViewDelegate: ObservableObject {
 
     var isSearching: Bool { get set }
 
-    var groupAction: GroupAction? { get set }
-
     var resources: ChatHistorySourcesable.Type { get }
 
     var eventSubject: PassthroughSubject<ChatHistoryFlow.Event, Never> { get }

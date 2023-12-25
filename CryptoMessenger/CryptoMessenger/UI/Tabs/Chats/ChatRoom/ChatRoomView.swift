@@ -382,14 +382,6 @@ struct ChatRoomView: View {
                     vibrate()
                     cardGroupPosition = .bottom
                 }
-
-            SlideCard(position: $cardGroupPosition) {
-                VStack(spacing: 0) {
-                    GroupMenuView(action: $viewModel.groupAction,
-                                  cardGroupPosition: $cardGroupPosition,
-                                  viewModel: GroupChatMenuViewModel(showNotificationsChangeView: $showNotificationsChangeView))
-                }.padding(.vertical, 32)
-            }
         }
     }
     

@@ -359,7 +359,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
         var contatiner: BubbleContainer
         if event.isFromCurrentUser {
             contatiner = BubbleContainer(
-                fillColor: .water,
+                fillColor: .bubbles,
                 cornerRadius: .right,
                 content: textEvent, onSwipe: {
                     onSwipeReply(event)

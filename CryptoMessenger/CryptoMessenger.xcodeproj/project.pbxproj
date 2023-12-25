@@ -132,7 +132,6 @@
 		5AB30F1727078B5300838AFC /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB30F1627078B5300838AFC /* UIButton+Extensions.swift */; };
 		5ABAD39A27BDA6D80067DFC1 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABAD39927BDA6D80067DFC1 /* DocumentPicker.swift */; };
 		5ABAD3A027C286CF0067DFC1 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABAD39F27C286CF0067DFC1 /* SettingsView.swift */; };
-		5ABF08CD27D950BF0016CC6F /* GroupMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABF08CC27D950BF0016CC6F /* GroupMenuView.swift */; };
 		5ABF08D027D9CEF60016CC6F /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187EFB2680CF49001957D3 /* APIClient.swift */; };
 		5AC8C4ED27C3FECB008B1744 /* AdminsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC8C4EC27C3FECB008B1744 /* AdminsView.swift */; };
 		5AC8C4EF27C403C9008B1744 /* AlertItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC8C4EE27C403C9008B1744 /* AlertItem.swift */; };
@@ -260,11 +259,9 @@
 		8B34292D29786EEC00F63DE1 /* SecurityAdvancedCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34292C29786EEC00F63DE1 /* SecurityAdvancedCellView.swift */; };
 		8B34292F29786F0000F63DE1 /* SecurityCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34292E29786F0000F63DE1 /* SecurityCellView.swift */; };
 		8B34293129787A5F00F63DE1 /* PrivacyCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34293029787A5F00F63DE1 /* PrivacyCellView.swift */; };
-		8B34A9F028D45E200097ED9E /* GroupActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34A9EF28D45E200097ED9E /* GroupActions.swift */; };
 		8B34A9F228D45FC20097ED9E /* DirectActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34A9F128D45FC20097ED9E /* DirectActions.swift */; };
 		8B34A9F428D46BAC0097ED9E /* DirectMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34A9F328D46BAC0097ED9E /* DirectMenuView.swift */; };
 		8B34A9F628D4A8A40097ED9E /* MenuActionsTogglesFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34A9F528D4A8A40097ED9E /* MenuActionsTogglesFacade.swift */; };
-		8B34A9F828D4AAEB0097ED9E /* GroupChatMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34A9F728D4AAEB0097ED9E /* GroupChatMenuViewModel.swift */; };
 		8B34A9FA28D4AAFA0097ED9E /* DirectChatMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34A9F928D4AAFA0097ED9E /* DirectChatMenuViewModel.swift */; };
 		8B34A9FE28D4AC210097ED9E /* MenuActionsFacadeAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34A9FD28D4AC210097ED9E /* MenuActionsFacadeAssembly.swift */; };
 		8B350361297EEEC30090EE93 /* ChannelNotificaionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B350360297EEEC30090EE93 /* ChannelNotificaionsView.swift */; };
@@ -1161,7 +1158,6 @@
 		5AB30F1627078B5300838AFC /* UIButton+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
 		5ABAD39927BDA6D80067DFC1 /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
 		5ABAD39F27C286CF0067DFC1 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		5ABF08CC27D950BF0016CC6F /* GroupMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMenuView.swift; sourceTree = "<group>"; };
 		5AC8C4EC27C3FECB008B1744 /* AdminsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminsView.swift; sourceTree = "<group>"; };
 		5AC8C4EE27C403C9008B1744 /* AlertItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertItem.swift; sourceTree = "<group>"; };
 		5AC8C4F127C4112C008B1744 /* MembersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersView.swift; sourceTree = "<group>"; };
@@ -1290,11 +1286,9 @@
 		8B34292C29786EEC00F63DE1 /* SecurityAdvancedCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityAdvancedCellView.swift; sourceTree = "<group>"; };
 		8B34292E29786F0000F63DE1 /* SecurityCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityCellView.swift; sourceTree = "<group>"; };
 		8B34293029787A5F00F63DE1 /* PrivacyCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyCellView.swift; sourceTree = "<group>"; };
-		8B34A9EF28D45E200097ED9E /* GroupActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupActions.swift; sourceTree = "<group>"; };
 		8B34A9F128D45FC20097ED9E /* DirectActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectActions.swift; sourceTree = "<group>"; };
 		8B34A9F328D46BAC0097ED9E /* DirectMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectMenuView.swift; sourceTree = "<group>"; };
 		8B34A9F528D4A8A40097ED9E /* MenuActionsTogglesFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuActionsTogglesFacade.swift; sourceTree = "<group>"; };
-		8B34A9F728D4AAEB0097ED9E /* GroupChatMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChatMenuViewModel.swift; sourceTree = "<group>"; };
 		8B34A9F928D4AAFA0097ED9E /* DirectChatMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectChatMenuViewModel.swift; sourceTree = "<group>"; };
 		8B34A9FD28D4AC210097ED9E /* MenuActionsFacadeAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuActionsFacadeAssembly.swift; sourceTree = "<group>"; };
 		8B350360297EEEC30090EE93 /* ChannelNotificaionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelNotificaionsView.swift; sourceTree = "<group>"; };
@@ -2871,7 +2865,6 @@
 			isa = PBXGroup;
 			children = (
 				8B34A9FC28D4AB4D0097ED9E /* DirectMenu */,
-				8B34A9FB28D4AB380097ED9E /* GroupMenu */,
 				8B34A9F528D4A8A40097ED9E /* MenuActionsTogglesFacade.swift */,
 				8B34A9FD28D4AC210097ED9E /* MenuActionsFacadeAssembly.swift */,
 			);
@@ -3224,16 +3217,6 @@
 				8B34293029787A5F00F63DE1 /* PrivacyCellView.swift */,
 			);
 			path = Components;
-			sourceTree = "<group>";
-		};
-		8B34A9FB28D4AB380097ED9E /* GroupMenu */ = {
-			isa = PBXGroup;
-			children = (
-				8B34A9F728D4AAEB0097ED9E /* GroupChatMenuViewModel.swift */,
-				5ABF08CC27D950BF0016CC6F /* GroupMenuView.swift */,
-				8B34A9EF28D45E200097ED9E /* GroupActions.swift */,
-			);
-			path = GroupMenu;
 			sourceTree = "<group>";
 		};
 		8B34A9FC28D4AB4D0097ED9E /* DirectMenu */ = {
@@ -5692,7 +5675,6 @@
 				8BD7310A2AD4C7E000E1855E /* ChatSettingsAssembly.swift in Sources */,
 				8B9B19A52ACB05EE004CEBFC /* DocumentItemViewModel.swift in Sources */,
 				D4F3229E2AA208BC0021AFAE /* RoomEventsFactory+Contacts.swift in Sources */,
-				5ABF08CD27D950BF0016CC6F /* GroupMenuView.swift in Sources */,
 				8BC517FD296CC87E0033B30F /* ChooseWalletTypeView.swift in Sources */,
 				5A187DD826806F35001957D3 /* Dependency.swift in Sources */,
 				D4B313D62B0F2E1100B4A374 /* TransactionStatus.swift in Sources */,
@@ -5843,7 +5825,6 @@
 				5A9318DE26C5AD0500645365 /* BubbleView.swift in Sources */,
 				5A43086927C8282000A9B582 /* MediaResponse.swift in Sources */,
 				D4FB6C702AC4087400E9E6D9 /* MatrixUseCase+Jitsi.swift in Sources */,
-				8B34A9F828D4AAEB0097ED9E /* GroupChatMenuViewModel.swift in Sources */,
 				8B4C28C32A4BAAE800802DD0 /* SelectContactAssembly.swift in Sources */,
 				D4AB8FFA282671BB00E6FAB5 /* MatrixService+Session.swift in Sources */,
 				D4220D522A725617008B158C /* CountryCodePicker.swift in Sources */,
@@ -6062,7 +6043,6 @@
 				8BAAB37E2A24EDA10062D5B2 /* OnboardingViewModel.swift in Sources */,
 				D4A51492294F4DCE007A87BF /* TransactionSendReponse.swift in Sources */,
 				8BAB8D322A97D0660083167C /* SearchType.swift in Sources */,
-				8B34A9F028D45E200097ED9E /* GroupActions.swift in Sources */,
 				D46187D3282D093200CA2836 /* ChatHistorySources.swift in Sources */,
 				5A43087127C9079F00A9B582 /* ImageLoader.swift in Sources */,
 				5A4BE4F7271DC26700D03D09 /* AuthData.swift in Sources */,

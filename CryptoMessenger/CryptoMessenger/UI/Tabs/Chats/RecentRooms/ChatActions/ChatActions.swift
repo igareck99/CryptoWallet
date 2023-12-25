@@ -69,6 +69,6 @@ enum ChatActions: CaseIterable {
         if isLeaveChat {
             result.append(ChatActions.removeChat)
         }
-        return CGFloat(223 - (3 - result.count) * 57)
+        return CGFloat(177 - (3 - result.count) * 52)
     }
 }

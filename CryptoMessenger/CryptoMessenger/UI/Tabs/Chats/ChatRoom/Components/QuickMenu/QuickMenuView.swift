@@ -26,6 +26,7 @@ struct QuickMenuView: View {
         VStack(spacing: 0) {
             ReactionsSelectView(onReaction: viewModel.onReaction)
             .padding(.horizontal, 16)
+            .padding(.top, 10)
             Divider()
                 .foreground(.lightGray)
             generateItems()

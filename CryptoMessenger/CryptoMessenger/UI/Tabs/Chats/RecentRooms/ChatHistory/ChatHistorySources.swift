@@ -76,11 +76,11 @@ enum ChatHistorySources: ChatHistorySourcesable {
 	}
 
 	static var ellipsisCircle: Image {
-		Image(systemName: "ellipsis.circle")
+        R.image.chatHistory.chatHistorysettings.image
 	}
 
 	static var squareAndPencil: Image {
-		Image(systemName: "square.and.pencil")
+        R.image.chatHistory.createChat.image
 	}
 
     static var noDataImage: Image {

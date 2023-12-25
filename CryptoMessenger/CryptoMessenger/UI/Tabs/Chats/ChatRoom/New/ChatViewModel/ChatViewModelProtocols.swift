@@ -68,6 +68,8 @@ protocol ChatViewModelProtocol: ObservableObject {
     var isDirect: Bool { get }
 
     var isOnline: Bool { get}
+    
+    func onRoomAvatarTap(chatData: Binding<ChatData>, isLeaveChannel: Binding<Bool>)
 
     func showChatRoomMenu()
 
