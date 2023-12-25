@@ -4,6 +4,8 @@ enum StaticRoomEventsSizes: CGFloat {
     case audio
     case image
     case map
+    case contact
+    case document
     
     var size: CGFloat {
         switch self {
@@ -13,6 +15,10 @@ enum StaticRoomEventsSizes: CGFloat {
             return 208
         case .map:
             return 238
+        case .contact:
+            return 212
+        case .document:
+            return 230
         }
     }
 }

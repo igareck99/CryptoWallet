@@ -8,6 +8,7 @@ struct ResizeableTextView: UIViewRepresentable {
 
 	@Binding var text: String
 	@Binding var height: CGFloat
+    @Binding var cornerRadius: CGFloat
 	@State var editing = false
     @State var fieldBackgroundColor = UIColor.aliceBlue
 	var placeholderText: String
@@ -18,6 +19,8 @@ struct ResizeableTextView: UIViewRepresentable {
 		let textView = UITextView()
 		textView.isEditable = true
 		textView.isScrollEnabled = true
+        textView.clipsToBounds = true
+        textView.layer.cornerRadius = 16
 		textView.text = placeholderText
 		textView.delegate = context.coordinator
 		textView.textColor = .chineseBlack
@@ -34,7 +37,7 @@ struct ResizeableTextView: UIViewRepresentable {
 		}
         DispatchQueue.main.async {
             if self.height != textView.contentSize.height {
-                self.height = textView.contentSize.height > 34 ? textView.contentSize.height : 34
+                self.height = textView.contentSize.height > 38 ? textView.contentSize.height : 34
             }
             textView.backgroundColor = fieldBackgroundColor
             textView.textContainerInset = UIEdgeInsets(top: 6, left: 12, bottom: 6, right: 0)

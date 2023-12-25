@@ -473,6 +473,7 @@ struct ChatRoomView: View {
                             ResizeableTextView(
                                 text: $viewModel.inputText,
                                 height: $textViewHeight,
+                                cornerRadius:  $textViewHeight,
                                 placeholderText: "Сообщение..."
                             )
                             .focused($inputViewIsFocused)

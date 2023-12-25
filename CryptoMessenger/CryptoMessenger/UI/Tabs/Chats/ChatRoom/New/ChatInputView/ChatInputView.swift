@@ -12,6 +12,7 @@ struct ChatInputView: View {
     @State private var blockAudioRecord = false
     @State private var resetAudio = false
     @State private var sendAudio = false
+    @State private var cornerRadius: CGFloat = 60
     @State var isPlusShown = true
     @State var recordingDataModel: RecordingDataModel?
     var sources: ChatRoomSourcesable.Type = ChatRoomResources.self
@@ -45,6 +46,13 @@ struct ChatInputView: View {
             .onChange(of: data.quickAction) { value in
                 isPlusShown = data.$inputText.wrappedValue.isEmpty &&
                 !(value == .reply || value == .edit)
+            }
+            .onChange(of: textViewHeight) { value in
+                if value <= 34 {
+                    cornerRadius = 60
+                } else {
+                    cornerRadius = 20
+                }
             }
         case false:
             accessDeniedView
@@ -100,10 +108,11 @@ struct ChatInputView: View {
                     ResizeableTextView(
                         text: data.$inputText,
                         height: $textViewHeight,
+                        cornerRadius: $cornerRadius,
                         placeholderText: sources.inputViewPlaceholder
                     )
-                    .cornerRadius(radius: 60, corners: .allCorners)
-                    .addBorder(Color.gainsboro, width: 0.5, cornerRadius: 60)
+                    .foreground(.aliceBlue)
+                    .addBorder(Color.gainsboro, width: 0.5, cornerRadius: cornerRadius)
                     .padding(.leading, isPlusShown ? 11 : 16)
                     .padding(.trailing, isPlusShown ? 18 : 16)
                     .frame(height: min(textViewHeight, 160))
