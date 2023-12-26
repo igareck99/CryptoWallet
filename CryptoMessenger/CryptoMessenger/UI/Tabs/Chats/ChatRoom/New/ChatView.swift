@@ -1,5 +1,4 @@
 import SwiftUI
-// swiftlint:disable all
 
 // MARK: - ChatView
 

@@ -43,7 +43,9 @@ struct ActionSheetNewView: View {
                         CodeScannerView(codeTypes: []) { _ in }
                             .frame(width: 80, height: 80)
                             .cornerRadius(radius: 10, corners: .allCorners)
-                        R.image.chat.camera.image
+                        R.image.chat.cameraPickerImage.image
+                            .resizable()
+                            .frame(width: 30, height: 30, alignment: .center)
                     }
                     .frame(width: 80, height: 80)
                     .onTapGesture {

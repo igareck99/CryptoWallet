@@ -216,6 +216,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                 url: url,
                 delegate: delegate,
                 onLongPressTap: { event in onLongPressMessage(event) },
+                onReactionTap: { reaction in onReactionTap(reaction) },
                 onSwipeReply: { value in onSwipeReply(value) }
             )
             case let .groupCall(eventId, text):

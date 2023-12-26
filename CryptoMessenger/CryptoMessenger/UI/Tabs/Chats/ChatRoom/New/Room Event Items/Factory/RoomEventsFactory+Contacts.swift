@@ -31,10 +31,12 @@ extension RoomEventsFactory {
         })
         var viewModel: ReactionsNewViewModel
         if oldEvent?.reactions == event.reactions {
-            viewModel = ReactionsNewViewModel(id: event.id, width: calculateWidth("", reactions.count), views: reactions,
+            viewModel = ReactionsNewViewModel(id: event.id, width: calculateEventWidth(StaticRoomEventsSizes.contact.size, reactions.count),
+                                              views: reactions,
                                               backgroundColor: reactionColor)
         } else {
-            viewModel = ReactionsNewViewModel(width: calculateWidth("", reactions.count),
+            viewModel = ReactionsNewViewModel(width: calculateEventWidth(StaticRoomEventsSizes.contact.size, reactions.count),
+                                              
                                               views: reactions,
                                               backgroundColor: reactionColor)
         }
