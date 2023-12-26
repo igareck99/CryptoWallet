@@ -115,7 +115,7 @@ struct ChatInputView: View {
                     .addBorder(Color.gainsboro, width: 0.5, cornerRadius: cornerRadius)
                     .padding(.leading, isPlusShown ? 11 : 16)
                     .padding(.trailing, isPlusShown ? 18 : 16)
-                    .frame(height: min(textViewHeight, 160))
+                    .frame(height: min(textViewHeight, 148))
                     .keyboardType(.default)
                 }
                 if !data.inputText.isEmpty {
