@@ -19,7 +19,7 @@ struct ChannelSettingsView: View {
     init(
         title: String,
         titleColor: Color = .chineseBlack,
-        imageName: String,
+        imageName: String = "",
         imageColor: Color = .dodgerBlue,
         accessoryImageName: String = "",
         image: Image? = nil,
@@ -37,7 +37,7 @@ struct ChannelSettingsView: View {
     // MARK: - Body
 
     var body: some View {
-        HStack {
+        HStack(alignment: .center) {
             if !imageName.isEmpty {
                 Image(systemName: imageName)
                     .foregroundColor(imageColor)

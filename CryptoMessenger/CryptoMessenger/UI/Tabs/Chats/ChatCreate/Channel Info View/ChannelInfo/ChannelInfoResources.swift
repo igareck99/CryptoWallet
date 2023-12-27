@@ -180,7 +180,7 @@ enum ChannelInfoResources: ChannelInfoResourcable {
     }
     
     static var snackbarBackground: Color {
-            .greenCrayola
+        .greenCrayola
     }
     
     static var background: Color {

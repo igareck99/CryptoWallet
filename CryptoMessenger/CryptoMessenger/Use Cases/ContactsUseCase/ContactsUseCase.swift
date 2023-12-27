@@ -75,7 +75,10 @@ final class ContactsUseCase: ContactsUseCaseProtocol {
         let phoneNumberKit = PhoneNumberKit()
         let contacts = contacts.map {
             let phoneObject = phoneNumberKit.parse([$0.phoneNumber]).first
-            let phone = String(phoneObject?.countryCode ?? 0) + String(phoneObject?.nationalNumber ?? 0)
+            var phone = String(phoneObject?.countryCode ?? 0) + String(phoneObject?.nationalNumber ?? 0)
+            if phone == "00" {
+                phone = $0.phoneNumber
+            }
             let contact = ContactInfo(firstName: $0.firstName, lastName: $0.lastName,
                                       phoneNumber: phone, imageData: $0.imageData)
             return contact

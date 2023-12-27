@@ -38,6 +38,7 @@ struct ChatInputView: View {
                         }.transition(.opacity)
                     }
                     inputView
+                        .background(.white())
                 }
                 .onChange(of: data.inputText) { value in
                     isPlusShown = value.isEmpty &&
@@ -58,24 +59,30 @@ struct ChatInputView: View {
                 accessDeniedView
             }
         }
-    
+
     // MARK: - Private Properties
-    
+
     private var accessDeniedView: some View {
-        VStack(alignment: .center) {
-            Text("У вас нет разрешения на публикацию в этом канале")
+        HStack(alignment: .center) {
+            Spacer()
+            Text("У вас нет разрешения на\nпубликацию в этом канале")
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
                 .font(.subheadlineRegular15)
                 .foregroundColor(.romanSilver)
-                .padding(.horizontal, 71)
+//                .padding(.horizontal, 71)
                 .background(.white())
                 .frame(minHeight: 40, idealHeight: 40, maxHeight: 40,
                        alignment: .center)
+                .padding(.top, 10)
+            Spacer()
         }
-        .frame(height: 45)
+        .background(.white())
+        .foreground(.white)
+        .frame(width: UIScreen.main.bounds.width, height: 45)
+        .ignoresSafeArea()
     }
-    
+
     var inputView: some View {
         VStack(spacing: .zero) {
             HStack(alignment: .center, spacing: .zero) {

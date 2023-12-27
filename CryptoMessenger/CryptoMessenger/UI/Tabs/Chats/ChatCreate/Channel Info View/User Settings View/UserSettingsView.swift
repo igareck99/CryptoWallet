@@ -9,20 +9,13 @@ struct UserSettingsView<ViewModel: UserSettingsViewModelProtocol>: View {
     @StateObject var viewModel: ViewModel
 
     // MARK: - Body
-
+    
     var body: some View {
-        VStack(spacing: 0) {
-            RoundedRectangle(cornerRadius: 3)
-                .frame(width: 38, height: 6)
-                .foregroundColor(viewModel.resources.rectangleColor)
-                .padding(.top, 5)
-                .padding(.bottom, 16)
-            
+        VStack(spacing: .zero) {
             ForEach(viewModel.items, id: \.hashValue) { model in
                 model.view()
-                    .frame(height: 57)
             }
-            Spacer()
         }
+        .padding(.leading, 16)
     }
 }

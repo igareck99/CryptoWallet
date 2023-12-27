@@ -24,6 +24,7 @@ enum UserSettingsFactory: UserSettingsFactoryProtocol {
             titleColor: .woodSmokeApprox,
             imageName: "person.crop.circle",
             imageColor: .azureRadianceApprox,
+            image: R.image.chatHistory.person.image,
             accessoryImageName: "chevron.right",
             accessoryImageColor: .gainsboro
         ) {
@@ -34,7 +35,8 @@ enum UserSettingsFactory: UserSettingsFactoryProtocol {
                 title: R.string.localizable.channelSettingsChangeRole(),
                 titleColor: .woodSmokeApprox,
                 imageName: "highlighter",
-                imageColor: .dodgerTransBlue
+                imageColor: .dodgerTransBlue,
+                image: R.image.channelSettings.pencil.image
             ) {
                 viewModel.onTapChangeRole()
             })
@@ -44,7 +46,8 @@ enum UserSettingsFactory: UserSettingsFactoryProtocol {
                 title: R.string.localizable.channelSettingsDeleteFromChannel(),
                 titleColor: .spanishCrimson,
                 imageName: "trash",
-                imageColor: .spanishCrimson
+                imageColor: .spanishCrimson,
+                image: R.image.chatHistory.trash.image
             ) {
                 viewModel.onTapRemoveUser()
             })
