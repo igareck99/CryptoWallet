@@ -6,6 +6,7 @@ struct ChannelParticipantView: View {
     
     // MARK: - Internal Properties
     
+    let avatar: URL?
     let title: String
     let subtitle: String
 
@@ -13,8 +14,26 @@ struct ChannelParticipantView: View {
 
     var body: some View {
         HStack(alignment: .center, spacing: 10) {
-            Circle()
-                .foregroundColor(.diamond)
+            AsyncImage(defaultUrl: avatar,
+                       updatingPhoto: false,
+                       url: nil,
+                       placeholder: {
+                ZStack{
+                    Circle()
+                        .cornerRadius(20)
+                        .frame(width: 40, height: 40)
+                        .foregroundColor(.dodgerTransBlue)
+                    Text(title.firstLetter.uppercased())
+                        .foregroundColor(.white)
+                        .font(.largeTitleRegular34)
+                        .frame(width: 20,
+                               height: 20)
+                }
+            },
+                       result:{
+                Image(uiImage: $0)
+                    .resizable()
+            })
                 .frame(width: 40, height: 40)
                 .cornerRadius(20)
             VStack(alignment: .leading, spacing: 2) {
