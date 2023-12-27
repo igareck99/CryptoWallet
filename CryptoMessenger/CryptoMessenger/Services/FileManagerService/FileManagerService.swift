@@ -13,20 +13,21 @@ enum FileStates: Equatable {
 
 protocol FileManagerProtocol {
 
-    func checkBookFileExists(withLink link: String,
-                             fileExtension: String,
-                             completion: @escaping ((FileStates) -> Void))
-    func deleteRecording(urlsToDelete: [URL])
-    func checkFileExist(name: String, pathExtension: String) -> (Bool, URL?)
-    func saveFile(name: String, data: Data, pathExtension: String) -> URL?
-    func getFileSize(_ path: String) -> String
-    func clearDocumentDirectory()
-    func getImageFile(_ path: String, _ pathExtension: String) -> Image?
+    func checkBookFileExists(
+        withLink link: String,
+        fileExtension: String
+    ) async -> FileStates
+    func deleteRecording(urlsToDelete: [URL]) async
+    func checkFileExist(name: String, pathExtension: String) async -> (Bool, URL?)
+    func saveFile(name: String, data: Data, pathExtension: String) async -> URL?
+    func getFileSize(path: String) async -> String
+    func clearDocumentDirectory() async
+    func getImageFile(path: String, pathExtension: String) async -> Image?
 }
 
 // MARK: - FileManagerService
 
-final class FileManagerService: FileManagerProtocol, ObservableObject {
+final class FileManagerService: FileManagerProtocol {
 
     // MARK: - Static Properties
 
@@ -34,112 +35,92 @@ final class FileManagerService: FileManagerProtocol, ObservableObject {
 
     // MARK: - Internal Methods
 
-    func checkBookFileExists(withLink link: String,
-                             fileExtension: String,
-                             completion: @escaping ((FileStates) -> Void)) {
+    func checkBookFileExists(
+        withLink link: String,
+        fileExtension: String
+    ) async -> FileStates {
         let urlString = link.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
-        if let url = URL(string: urlString ?? "") {
-            let fileManager = FileManager.default
-            if let documentDirectory = try? fileManager.url(for: .documentDirectory,
-                                                            in: .userDomainMask,
-                                                            appropriateFor: nil,
-                                                            create: false) {
-                let filePath = documentDirectory.appendingPathComponent(url.lastPathComponent + fileExtension,
-                                                                        isDirectory: false)
-                do {
-                    if try filePath.checkResourceIsReachable() {
-                        debugPrint("File exist")
-                        completion(.exist(filePath))
-                    } else {
-                        debugPrint("File doesnt exist")
-                        completion(.notExist(filePath))
-                    }
-                } catch {
-                    debugPrint("File doesnt exist")
-                    completion(.notExist(filePath))
-                }
-            } else {
-                debugPrint("File doesnt exist")
-                completion(.error)
-            }
-        } else {
-            debugPrint("File doesnt exist")
-            completion(.error)
+        guard let url = URL(string: urlString ?? "") else {
+            return .error
         }
-    }
-    
-    func checkFileExist(name: String, pathExtension: String) -> (Bool, URL?) {
         let fileManager = FileManager.default
-        let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        var filePath = documentDirectory.appendingPathComponent(name,
-                                                                isDirectory: false)
-        filePath.appendPathExtension(pathExtension)
-        do {
-            let isReachable = try filePath.checkResourceIsReachable()
-            return (true, filePath)
-        } catch {
-            return (false, nil)
+        guard let documentDirectory = try? fileManager.url(
+            for: .documentDirectory,
+            in: .userDomainMask,
+            appropriateFor: nil,
+            create: false
+        ) else {
+            return .error
         }
+        let filePath = documentDirectory.appendingPathComponent(
+            url.lastPathComponent + fileExtension,
+            isDirectory: false
+        )
+        guard (try? filePath.checkResourceIsReachable()) == true else {
+            return .notExist(filePath)
+        }
+        return .exist(filePath)
     }
 
-    func saveFile(name: String, data: Data, pathExtension: String) -> URL? {
+    func checkFileExist(name: String, pathExtension: String) async -> (Bool, URL?) {
         let fileManager = FileManager.default
         let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        var filePath = documentDirectory.appendingPathComponent(name,
-                                                                isDirectory: false)
+        var filePath = documentDirectory.appendingPathComponent(name, isDirectory: false)
         filePath.appendPathExtension(pathExtension)
-        print("SaveFilePath  \(filePath)")
-        do {
-            try data.write(to: filePath, options: .noFileProtection)
-        } catch {
-            debugPrint("Write File Error  \(error)")
+
+        guard let isReachable = try? filePath.checkResourceIsReachable() else {
+            return (false, nil)
         }
+        return (isReachable, filePath)
+    }
+
+    func saveFile(name: String, data: Data, pathExtension: String) async -> URL? {
+        let fileManager = FileManager.default
+        let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        var filePath = documentDirectory.appendingPathComponent(name, isDirectory: false)
+        filePath.appendPathExtension(pathExtension)
+        debugPrint("SaveFilePath  \(filePath)")
+        try? data.write(to: filePath, options: .noFileProtection)
         return filePath
     }
 
-    func getFileSize(_ path: String) -> String {
-        let fileManager = FileManager.default
-        let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let attribute = try? FileManager.default.attributesOfItem(atPath: path)
-        guard let size = fileManager.sizeOfFile(atPath: path) else { return "" }
+    func getFileSize(path: String) async -> String {
+        guard let size = FileManager.default.sizeOfFile(atPath: path) else { return "" }
         let bcf = ByteCountFormatter()
         bcf.countStyle = .decimal
         bcf.allowedUnits = [.useKB, .useMB, .useGB, .useBytes]
         return bcf.string(fromByteCount: size)
     }
-    
-    func getImageFile(_ path: String, _ pathExtension: String) -> Image? {
+
+    func getImageFile(path: String, pathExtension: String) async -> Image? {
         let fileManager = FileManager.default
         let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        var filePath = documentDirectory.appendingPathComponent(path,
-                                                                isDirectory: false)
+        var filePath = documentDirectory.appendingPathComponent(path, isDirectory: false)
         filePath.appendPathExtension(pathExtension)
         guard let uiImage = UIImage(contentsOfFile: filePath.path()) else { return nil }
         return Image(uiImage: uiImage)
     }
 
-    func deleteRecording(urlsToDelete: [URL]) {
-        for url in urlsToDelete {
-            do {
-                try FileManager.default.removeItem(at: url)
-                debugPrint("File at \(url) was delete")
-            } catch {
-                debugPrint("File could not be deleted!")
-            }
+    func deleteRecording(urlsToDelete: [URL]) async {
+        urlsToDelete.forEach { url in
+            try? FileManager.default.removeItem(at: url)
         }
     }
-    
-    func clearDocumentDirectory() {
+
+    func clearDocumentDirectory() async {
         let fileManager = FileManager.default
-        let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        do {
-            let directoryContents = try fileManager
-                                    .contentsOfDirectory(at: documentDirectory, includingPropertiesForKeys: nil)
-            for item in directoryContents {
-                deleteRecording(urlsToDelete: [item])
-            }
-        } catch {
-            debugPrint("Error while clear directory")
+        guard let documentDirectory = fileManager.urls(
+            for: .documentDirectory,
+            in: .userDomainMask
+        ).first,
+              let directoryContents = try? fileManager.contentsOfDirectory(
+                at: documentDirectory,
+                includingPropertiesForKeys: nil
+              ) else {
+            return
+        }
+        for item in directoryContents {
+            await deleteRecording(urlsToDelete: [item])
         }
     }
 }

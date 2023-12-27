@@ -19,9 +19,11 @@ final class DocumentItemViewModel: ObservableObject {
 
     // MARK: - Lifecycle
 
-    init(model: DocumentItem,
-         remoteDataService: RemoteDataServiceProtocol = RemoteDataService.shared,
-         fileService: FileManagerProtocol = FileManagerService.shared) {
+    init(
+        model: DocumentItem,
+        remoteDataService: RemoteDataServiceProtocol = RemoteDataService.shared,
+        fileService: FileManagerProtocol = FileManagerService.shared
+    ) {
         self.model = model
         self.state = .download
         self.remoteDataService = remoteDataService
@@ -32,20 +34,22 @@ final class DocumentItemViewModel: ObservableObject {
 
     func dowloadData() {
         Task {
-            let result = await remoteDataService.downloadWithBytes(url: model.url)
             let fileFormat = model.title.components(separatedBy: ".").last ?? ""
-            guard let data = result?.0,
-                  let savedUrl = self.fileService.saveFile(name: getFileName(),
-                                                           data: data,
-                                                           pathExtension: fileFormat) else {
+            guard let data = await remoteDataService.downloadWithBytes(url: model.url)?.0,
+                  let savedUrl = await self.fileService.saveFile(
+                    name: getFileName(),
+                    data: data,
+                    pathExtension: fileFormat
+                  ) else {
                 debugPrint("downloadDataRequest FAILED")
                 await MainActor.run {
                     self.state = .download
                 }
                 return
             }
+            let fileSize = await savedUrl.fileSize()
             await MainActor.run {
-                self.size = savedUrl.fileSize()
+                self.size = fileSize
                 self.dataUrl = savedUrl
                 self.state = .hasBeenDownloaded
             }
@@ -53,27 +57,37 @@ final class DocumentItemViewModel: ObservableObject {
     }
 
     // MARK: - Private Methods
-    
+
     private func initData() {
-        self.sizeOfFile = self.convertToBytes(model.size)
-        self.size = self.sizeOfFile
-        let fileFormat = model.title.components(separatedBy: ".").last ?? ""
-        let (isExist, path) = fileService.checkFileExist(name: getFileName(), pathExtension: fileFormat)
-        if isExist {
-            DispatchQueue.main.async {
+        Task {
+            let fileSize = self.convertToBytes(model.size)
+            await MainActor.run {
+                self.sizeOfFile = fileSize
+                self.size = fileSize
+            }
+
+            let fileFormat = model.title.components(separatedBy: ".").last ?? ""
+            let fileName = getFileName()
+            let (isExist, path) = await fileService.checkFileExist(
+                name: fileName,
+                pathExtension: fileFormat
+            )
+
+            guard isExist else { return }
+
+            await MainActor.run {
                 self.dataUrl = path
                 self.state = .hasBeenDownloaded
             }
         }
     }
-    
+
     private func convertToBytes(_ value: Int) -> String {
         return Units(bytes: Int64(value)).getReadableUnit()
     }
-    
+
     private func getFileName() -> String {
-        let fileadressName = model.url.absoluteString.components(separatedBy: "/").last ?? ""
-        let finalFileName = fileadressName
+        let finalFileName = model.url.absoluteString.components(separatedBy: "/").last ?? ""
         return finalFileName
     }
 
@@ -82,11 +96,12 @@ final class DocumentItemViewModel: ObservableObject {
             .subscribe(on: DispatchQueue.global(qos: .default))
             .receive(on: DispatchQueue.global(qos: .default))
             .sink { [weak self] value in
-                guard let self = self else { return }
-                if self.state == .loading {
-                    self.savedData = value
-                    DispatchQueue.main.async {
-                        self.size = "\(self.convertToBytes(value.savedBytes)) / \(self.sizeOfFile)"
+                guard let self = self, self.state == .loading else { return }
+                let bytes = self.convertToBytes(value.savedBytes)
+                Task {
+                    await MainActor.run {
+                        self.savedData = value
+                        self.size = "\(bytes) / \(self.sizeOfFile)"
                     }
                 }
             }

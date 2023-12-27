@@ -34,18 +34,22 @@ protocol RemoteDataServiceProtocol {
 
     // MARK: - Methods
 
-    func fetchContentLength(for url: URL,
-                            httpMethod: RemoteDataRequestType,
-                            completion: @escaping (_ contentLength: Int?) -> Void)
-    func downloadData(withUrl url: URL,
-                      httpMethod: RemoteDataRequestType,
-                      completion: @escaping ((_ filePath: Data?) -> Void))
+    func fetchContentLength(
+        for url: URL,
+        httpMethod: RemoteDataRequestType,
+        completion: @escaping (_ contentLength: Int?) -> Void
+    )
+
+    func downloadData(
+        withUrl url: URL,
+        httpMethod: RemoteDataRequestType,
+        completion: @escaping ((_ filePath: Data?) -> Void)
+    )
 
     func downloadDataRequest(url: URL) async -> (URL, URLResponse)?
     func downloadRequest(url: URL) async -> (Data, URLResponse)?
     func fetchContentLength(url: URL) -> Int?
-    func downloadWithBytes(url: URL) async -> (Data,
-                                               URLResponse)?
+    func downloadWithBytes(url: URL) async -> (Data, URLResponse)?
 }
 
 // MARK: - RemoteDataService
@@ -67,9 +71,11 @@ final class RemoteDataService: NSObject, RemoteDataServiceProtocol, ObservableOb
 
     // MARK: - Internal Methods
 
-    func fetchContentLength(for url: URL,
-                            httpMethod: RemoteDataRequestType,
-                            completion: @escaping (_ contentLength: Int?) -> Void) {
+    func fetchContentLength(
+        for url: URL,
+        httpMethod: RemoteDataRequestType,
+        completion: @escaping (_ contentLength: Int?) -> Void
+    ) {
         var request = URLRequest(url: url)
         request.httpMethod = httpMethod.rawValue
         let task = URLSession.shared.dataTask(with: request) { _, response, error in
@@ -89,8 +95,7 @@ final class RemoteDataService: NSObject, RemoteDataServiceProtocol, ObservableOb
         task.resume()
     }
     
-    func downloadWithBytes(url: URL) async -> (Data,
-                                               URLResponse)? {
+    func downloadWithBytes(url: URL) async -> (Data, URLResponse)? {
         let request = URLRequest(url: url)
         let result = try? await URLSession.shared.bytes(for: request)
         let (asyncBytes, urlResponse) = (result?.0, result?.1)
@@ -101,8 +106,10 @@ final class RemoteDataService: NSObject, RemoteDataServiceProtocol, ObservableOb
                 for try await byte in asyncBytes {
                     bytes.append(byte)
                     if Int(bytes.count / self.dataState.savedBytes) > 32 {
-                        self.dataState = SavedExpectData(savedBytes: bytes.count,
-                                                         expectBytes: length)
+                        self.dataState = SavedExpectData(
+                            savedBytes: bytes.count,
+                            expectBytes: length
+                        )
                     }
                 }
             } catch {
@@ -130,40 +137,65 @@ final class RemoteDataService: NSObject, RemoteDataServiceProtocol, ObservableOb
         var request = URLRequest(url: url)
         request.httpMethod = RemoteDataRequestType.get.rawValue
         let result = URLSession.shared.dataTask(with: request)
-        guard let size = result.currentRequest?.allHTTPHeaderFields?[RemoteDataHeaderFields.contentLength.rawValue] else { return nil  }
+        guard let size = result.currentRequest?
+            .allHTTPHeaderFields?[RemoteDataHeaderFields.contentLength.rawValue] else {
+            return nil
+        }
         guard let result = Int(size) else {
             return nil
         }
         return result
     }
 
-    func downloadData(withUrl url: URL,
-                      httpMethod: RemoteDataRequestType,
-                      completion: @escaping ((_ filePath: Data?) -> Void)) {
+    func downloadData(
+        withUrl url: URL,
+        httpMethod: RemoteDataRequestType,
+        completion: @escaping ((_ filePath: Data?) -> Void)
+    ) {
         var request = URLRequest(url: url)
         request.httpMethod = httpMethod.rawValue
         let dataTask = URLSession.shared.dataTask(with: request) {  data, _, _ in
-            do {
-                guard let data = data else { 
-                    completion(nil)
-                    return
-                }
-                completion(data)
-            } catch {
-                debugPrint("An error happened while downloading or saving the file")
-                completion(nil)
-            }
+            guard let data = data else { completion(nil); return }
+            completion(data)
         }
         dataTask.resume()
     }
-
-    func downloadDataWithSize(withUrl url: URL,
-                              httpMethod: RemoteDataRequestType) {
-        let configuration = URLSessionConfiguration.default
-        let operationQueue = OperationQueue()
-        let session = URLSession(configuration: configuration, delegate: self, delegateQueue: operationQueue)
-        let downloadTask = session.downloadTask(with: url)
-        downloadTask.resume()
+    
+    func downloadDataWithSize(
+        withUrl url: URL,
+        httpMethod: RemoteDataRequestType
+    ) async {
+        Task {
+            let configuration = URLSessionConfiguration.default
+            let operationQueue = OperationQueue()
+            let session = URLSession(
+                configuration: configuration,
+                delegate: self,
+                delegateQueue: operationQueue
+            )
+            let downloadTask = session.downloadTask(with: url)
+            downloadTask.resume()
+        }
+    }
+    
+    private func handleRequestResponse(
+        session: URLSession,
+        downloadTask: URLSessionDownloadTask,
+        location: URL
+    ) async {
+        guard let url = downloadTask.originalRequest?.url,
+              let videoPath = FileManager.default.urls(
+                for: .documentDirectory,
+                in: .userDomainMask
+              ).first else {
+            return
+        }
+        let destinationURL = videoPath.appendingPathComponent(url.lastPathComponent + ".mp4")
+        try? FileManager.default.removeItem(at: destinationURL)
+        try? FileManager.default.copyItem(at: location, to: destinationURL)
+        await MainActor.run {
+            isUploadFinished = destinationURL
+        }
     }
 }
 
@@ -174,15 +206,12 @@ extension RemoteDataService: URLSessionDownloadDelegate {
     // MARK: - Internal Properties
 
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-        guard let url = downloadTask.originalRequest?.url else { return }
-        let videoPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let destinationURL = videoPath.appendingPathComponent(url.lastPathComponent + ".mp4")
-        try? FileManager.default.removeItem(at: destinationURL)
-        do {
-            try FileManager.default.copyItem(at: location, to: destinationURL)
-            self.isUploadFinished = destinationURL
-        } catch let error {
-            debugPrint("Copy Error: \(error.localizedDescription)")
+        Task {
+            await handleRequestResponse(
+                session: session,
+                downloadTask: downloadTask,
+                location: location
+            )
         }
     }
 
