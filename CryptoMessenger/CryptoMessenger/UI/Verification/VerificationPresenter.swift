@@ -68,7 +68,16 @@ final class VerificationPresenter<Colors: VerificationColorable> {
         didSet {
             updateOpacity()
             guard verificationState != .inputOTP else { return }
-            self.objectWillChange.send()
+            
+            if Thread.isMainThread {
+                self.objectWillChange.send()
+            } else {
+                Task {
+                    await MainActor.run {
+                        self.objectWillChange.send()
+                    }
+                }
+            }
         }
     }
     
