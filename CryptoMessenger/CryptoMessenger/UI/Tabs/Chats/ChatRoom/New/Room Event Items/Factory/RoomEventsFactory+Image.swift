@@ -63,6 +63,7 @@ extension RoomEventsFactory {
 
         let bubbleContainer = BubbleContainer(
             offset: .zero,
+            isFromCurrentUser: event.isFromCurrentUser,
             fillColor: event.isFromCurrentUser ? .bubbles : .white,
             cornerRadius: .equal,
             content: transactionItem,

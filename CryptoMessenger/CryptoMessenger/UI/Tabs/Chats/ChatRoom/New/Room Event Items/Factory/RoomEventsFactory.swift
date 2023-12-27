@@ -343,7 +343,6 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                 backgroundColor: reactionColor
             )
         }
-
         let textEvent = TextEvent(
             id: event.id, userId: event.sender, isFromCurrentUser: event.isFromCurrentUser, avatarUrl: event.senderAvatar,
             text: text, isReply: event.isReply,
@@ -360,7 +359,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
         var contatiner: BubbleContainer
         if event.isFromCurrentUser {
             contatiner = BubbleContainer(
-                fillColor: .bubbles,
+                isFromCurrentUser: event.isFromCurrentUser, fillColor: .bubbles,
                 cornerRadius: .right,
                 content: textEvent, onSwipe: {
                     onSwipeReply(event)
@@ -375,7 +374,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
             )
         } else {
             contatiner = BubbleContainer(
-                fillColor: .white,
+                isFromCurrentUser: event.isFromCurrentUser, fillColor: .white,
                 cornerRadius: .left,
                 content: textEvent, onSwipe: {
                     onSwipeReply(event)

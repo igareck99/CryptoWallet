@@ -17,11 +17,12 @@ struct BubbleContainerView<
                 content.padding(model.edges, model.offset)
             }
             .background(model.fillColor)
+            .clipped()
             .shadow(color: Color.chineseShadow, radius: 1.5, x: 0.0, y: 1.5)
             .overlay(content: {
                 let rectangle = UnevenRoundedRectangle(topLeadingRadius: 16,
                                                        bottomLeadingRadius: model.isFromCurrentUser == false ? 4 : 16,
-                                                       bottomTrailingRadius:  model.isFromCurrentUser == false ? 4 : 16,
+                                                       bottomTrailingRadius:  model.isFromCurrentUser == true ? 4 : 16,
                                                        topTrailingRadius: 16, style: .continuous)
                 rectangle
                     .background(.clear)

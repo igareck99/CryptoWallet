@@ -20,58 +20,60 @@ struct ChatInputView: View {
     // MARK: - Body
 
     var body: some View {
-        switch data.isWriteEnable {
-        case true:
-            VStack(spacing: .zero) {
-                if data.quickAction == .reply {
-                    ReplyView(text: data.replyDescriptionText,
-                              viewType: .reply) {
-                        data.activeEditMessage = nil
-                        data.quickAction = nil
-                    }.transition(.opacity)
+            switch data.isWriteEnable {
+            case true:
+                VStack(spacing: .zero) {
+                    if data.quickAction == .reply {
+                        ReplyView(text: data.replyDescriptionText,
+                                  viewType: .reply) {
+                            data.activeEditMessage = nil
+                            data.quickAction = nil
+                        }.transition(.opacity)
+                    }
+                    if data.quickAction == .edit {
+                        ReplyView(text: data.replyDescriptionText,
+                                  viewType: .edit) {
+                            data.activeEditMessage = nil
+                            data.quickAction = nil
+                        }.transition(.opacity)
+                    }
+                    inputView
                 }
-                if data.quickAction == .edit {
-                    ReplyView(text: data.replyDescriptionText,
-                              viewType: .edit) {
-                        data.activeEditMessage = nil
-                        data.quickAction = nil
-                    }.transition(.opacity)
+                .onChange(of: data.inputText) { value in
+                    isPlusShown = value.isEmpty &&
+                    !(data.$quickAction.wrappedValue == .reply || data.$quickAction.wrappedValue == .edit)
                 }
-                inputView
-            }
-            .onChange(of: data.inputText) { value in
-                isPlusShown = value.isEmpty &&
-                !(data.$quickAction.wrappedValue == .reply || data.$quickAction.wrappedValue == .edit)
-            }
-            .onChange(of: data.quickAction) { value in
+                .onChange(of: data.quickAction) { value in
                 isPlusShown = data.$inputText.wrappedValue.isEmpty &&
                 !(value == .reply || value == .edit)
-            }
-            .onChange(of: textViewHeight) { value in
-                if value <= 34 {
-                    cornerRadius = 60
-                } else {
-                    cornerRadius = 20
                 }
+                .onChange(of: textViewHeight) { value in
+                    if value <= 34 {
+                        cornerRadius = 60
+                    } else {
+                        cornerRadius = 20
+                    }
+                }
+            case false:
+                accessDeniedView
             }
-        case false:
-            accessDeniedView
         }
-    }
     
     // MARK: - Private Properties
     
     private var accessDeniedView: some View {
-        HStack(alignment: .center, spacing: 0) {
+        VStack(alignment: .center) {
             Text("У вас нет разрешения на публикацию в этом канале")
+                .multilineTextAlignment(.center)
+                .lineLimit(2)
                 .font(.subheadlineRegular15)
                 .foregroundColor(.romanSilver)
-                .padding(.horizontal, 8)
-                .padding(.vertical, 16)
+                .padding(.horizontal, 71)
+                .background(.white())
+                .frame(minHeight: 40, idealHeight: 40, maxHeight: 40,
+                       alignment: .center)
         }
-        .padding(.bottom, 16)
-        .frame(maxWidth: .infinity)
-        .background(Color.white)
+        .frame(height: 45)
     }
     
     var inputView: some View {

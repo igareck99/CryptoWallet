@@ -180,6 +180,7 @@
 		8B0353F52A94F7A50033965D /* ChatCreateContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0353F42A94F7A50033965D /* ChatCreateContentView.swift */; };
 		8B0353F72A9695330033965D /* SelectContactViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0353F62A9695330033965D /* SelectContactViewCell.swift */; };
 		8B0353F92A9764530033965D /* SelectViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0353F82A9764530033965D /* SelectViewModelDelegate.swift */; };
+		8B03548C2B3BA44100066BC1 /* BackgroundModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B03548B2B3BA44100066BC1 /* BackgroundModifier.swift */; };
 		8B0C4FFA2890613500671BA3 /* ChatRoomResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0C4FF92890613500671BA3 /* ChatRoomResources.swift */; };
 		8B0C4FFC2891806000671BA3 /* TimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0C4FFB2891806000671BA3 /* TimerViewModel.swift */; };
 		8B0C57492A64551700D456FF /* ProfileRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0C57482A64551700D456FF /* ProfileRouter.swift */; };
@@ -1206,6 +1207,7 @@
 		8B0353F42A94F7A50033965D /* ChatCreateContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCreateContentView.swift; sourceTree = "<group>"; };
 		8B0353F62A9695330033965D /* SelectContactViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectContactViewCell.swift; sourceTree = "<group>"; };
 		8B0353F82A9764530033965D /* SelectViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectViewModelDelegate.swift; sourceTree = "<group>"; };
+		8B03548B2B3BA44100066BC1 /* BackgroundModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundModifier.swift; sourceTree = "<group>"; };
 		8B0C4FF92890613500671BA3 /* ChatRoomResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomResources.swift; sourceTree = "<group>"; };
 		8B0C4FFB2891806000671BA3 /* TimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewModel.swift; sourceTree = "<group>"; };
 		8B0C57482A64551700D456FF /* ProfileRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRouter.swift; sourceTree = "<group>"; };
@@ -2219,6 +2221,7 @@
 				8B30D2AD2AE1BD4A00D05F34 /* TextEditorWithPlaceholder.swift */,
 				8B30D2AF2AE1BD6A00D05F34 /* OvalTextFieldStyle.swift */,
 				8B78FD952AF06D11009B3DB0 /* LargeButton.swift */,
+				8B03548B2B3BA44100066BC1 /* BackgroundModifier.swift */,
 			);
 			path = CustomComponents;
 			sourceTree = "<group>";
@@ -5610,6 +5613,7 @@
 				D4D439F22837493800AC0DEF /* MXRoom+Reply.swift in Sources */,
 				5A187EB7268070B3001957D3 /* UIView+Extensions.swift in Sources */,
 				D46C8FDD2942CBA700DD0B01 /* TransactionSection.swift in Sources */,
+				8B03548C2B3BA44100066BC1 /* BackgroundModifier.swift in Sources */,
 				8BCE67B32ADDB98E004F02F6 /* SelectContactChipsItemView.swift in Sources */,
 				5A187DF126807011001957D3 /* AuthCoordinator.swift in Sources */,
 				8BB2F8E728B663A40034D902 /* PhoneView.swift in Sources */,

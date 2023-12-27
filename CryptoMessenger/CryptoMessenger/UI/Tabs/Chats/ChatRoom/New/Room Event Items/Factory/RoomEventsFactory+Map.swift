@@ -59,6 +59,7 @@ extension RoomEventsFactory {
 
         let bubbleContainer = BubbleContainer(
             offset: .zero,
+            isFromCurrentUser: event.isFromCurrentUser,
             fillColor: event.isFromCurrentUser ? .bubbles : .white,
             cornerRadius: event.isFromCurrentUser ? .right : .left,
             content: mapEventItem, onSwipe: {
