@@ -12,12 +12,12 @@ struct ChannelParticipantView: View {
     // MARK: - Body
 
     var body: some View {
-        HStack(spacing: 10) {
+        HStack(alignment: .center, spacing: 10) {
             Circle()
-                .foregroundColor(.dodgerTransBlue)
+                .foregroundColor(.diamond)
                 .frame(width: 40, height: 40)
                 .cornerRadius(20)
-            VStack(alignment: .leading, spacing: 0) {
+            VStack(alignment: .leading, spacing: 2) {
                 Text(title)
                     .font(.bodyRegular17)
                     .foregroundColor(.chineseBlack)
@@ -26,6 +26,6 @@ struct ChannelParticipantView: View {
                     .foregroundColor(.romanSilver)
                     .padding(.top, 4)
             }
-        }
+        }.frame(height: 64)
     }
 }

@@ -52,7 +52,7 @@ enum ChannelUserMenuActions: String {
 //    case open = R.string.localizable.channelSettingsOpenProfile()
 //    case change = R.string.localizable.channelSettingsChangeRole()
 //    case delete = R.string.localizable.channelSettingsDeleteFromChannel()
-    case open = "Открыть профиль"
+    case open = "Посмотреть профиль"
     case change = "Изменить роль"
     case delete = "Удалить из канала"
 }

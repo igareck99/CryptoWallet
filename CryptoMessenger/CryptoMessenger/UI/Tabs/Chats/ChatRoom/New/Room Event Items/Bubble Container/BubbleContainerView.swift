@@ -18,7 +18,7 @@ struct BubbleContainerView<
             }
             .background(model.fillColor)
             .clipped()
-            .shadow(color: Color.chineseShadow, radius: 1.5, x: 0.0, y: 1.5)
+            .shadow(color: Color.chineseShadow, radius: 0.0, x: 0.0, y: 1.5)
             .overlay(content: {
                 let rectangle = UnevenRoundedRectangle(topLeadingRadius: 16,
                                                        bottomLeadingRadius: model.isFromCurrentUser == false ? 4 : 16,

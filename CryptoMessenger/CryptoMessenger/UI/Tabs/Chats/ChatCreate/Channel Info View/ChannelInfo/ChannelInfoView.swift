@@ -108,6 +108,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 viewModel.showUserSettings = false
                 viewModel.dismissSheet()
             }
+            .presentationDragIndicator(.visible)
             .presentationDetents([.height(computeSizeOfUserMenu(viewModel.compareRoles()))])
         })
         .customConfirmDialog(
@@ -214,31 +215,28 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 Section {
                     channelDescriptionView()
                 }
-                
             }
             Section {
                 attachmentsView()
                 notificationsView()
             }
+            .listRowSeparatorTint(.gainsboro)
             if viewModel.isAuthorized {
                 Section {
-                    VStack(alignment: .leading) {
-                        participantsHeader()
-                            .listRowSeparator(.hidden)
-                        channelParticipantsView()
-                        participantsFooter()
-                            .listRowSeparator(.hidden)
-                            .frame(maxWidth: .infinity)
-                            .listRowInsets(.none)
-                            .padding(.top, 6)
-                    }
+                    participantsHeader()
+                        .listRowSeparator(.hidden)
+                    channelParticipantsView()
+                    participantsFooter()
+                        .frame(height: 28)
                 }
+                .listRowSeparatorTint(.gainsboro)
             }
             Section {
                 copyLinkView()
                 leaveChannelView()
             }
         }
+        .listRowSeparator(.hidden)
         .listStyle(.insetGrouped)
     }
 
@@ -336,20 +334,29 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     private var changeGroupInfoView: some View {
         VStack(spacing: 10) {
             changeAvatarView()
-            TextFieldView(
-                title: "",
-                text: $viewModel.roomDisplayName,
-                placeholder: "",
-                color: viewModel.resources.background
-            )
-            .background(
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(viewModel.resources.background)
-            )
-            .padding(.top, 24)
+            TextField("", text: $viewModel.roomDisplayName)
+                .placeholder(when: viewModel.roomDisplayName.isEmpty, placeholder: {
+                    Text("Описание")
+                        .foreground(.romanSilver07)
+                        .font(.bodyRegular17)
+                })
+                .foreground(.chineseBlack)
+                .font(.bodyRegular17)
+                .padding(EdgeInsets(top: 11, leading: 16, bottom: 11, trailing: 0))
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(viewModel.resources.background)
+                )
+                .padding(.top, 24)
             TextEditor(text: $viewModel.channelTopic)
-                .placeholder("Описание", when: viewModel.channelTopic.isEmpty, alignment: .topLeading)
-                .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0))
+                .placeholder(when: viewModel.channelTopic.isEmpty, alignment: .topLeading, placeholder: {
+                    Text("Описание")
+                        .foreground(.romanSilver07)
+                        .font(.bodyRegular17)
+                        .padding(.top, 8)
+                        .padding(.leading, 3)
+                })
+                .padding(EdgeInsets(top: 11, leading: 14, bottom: 11, trailing: 0))
                 .background(viewModel.resources.background)
                 .foregroundColor(viewModel.resources.titleColor)
                 .font(.bodyRegular17)
@@ -373,7 +380,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                     defaultUrl: viewModel.roomImageUrl,
                     placeholder: {
                         ZStack {
-                            Color.dodgerTransBlue
+                            Color.diamond
                             Text(viewModel.roomDisplayName)
                                 .foregroundColor(viewModel.resources.background)
                                 .font(.title2Regular22)
@@ -423,8 +430,8 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     private func notificationsView() -> some View {
         ChannelSettingsView(
             title: resources.notifications,
-            imageName: "bell",
-            accessoryImageName: "chevron.right"
+            accessoryImageName: "chevron.right",
+            image: R.image.channelSettings.folder.image
         )
         .onTapGesture {
             viewModel.showNotifications()
@@ -434,8 +441,8 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     private func copyLinkView() -> some View {
         ChannelSettingsView(
             title: resources.copyLink,
-            imageName: "doc.on.doc",
-            accessoryImageName: ""
+            accessoryImageName: "",
+            image: R.image.channelSettings.copy.image
         )
         .onTapGesture {
             viewModel.onChannelLinkCopy()
@@ -446,9 +453,9 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         ChannelSettingsView(
             title: viewModel.leaveChannelText,
             titleColor: .amaranthApprox,
-            imageName: "rectangle.portrait.and.arrow.right",
             imageColor: viewModel.resources.negativeColor,
-            accessoryImageName: ""
+            accessoryImageName: "",
+            image: R.image.channelSettings.leaveChannellOrChat.image
         )
         .onTapGesture {
             viewModel.showLeaveChannel = true
@@ -495,42 +502,45 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 .onTapGesture {
                     showAddUser = true
                 }
-        }
+        }.frame(height: 24)
     }
 
     @ViewBuilder
     private func channelParticipantsView() -> some View {
         ForEach(viewModel.getChannelUsers(), id: \.self) { item in
             if viewModel.getChannelUsers().firstIndex(of: item) ?? 2 < 2 {
-                VStack {
-                    ChannelParticipantView(
-                        title: item.name,
-                        subtitle: viewModel.isChannel ? item.role.text : item.matrixId
-                    )
-                    .background(.white)
-                    .frame(height: 64)
-                    .onTapGesture {
-                        viewModel.tappedUserId = item.matrixId
-                        viewModel.showUserSettings = true
-                    }
+                ChannelParticipantView(
+                    title: item.name,
+                    subtitle: viewModel.isChannel ? item.role.text : item.matrixId
+                )
+                .frame(height: 44)
+                .background(.white)
+                .onTapGesture {
+                    viewModel.tappedUserId = item.matrixId
+                    viewModel.showUserSettings = true
                 }
-                Divider()
-                    .padding(.leading, 52)
             }
         }
     }
 
+    @ViewBuilder
     private func participantsFooter() -> some View {
-        return Text("\(resources.lookAll) ( \(viewModel.getChannelUsers().count) \(resources.participant) )")
-            .font(.bodySemibold17)
-            .foregroundColor(viewModel.resources.textBoxBackground)
-            .onTapGesture {
-                guard let channelViewModel = viewModel as? ChannelInfoViewModel else { return }
-                channelViewModel.showParticipantsView(
-                    viewModel: channelViewModel,
-                    showParticipants: $showParticipantsView
-                )
-            }
+        HStack(alignment: .center) {
+            Spacer()
+            Text("\(resources.lookAll) ( \(viewModel.getChannelUsers().count) \(resources.participant) )")
+                .font(.bodyRegular17)
+                .foregroundColor(viewModel.resources.textBoxBackground)
+            Spacer()
+        }
+        .background(.white())
+        .frame(height: 48)
+        .onTapGesture {
+            guard let channelViewModel = viewModel as? ChannelInfoViewModel else { return }
+            channelViewModel.showParticipantsView(
+                viewModel: channelViewModel,
+                showParticipants: $showParticipantsView
+            )
+        }
     }
 
     @ToolbarContentBuilder
@@ -583,17 +593,15 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     
     private func computeSizeOfUserMenu(_ value: ChannelUserActions) -> CGFloat {
         if value.delete && value.changeRole {
-            return CGFloat(223)
+            return CGFloat(189)
         } else if value.delete || value.changeRole {
-            return CGFloat(183)
+            return CGFloat(149)
         } else {
-            return CGFloat(109)
+            return CGFloat(75)
         }
     }
 
     private func changeScreen(isEdit: Bool) {
-        withAnimation(.linear(duration: 0.35)) {
-            viewModel.changeViewEdit = isEdit
-        }
+        viewModel.changeViewEdit = isEdit
     }
 }

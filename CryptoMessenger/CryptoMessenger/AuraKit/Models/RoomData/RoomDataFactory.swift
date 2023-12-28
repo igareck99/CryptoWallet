@@ -162,7 +162,7 @@ extension RoomEventObjectFactory: RoomEventObjectFactoryProtocol {
                 R.string.localizable.chatRoomViewEncryptedMessagesNotify()
             )
         }
-        
+
         let displayName: String = (event.content["displayname"] as? String) ?? ""
         if event.type == EventTypeKeys.roomAvatar {
             return .avatarChange( " \(displayName) " +

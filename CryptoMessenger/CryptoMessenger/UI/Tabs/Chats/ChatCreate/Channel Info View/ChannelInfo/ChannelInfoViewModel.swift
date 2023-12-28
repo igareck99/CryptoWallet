@@ -2,13 +2,12 @@ import Combine
 import SwiftUI
 import MatrixSDK
 
-// swiftlint: disable: all
 // MARK: - ChannelInfoViewModel
 
 final class ChannelInfoViewModel {
 
     var isAuthorized: Bool {
-        getCurrentUserRole() == .admin || getCurrentUserRole() == .owner
+        getCurrentUserRole() == .admin || getCurrentUserRole() == .owner || !room.isChannel
     }
     
     var shouldShowDescription: Bool {
@@ -100,6 +99,7 @@ final class ChannelInfoViewModel {
     }
 
     private func updateRoomParams() {
+        print("slaslsalasl")
         guard shouldChange else {
             channelTopic = timeRoomDescription
             roomDisplayName = timeRoomName
@@ -110,11 +110,25 @@ final class ChannelInfoViewModel {
                 debugPrint("Channel setRoomAvatar result: \(result)")
             }
         }
-        if let room = matrixUseCase.getRoomInfo(roomId: room.roomId) {
-            room.setTopic(self.channelTopic) { _ in }
-            room.setName(self.roomDisplayName) { _ in }
+        if channelTopic == timeRoomDescription && roomDisplayName == timeRoomName {
+            return
         }
-        shouldChange = false
+        let group = DispatchGroup()
+        group.enter()
+        if let room = matrixUseCase.getRoomInfo(roomId: room.roomId) {
+            self.matrixUseCase.setRoomTopic(topic: self.channelTopic,
+                                            roomId: self.room.roomId) { _ in
+                self.matrixUseCase.setRoomName(name: self.roomDisplayName,
+                                               roomId: self.room.roomId) { _ in
+                    group.leave()
+                }
+            }
+        } else {
+            group.leave()
+        }
+        group.notify(queue: .main) {
+            self.shouldChange = false
+        }
     }
 
     private func getRoomInfo() {
@@ -184,7 +198,6 @@ final class ChannelInfoViewModel {
             let listener = liveTimeLine?.listenToEvents { [weak self] event, direction, roomState in
                 debugPrint("liveTimeLine.listenToEvents: \(event) \(direction) \(String(describing: roomState))")
                 debugPrint("liveTimeLine.listenToEvents event.type: \(String(describing: event.type))")
-
                 if event.type == "m.room.avatar",
                    let rId = self?.room.roomId {
                     debugPrint("roomImageUrl: \(String(describing: self?.roomImageUrl?.absoluteString))")
@@ -195,14 +208,12 @@ final class ChannelInfoViewModel {
                     }
                     return
                 }
-
                 if event.type == "m.room.topic",
                    let topic = room?.summary.topic {
                     self?.channelTopic = topic
                     self?.objectWillChange.send()
                     return
                 }
-
                 self?.getRoomInfo()
                 self?.loadUsers()
             } as? MXEventListener
@@ -628,7 +639,7 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
     func selectPhoto(sourceType: UIImagePickerController.SourceType) {
         self.coordinator?.galleryPickerFullScreen(
             sourceType: sourceType,
-            galleryContent: .all,
+            galleryContent: .photos,
             onSelectImage: { image in
                 guard let image = image else { return }
                 self.selectedImg = image

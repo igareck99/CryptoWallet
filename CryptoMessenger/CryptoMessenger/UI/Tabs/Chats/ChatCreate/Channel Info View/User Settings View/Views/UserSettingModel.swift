@@ -7,6 +7,7 @@ struct UserSettingModel: ViewGeneratable, Hashable {
     let titleColor: Color
     let imageName: String
     let imageColor: Color
+    let image: Image?
     let accessoryImageName: String?
     let accessoryImageColor: Color?
     let onTapAction: () -> Void
@@ -16,6 +17,7 @@ struct UserSettingModel: ViewGeneratable, Hashable {
         titleColor: Color,
         imageName: String,
         imageColor: Color,
+        image: Image? = nil,
         accessoryImageName: String? = nil,
         accessoryImageColor: Color? = nil,
         onTapAction: @escaping () -> Void
@@ -24,6 +26,7 @@ struct UserSettingModel: ViewGeneratable, Hashable {
         self.titleColor = titleColor
         self.imageName = imageName
         self.imageColor = imageColor
+        self.image = image
         self.accessoryImageName = accessoryImageName
         self.accessoryImageColor = accessoryImageColor
         self.onTapAction = onTapAction
