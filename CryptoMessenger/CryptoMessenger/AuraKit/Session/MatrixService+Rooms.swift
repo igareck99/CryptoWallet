@@ -296,40 +296,49 @@ extension MatrixService {
         }
     }
 
-    func enableEncryptionWithAlgorithm(roomId: String,
-                                       completion: @escaping (Result <String?, MXErrors>) -> Void) {
+    func enableEncryptionWithAlgorithm(
+        roomId: String,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    ) {
         guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
             completion(.failure(.encryptRoomError)); return
         }
         room.enableEncryption(withAlgorithm: "") { response in
             switch response {
-            case let .success(result):
+            case let .success(_):
                 completion(.success("Is Encrypted"))
-            case let .failure(error):
+            case let .failure(_):
                 completion(.failure(.encryptRoomError))
             }
         }
     }
 
-    func uploadVideoMessage(for roomId: String,
-                            url: URL,
-                            thumbnail: MXImage?,
-                            completion: @escaping (Result <String?, MXErrors>) -> Void) {
+    func uploadVideoMessage(
+        for roomId: String,
+        url: URL,
+        thumbnail: MXImage?,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    ) {
         guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
             completion(.failure(.videoUploadError)); return
         }
-        var localEcho: MXEvent?
-        url.generateThumbnail { image in
-            guard let image = image else { return }
-            room.sendVideo(localURL: url,
-                           thumbnail: image,
-                           localEcho: &localEcho) { response in
-                switch response {
-                case let .success(result):
-                    completion(.success(result))
-                case let .failure(error):
-                    debugPrint(error)
-                    completion(.failure(.videoUploadError))
+
+        Task {
+            guard let image = await url.generateThumbnail() else { return }
+            await MainActor.run {
+                var localEcho: MXEvent?
+                room.sendVideo(
+                    localURL: url,
+                    thumbnail: image,
+                    localEcho: &localEcho
+                ) { response in
+                    switch response {
+                        case let .success(result):
+                            completion(.success(result))
+                        case let .failure(error):
+                            debugPrint(error)
+                            completion(.failure(.videoUploadError))
+                    }
                 }
             }
         }

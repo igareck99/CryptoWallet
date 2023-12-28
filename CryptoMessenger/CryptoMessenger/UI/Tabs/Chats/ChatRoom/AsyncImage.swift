@@ -85,14 +85,12 @@ struct AsyncImage<Placeholder: View, ResultmageView: View>: View {
     }
 
     private func updateState() {
-        if updatingPhoto {
-            url?.isReachable(completion: { flag in
-                self.urlReachable = flag
-            })
-        } else {
-            defaultUrl?.isReachable(completion: { flag in
-                self.urlReachable = flag
-            })
+        let urlPhoto: URL? = updatingPhoto ? url : defaultUrl
+        Task {
+            let result = await urlPhoto?.isReachable()
+            await MainActor.run {
+                urlReachable = result == true
+            }
         }
     }
 }

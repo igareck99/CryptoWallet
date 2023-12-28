@@ -94,12 +94,11 @@ struct ContactInfoView<ViewModel: ContactInfoViewDelegate>: View {
     // MARK: - Private Methods
 
     private func changeShowValue() {
-        data.url?.isReachable(completion: { success in
-            if success {
-                showUploadImage = true
-            } else {
-                showUploadImage = false
+        Task {
+            let isReachable = await data.url?.isReachable()
+            await MainActor.run {
+                showUploadImage = isReachable == true
             }
-        })
+        }
     }
 }

@@ -8,7 +8,7 @@ protocol ImageEventViewModelProtocol: ObservableObject {
     var sizeOfFile: String { get set }
     var image: Image { get set }
     var model: ImageEvent { get }
-    
+
     func getImage()
     func onImageTap()
 }
@@ -56,26 +56,32 @@ final class ImageEventViewModel: ImageEventViewModelProtocol {
             // TODO: Для загрузки картинки должен использоваться сервис с возможностью кеширования
             // TODO: Для кеширования это не нужно сохранять картинку в файлы
             // TODO: переделать на целевой сервис
-            let result = await remoteDataService.downloadWithBytes(url: url)
-            guard let data = result?.0,
-                  let savedUrl = self.fileService.saveFile(
-                    name: self.getFileName(),
+            guard let data = await remoteDataService.downloadWithBytes(url: url)?.0,
+                  let savedUrl = await fileService.saveFile(
+                    name: getFileName(),
                     data: data,
                     pathExtension: "jpeg"
                   ) else {
                 debugPrint("downloadDataRequest FAILED")
                 await MainActor.run {
-                    self.state = .download
+                    // MARK: Загрузить не удалось, а state download ???
+                    state = .download
                 }
                 return
             }
-            await MainActor.run {
-                guard let uiImage = UIImage(data: data) else {
-                    self.state = .download
-                    return
+
+            guard let uiImage = UIImage(data: data) else {
+                await MainActor.run {
+                    state = .download
                 }
-                self.image = Image(uiImage: uiImage)
-                self.size = savedUrl.fileSize()
+                return
+            }
+
+            let fileSize = await savedUrl.fileSize()
+            let img = Image(uiImage: uiImage)
+            await MainActor.run {
+                self.image = img
+                self.size = fileSize
                 self.state = .hasBeenDownloadPhoto
             }
         }
@@ -88,14 +94,11 @@ final class ImageEventViewModel: ImageEventViewModelProtocol {
         return name
     }
 
-    private func generatePreviewImage(url: URL) {
-        AVAsset(url: url).generateThumbnail { [weak self] image in
-            guard let self = self, let previewImage = image else { return }
-            Task {
-                await MainActor.run {
-                    self.thumbnailImage = Image(uiImage: previewImage)
-                }
-            }
+    private func generatePreviewImage(url: URL) async {
+        guard let image = await url.generateThumbnail() else { return }
+        let img = Image(uiImage: image)
+        await MainActor.run {
+            thumbnailImage = img
         }
     }
 
@@ -105,35 +108,48 @@ final class ImageEventViewModel: ImageEventViewModelProtocol {
 
     private func initData() {
         guard let url = model.imageUrl else { return }
-        self.state = .loading
-        self.generatePreviewImage(url: url)
-        self.sizeOfFile = self.convertToBytes(model.size)
-        self.size = self.sizeOfFile
-        let (isExist, path) = fileService.checkFileExist(
-            name: getFileName(),
-            pathExtension: "jpeg"
-        )
-        if isExist {
-            DispatchQueue.main.async {
-                guard let url = self.model.imageUrl else { return }
-                guard let result = self.fileService.getImageFile(self.getFileName(), "jpeg") else { return }
+
+        Task {
+            await MainActor.run {
+                state = .loading
+            }
+            await self.generatePreviewImage(url: url)
+
+            self.sizeOfFile = self.convertToBytes(model.size)
+            self.size = self.sizeOfFile
+
+            let (isExist, _) = await fileService.checkFileExist(
+                name: getFileName(),
+                pathExtension: "jpeg"
+            )
+
+            guard isExist  else { self.getImage(); return }
+            guard let url = self.model.imageUrl else { return } // MARK: Эта проверка нужна  ???????
+            let fielName = self.getFileName()
+            guard let result = await self.fileService.getImageFile(
+                path: fielName,
+                pathExtension: "jpeg"
+            ) else {
+                return
+            }
+
+            await MainActor.run {
                 self.image = result
                 self.state = .hasBeenDownloadPhoto
             }
-        } else {
-            self.getImage()
         }
     }
 
     private func bindInput() {
         remoteDataService.dataSizePublisher
-            .subscribe(on: DispatchQueue.global(qos: .default))
-            .receive(on: DispatchQueue.global(qos: .default))
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] value in
                 guard let self = self else { return }
-                if self.state == .loading {
-                    DispatchQueue.main.async {
-                        self.size = "\(self.convertToBytes(value.savedBytes))/\(self.sizeOfFile)"
+                Task {
+                    let bytes = self.convertToBytes(value.savedBytes)
+                    await MainActor.run {
+                        guard self.state == .loading else { return }
+                        self.size = "\(bytes)/\(self.sizeOfFile)"
                     }
                 }
             }

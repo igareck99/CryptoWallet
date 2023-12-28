@@ -50,37 +50,37 @@ final class VideoEventViewModel: ObservableObject {
             break
         }
     }
-    
+
     func getData() {
         guard let url = model.videoUrl else { return }
         let name = model.videoUrl?.absoluteString.components(separatedBy: "/").last ?? ""
         Task {
-            let result = await remoteDataService.downloadWithBytes(url: url)
-            guard let data = result?.0,
-                  let savedUrl = self.fileManager.saveFile(name: name,
-                                                           data: data,
-                                                           pathExtension: "mp4") else {
+            guard let data = await remoteDataService.downloadWithBytes(url: url)?.0,
+                  let savedUrl = await self.fileManager.saveFile(
+                    name: name,
+                    data: data,
+                    pathExtension: "mp4"
+                  ) else {
                 debugPrint("downloadDataRequest FAILED")
                 await MainActor.run {
                     self.state = .download
                 }
                 return
             }
+            let fileSize = await savedUrl.fileSize()
             await MainActor.run {
-                self.size = savedUrl.fileSize()
+                self.size = fileSize
                 self.downloadedUrl = savedUrl
                 self.state = .hasBeenDownloadPhoto
             }
         }
     }
-    
+
     func loadPreviewImage(url: URL) {
-        url.getThumbnailImage { image in
-            guard let previewImage = image else { return }
-            Task {
-                await MainActor.run {
-                    self.thumbnailImage = previewImage
-                }
+        Task {
+            guard let image = await url.getThumbnailImage() else { return }
+            await MainActor.run {
+                self.thumbnailImage = image
             }
         }
     }
@@ -93,18 +93,25 @@ final class VideoEventViewModel: ObservableObject {
 
     private func initData() {
         guard let vUrl = model.thumbnailurl else { return }
-        self.loadPreviewImage(url: vUrl)
-        let name = model.videoUrl?.absoluteString.components(separatedBy: "/").last ?? ""
-        let (isExist, path) = fileManager.checkFileExist(name: name, pathExtension: "mp4")
-        if isExist {
-            DispatchQueue.main.async {
-                guard let url = self.model.videoUrl else { return }
+        Task {
+            loadPreviewImage(url: vUrl)
+            let fileName = model.videoUrl?.absoluteString.components(separatedBy: "/").last ?? ""
+            let (isExist, path) = await fileManager.checkFileExist(
+                name: fileName,
+                pathExtension: "mp4"
+            )
+            guard isExist else {
+                self.sizeOfFile = self.convertToBytes(model.size)
+                self.size = self.sizeOfFile
+                return
+            }
+
+            guard self.model.videoUrl != nil else { return }
+
+            await MainActor.run {
                 self.downloadedUrl = path
                 self.state = .hasBeenDownloadPhoto
             }
-        } else {
-            self.sizeOfFile = self.convertToBytes(model.size)
-            self.size = self.sizeOfFile
         }
     }
 
@@ -113,31 +120,14 @@ final class VideoEventViewModel: ObservableObject {
             .subscribe(on: DispatchQueue.global(qos: .default))
             .receive(on: DispatchQueue.global(qos: .default))
             .sink { [weak self] value in
-                guard let self = self else { return }
-                if self.state == .loading {
-                    DispatchQueue.main.async {
-                        self.size = "\(self.convertToBytes(value.savedBytes))/\(self.sizeOfFile)"
+                guard let self = self, self.state == .loading else { return }
+                let bytes = self.convertToBytes(value.savedBytes)
+                Task {
+                    await MainActor.run {
+                        self.size = "\(bytes)/\(self.sizeOfFile)"
                     }
                 }
             }
             .store(in: &subscriptions)
-    }
-}
-
-extension AVAsset {
-
-    func generateThumbnail(completion: @escaping (UIImage?) -> Void) {
-        DispatchQueue.global().async {
-            let imageGenerator = AVAssetImageGenerator(asset: self)
-            let time = CMTime(seconds: 0.0, preferredTimescale: 600)
-            let times = [NSValue(time: time)]
-            imageGenerator.generateCGImagesAsynchronously(forTimes: times, completionHandler: { _, image, _, _, _ in
-                if let image = image {
-                    completion(UIImage(cgImage: image))
-                } else {
-                    completion(nil)
-                }
-            })
-        }
     }
 }

@@ -90,24 +90,32 @@ final class AudioMessageViewModel: ObservableObject {
     // MARK: - Private Methods
     
     private func initData() {
-        let (isExist, path) = fileService.checkFileExist(name: getFileName(),
-                                                         pathExtension: "mp4")
-        if isExist {
-            guard let path = path else { return }
-            let item = AVPlayerItem(url: path)
+        Task {
+            let fileName = getFileName()
+            let (isExist, fPath) = await fileService.checkFileExist(
+                name: fileName,
+                pathExtension: "mp4"
+            )
+            
+            guard isExist, let path = fPath else { return }
             guard let player = try? AVAudioPlayer(contentsOf: path) else { return }
-            self.audioPlayer = player
-            self.audioPlayerDelegate = AudioPlayerDelegate(endCompletion: { [weak self] in
+            let playerDelegate = AudioPlayerDelegate { [weak self] in
                 guard let self = self else { return }
-                self.isPlaying = false
-                self.state = .play
-                self.playingAudioId = ""
-                self.timer.upstream.connect().cancel()
-                self.time = .zero
-            })
-            player.delegate = self.audioPlayerDelegate
-            self.audioPlayer.numberOfLoops = .zero
-            state = .play
+                DispatchQueue.main.async {
+                    self.isPlaying = false
+                    self.state = .play
+                    self.playingAudioId = ""
+                    self.timer.upstream.connect().cancel()
+                    self.time = .zero
+                }
+            }
+            await MainActor.run {
+                audioPlayerDelegate = playerDelegate
+                audioPlayer = player
+                audioPlayer.delegate = playerDelegate
+                audioPlayer.numberOfLoops = .zero
+                state = .play
+            }
         }
     }
     
@@ -118,53 +126,52 @@ final class AudioMessageViewModel: ObservableObject {
 
     func start() {
         Task {
-            DispatchQueue.main.async {
+            await MainActor.run {
                 self.state = .loading
             }
-            let result = await remoteDataService.downloadRequest(url: data.url)
-            guard let data = result?.0,
-                  let savedUrl = self.fileService.saveFile(name: getFileName(),
-                                                           data: data,
-                                                           pathExtension: "mp4") else {
-                debugPrint("downloadDataRequest FAILED")
+            guard let data = await remoteDataService.downloadRequest(url: data.url)?.0,
+                  let savedUrl = await self.fileService.saveFile(
+                    name: getFileName(),
+                    data: data,
+                    pathExtension: "mp4"
+                  ) else {
                 return
             }
-            await MainActor.run {
-                guard let player = try? AVAudioPlayer(contentsOf: savedUrl) else { return }
-                self.audioPlayer = player
-                self.audioPlayerDelegate = AudioPlayerDelegate(endCompletion: { [weak self] in
-                    guard let self = self else { return }
+            guard let player = try? AVAudioPlayer(contentsOf: savedUrl) else { return }
+            let playerDelegate = AudioPlayerDelegate { [weak self] in
+                guard let self = self else { return }
+                DispatchQueue.main.async {
                     self.isPlaying = false
                     self.state = .play
                     self.playingAudioId = ""
                     self.timer.upstream.connect().cancel()
                     self.time = .zero
-                })
-                player.delegate = self.audioPlayerDelegate
-                self.audioPlayer.numberOfLoops = .zero
+                }
+            }
+            await MainActor.run {
+                audioPlayerDelegate = playerDelegate
+                audioPlayer = player
+                audioPlayer.delegate = playerDelegate
+                audioPlayer.numberOfLoops = .zero
                 state = .play
             }
         }
     }
 
     private func getFileName() -> String {
-        let fileadressName = data.url.absoluteString.components(separatedBy: "/").last ?? ""
-        let finalFileName = fileadressName
+        let finalFileName = data.url.absoluteString.components(separatedBy: "/").last ?? ""
         return finalFileName
     }
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-       print("slaslsal;sa")
+       debugPrint("audioPlayerDidFinishPlaying")
     }
 
-    //Called when the AVAudioPlayer has encountered an error in the file.
+    // Called when the AVAudioPlayer has encountered an error in the file.
 
     func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
-        if let error: Error = error {
-            print("audioPlayerDecodeErrorDidOccur: \(error)");
-        } else {
-            print("audioPlayerDecodeErrorDidOccur");
-        }
+        debugPrint("audioPlayerDecodeErrorDidOccur: error: \(String(describing: error))")
+        debugPrint("audioPlayerDecodeErrorDidOccur: player: \(player)")
     }
 }
 
@@ -177,13 +184,13 @@ class AudioPlayerDelegate: NSObject, AVAudioPlayerDelegate {
         self.endCompletion = endCompletion
     }
     
-    //Called when the AVAudioPlayer has finished playing the file.
+    // Called when the AVAudioPlayer has finished playing the file.
 
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
        endCompletion()
     }
 
-    //Called when the AVAudioPlayer has encountered an error in the file.
+    // Called when the AVAudioPlayer has encountered an error in the file.
 
     func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
         if let error: Error = error {
