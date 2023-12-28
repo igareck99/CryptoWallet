@@ -49,6 +49,18 @@ final class ImageEventViewModel: ImageEventViewModelProtocol {
     func onImageTap() {
         model.onTap(image, model.imageUrl)
     }
+    
+    func getImageOnAppear() {
+        if !model.eventId.isEmpty {
+            Task {
+                let (isExist, path) = await fileService.checkFileExist(
+                    name: getFileName(),
+                    pathExtension: "jpeg"
+                )
+                print("saslaslkas  \(path)")
+            }
+        }
+    }
 
     func getImage() {
         guard let url = model.imageUrl else { return }
@@ -90,7 +102,7 @@ final class ImageEventViewModel: ImageEventViewModelProtocol {
     // MARK: - Private methods
 
     private func getFileName() -> String {
-        let name = model.imageUrl?.absoluteString.components(separatedBy: "/").last ?? ""
+        let name = model.eventId.components(separatedBy: "/").last ?? ""
         return name
     }
 

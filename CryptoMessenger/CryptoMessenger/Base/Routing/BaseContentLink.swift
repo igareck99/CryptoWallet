@@ -174,6 +174,22 @@ enum BaseContentLink: Hashable, Identifiable {
     case blockList
 
     case countryCodeScene(delegate: CountryCodePickerDelegate)
+    
+    // ChannelParticipants
+    
+    case channelPatricipants(
+        viewModel: ChannelInfoViewModel,
+        showParticipantsView: Binding<Bool>,
+        coordinator: ChannelParticipantsFlowCoordinatorProtocol
+    )
+    
+    case selectContactsParticipants(
+        mode: ContactViewMode,
+        chatData: Binding<ChatData>,
+        contactsLimit: Int?,
+        channelParticipantsCoordinator: ChannelParticipantsFlowCoordinatorProtocol,
+        onUsersSelected: ([Contact]) -> Void
+    )
 
     var id: String {
         String(describing: self)

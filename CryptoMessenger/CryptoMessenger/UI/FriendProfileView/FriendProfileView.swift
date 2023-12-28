@@ -15,6 +15,7 @@ struct FriendProfileView<ViewModel: FriendProfileViewModelProtocol>: View {
 
     @State private var popupSelected = false
     @State private var showMenu = false
+    @State private var showShareImage = false
     @State private var showProfileDetail = false
     @State private var showAlert = false
     @State private var showSafari = false
@@ -59,9 +60,36 @@ struct FriendProfileView<ViewModel: FriendProfileViewModelProtocol>: View {
                     viewModel.loadUserNote()
                 }
             })
+            .fullScreenCover(isPresented: $viewModel.showImageViewer, content: {
+                ImageViewerRemote(
+                    selectedItem: getTagItem(),
+                    imageURL: $viewModel.selectedPhotoUrl,
+                    viewerShown: $viewModel.showImageViewer,
+                    deleteActionAvailable: false,
+                    urls: viewModel.profile.photosUrls,
+                    onDelete: { },
+                    onShare: {
+                        viewModel.shareImage { showShareImage = true }
+                    }
+                )
+                .ignoresSafeArea()
+                .sheet(isPresented: $showShareImage, content: {
+                    FeedShareSheet(image: viewModel.imageToShare)
+                })
+            })
             .fullScreenCover(isPresented: $viewModel.showWebView) {
                 viewModel.safari
             }
+    }
+    
+    private func getTagItem() -> Int {
+        guard !viewModel.profile.photosUrls.isEmpty,
+            let value = viewModel.profile.photosUrls.first(where: { $0 == viewModel.selectedPhotoUrl }),
+            let index = viewModel.profile.photosUrls.firstIndex(of: value)
+        else {
+            return 0
+        }
+        return index
     }
 
     private var content: some View {
@@ -152,7 +180,7 @@ struct FriendProfileView<ViewModel: FriendProfileViewModelProtocol>: View {
                         LargeButton(title: R.string.localizable.friendProfileWrite(),
                                     backgroundColor: .white,
                                     foregroundColor: .dodgerBlue) {
-                            print("Hello World")
+                            viewModel.writeToUser()
                         }
                                     .padding(.top, 16)
                     }
@@ -244,7 +272,8 @@ struct FriendProfileView<ViewModel: FriendProfileViewModelProtocol>: View {
                         .frame(width: width, height: width)
                         .clipped()
                         .onTapGesture {
-                            viewModel.onImageViewer(imageUrl: url)
+                            viewModel.selectedPhotoUrl = url
+                            viewModel.showImageViewer = true
                         }
                     }
                 }

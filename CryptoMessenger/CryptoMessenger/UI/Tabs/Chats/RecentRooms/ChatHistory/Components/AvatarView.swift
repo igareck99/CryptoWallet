@@ -50,6 +50,5 @@ struct AvatarView: View {
                 }.padding([.leading, .top], 48)
             }
         }.frame(width: 62, height: 62)
-        .onAppear {}
     }
 }

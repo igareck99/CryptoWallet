@@ -13,6 +13,7 @@ final class UserDefaultsService {
 		case isCallInprogressExists
         case userId
         case userNotes
+        case pinnedChats
 
 		// UserFlowsStorage
 		case isAuthFlowFinished
@@ -62,6 +63,10 @@ extension UserDefaultsService: UserDefaultsServiceProtocol {
 		storage.data(forKey: key.rawValue)
 	}
     
+    func array(forKey key: UserDefaultsService.Keys) -> [Any]? {
+        storage.array(forKey: key.rawValue)
+    }
+    
     func dict(forKey key: UserDefaultsService.Keys) -> [String: Any]? {
         storage.dictionary(forKey: key.rawValue)
     }
@@ -94,6 +99,10 @@ extension UserDefaultsService: UserDefaultsServiceProtocol {
     
     func set(_ dict: [String: Any], forKey key: UserDefaultsService.Keys) {
         storage.set(dict, forKey: key.rawValue)
+    }
+    
+    func set(_ list: [String], forKey key: UserDefaultsService.Keys) {
+        storage.set(list, forKey: key.rawValue)
     }
 
 	func set(_ bool: Bool, forKey key: UserDefaultsService.Keys) {

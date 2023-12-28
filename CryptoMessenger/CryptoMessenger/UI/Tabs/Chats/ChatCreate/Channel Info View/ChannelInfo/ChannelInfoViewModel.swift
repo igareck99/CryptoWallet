@@ -14,6 +14,7 @@ final class ChannelInfoViewModel {
         !channelTopic.isEmpty
     }
 
+    @Published var isAddButtonVisible = true
     @Published var tappedUserId: String = ""
     @Published var showDeleteChannel = false
     @Published var showChangeRole = false
@@ -40,9 +41,11 @@ final class ChannelInfoViewModel {
     var isRoomPublicValue = true
     var isSnackbarPresented = false
     var isChannel: Bool { room.isChannel }
-    var shouldChange: Bool = false {
+    var shouldChange = false {
         didSet {
-            self.updateRoomParams()
+            if shouldChange {
+                self.updateRoomParams()
+            }
         }
     }
     private var participants = [ChannelParticipantsData]() {
@@ -100,7 +103,6 @@ final class ChannelInfoViewModel {
     }
 
     private func updateRoomParams() {
-        print("slaslsalasl")
         guard shouldChange else {
             channelTopic = timeRoomDescription
             roomDisplayName = timeRoomName
@@ -116,16 +118,13 @@ final class ChannelInfoViewModel {
         }
         let group = DispatchGroup()
         group.enter()
-        if let room = matrixUseCase.getRoomInfo(roomId: room.roomId) {
-            self.matrixUseCase.setRoomTopic(topic: self.channelTopic,
-                                            roomId: self.room.roomId) { _ in
-                self.matrixUseCase.setRoomName(name: self.roomDisplayName,
-                                               roomId: self.room.roomId) { _ in
-                    group.leave()
-                }
+        print("slalksakl  \(self.channelTopic)")
+        self.matrixUseCase.setRoomTopic(topic: self.channelTopic,
+                                        roomId: self.room.roomId) { _ in
+            self.matrixUseCase.setRoomName(name: self.roomDisplayName,
+                                           roomId: self.room.roomId) { _ in
+                group.leave()
             }
-        } else {
-            group.leave()
         }
         group.notify(queue: .main) {
             self.shouldChange = false
@@ -142,7 +141,13 @@ final class ChannelInfoViewModel {
         matrixUseCase.getRoomState(roomId: room.roomId) { [weak self] result in
             guard let self = self else { return }
             guard case let .success(state) = result else { return }
-
+            if self.isChannel {
+                if state.powerLevels.powerLevelOfUser(withUserID: self.matrixUseCase.getUserId()) < 50 {
+                    isAddButtonVisible = false
+                }
+            } else {
+                isAddButtonVisible = true
+            }
             debugPrint("roomState result: \(state)")
             debugPrint("roomState power levels result: \(String(describing: state.powerLevels))")
             self.roomPowerLevels = state.powerLevels
@@ -150,7 +155,6 @@ final class ChannelInfoViewModel {
     }
 
     private func loadUsers() {
-        debugPrint("loadUsers")
         matrixUseCase.getRoomMembers(roomId: room.roomId) { [weak self] result in
             guard case let .success(roomMembers) = result else { return }
             DispatchQueue.main.async { [weak self] in
@@ -228,6 +232,7 @@ final class ChannelInfoViewModel {
         let config = Configuration.shared
         let homeServer = config.matrixURL
         self.roomImageUrl = MXURL(mxContentURI: url.absoluteString)?.contentURL(on: homeServer)
+        print("s,aslaslkaskl  \(self.roomImageUrl)")
     }
 
     func setData() {
@@ -238,12 +243,17 @@ final class ChannelInfoViewModel {
 // MARK: - ChannelInfoViewModelProtocol
 
 extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
+    
+    func userProfile() {
+        print("laslaslasl")
+        self.coordinator?.friendProfile(userId: tappedUserId, roomId: room.roomId)
+    }
 
     func onOpenSettingsTap() {
         guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
         UIApplication.shared.open(url)
     }
-
+    
     func onCameraPickerTap() -> Bool {
         return accessService.videoAccessLevel == .authorized
     }
@@ -283,7 +293,6 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
                }
                let ownersList = state.members.members
                    .filter { state.powerLevels.powerLevelOfUser(withUserID: $0.userId) == 100 }
-
                let isOnlyOneOwner = ownersList.count == 1
                // Если текущий пользователь не является единственным владельцем канала
                if !isOnlyOneOwner {

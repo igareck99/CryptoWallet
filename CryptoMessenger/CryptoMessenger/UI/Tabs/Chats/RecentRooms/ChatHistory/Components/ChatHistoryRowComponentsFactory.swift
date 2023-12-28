@@ -11,11 +11,13 @@ protocol ChatHistoryRowComponentsFactoryProtocol {
 
     func makeLastMessageView(_ messageType: MessageType,
                              _ unreadedEvents: Int,
-                             _ isPinned: Bool,
+                             _ roomName: String,
                              _ isFromCurrentUser: Bool) -> any ViewGeneratable
 
     func makeNameView(_ lastMessageTime: Date,
-                      _ roomName: String) -> any ViewGeneratable
+                      _ roomName: String,
+                      _ unreadEventsCountView: Int,
+                      _ isPinned: Bool) -> any ViewGeneratable
 }
 
 struct ChatHistoryRowComponentsFactory {}
@@ -39,18 +41,21 @@ extension ChatHistoryRowComponentsFactory: ChatHistoryRowComponentsFactoryProtoc
 
     func makeLastMessageView(_ messageType: MessageType,
                              _ unreadedEvents: Int,
-                             _ isPinned: Bool,
+                             _ roomName: String,
                              _ isFromCurrentUser: Bool) -> any ViewGeneratable {
         return LastMessageData(messageType: messageType,
                                isFromCurrentUser: isFromCurrentUser,
                                unreadedEvents: unreadedEvents,
-                               isPinned: isPinned)
+                               roomName: roomName)
     }
 
     func makeNameView(_ lastMessageTime: Date,
-                      _ roomName: String) -> any ViewGeneratable {
+                      _ roomName: String,
+                      _ unreadEventsCountView: Int,
+                      _ isPinned: Bool) -> any ViewGeneratable {
         return NameViewModel(lastMessageTime: lastMessageTime,
-                             roomName: roomName)
+                             roomName: roomName, unreadEventsCountView: unreadEventsCountView,
+                             isPinned: isPinned)
     }
 
 }

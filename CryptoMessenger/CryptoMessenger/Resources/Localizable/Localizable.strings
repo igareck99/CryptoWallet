@@ -662,6 +662,7 @@
 "ChatHistory.NothingFind" = "По вашему запросу ничего не найдено";
 "ChatHistory.GlobalSearch" = "Глобальный поиск";
 "ChatHistory.Pin" = "Закрепить";
+"ChatHistory.UnPin" = "Открепить";
 "ChatHistory.WatchProfile" = "Просмотреть профиль";
 "ChatHistory.Remove" = "Удалить чат";
 

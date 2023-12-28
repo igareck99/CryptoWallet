@@ -43,6 +43,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     private let config: ConfigType
     private let availabilityFacade: ChatRoomTogglesFacadeProtocol
     let coreDataService: CoreDataServiceProtocol
+    let fileService: FileManagerProtocol
     let walletModelsFactory: WalletModelsFactoryProtocol.Type
     @Injectable var apiClient: APIClientManager
 
@@ -92,6 +93,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
         channelFactory: ChannelUsersFactoryProtocol.Type = ChannelUsersFactory.self,
         p2pCallsUseCase: P2PCallUseCaseProtocol = P2PCallUseCase.shared,
         groupCallsUseCase: GroupCallsUseCaseProtocol,
+        fileService: FileManagerProtocol = FileManagerService.shared,
         config: ConfigType = Configuration.shared,
         resources: ChatRoomSourcesable.Type = ChatRoomResources.self,
         availabilityFacade: ChatRoomTogglesFacadeProtocol = ChatRoomViewModelAssembly.build()
@@ -108,6 +110,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
         self.groupCallsUseCase = groupCallsUseCase
         self.resources = resources
         self.availabilityFacade = availabilityFacade
+        self.fileService = fileService
         bindInput()
         joinRoom(roomId: room.roomId)
     }

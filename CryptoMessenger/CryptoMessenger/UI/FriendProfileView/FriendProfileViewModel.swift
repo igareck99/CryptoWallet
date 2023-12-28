@@ -10,6 +10,9 @@ protocol FriendProfileViewModelProtocol: ObservableObject {
     var isSnackbarPresented: Bool { get set }
     var sources: FriendProfileResourcable.Type { get }
     var showWebView: Bool { get set }
+    var selectedPhotoUrl: URL? { get set }
+    var imageToShare: UIImage? { get set }
+    var showImageViewer: Bool { get set }
     var safari: SFSafariViewWrapper? { get set }
 
     func send(_ event: FriendProfileFlow.Event)
@@ -17,6 +20,8 @@ protocol FriendProfileViewModelProtocol: ObservableObject {
     func onImageViewer(imageUrl: URL)
     func onSafari(url: String)
     func onUserIdTap()
+    func shareImage(completion: @escaping () -> Void)
+    func writeToUser()
 }
 
 final class FriendProfileViewModel: FriendProfileViewModelProtocol {
@@ -29,6 +34,9 @@ final class FriendProfileViewModel: FriendProfileViewModelProtocol {
     @Published var messageText: String = ""
     @Published var urlToOpen: URL?
     @Published var showWebView = false
+    @Published var showImageViewer = false
+    @Published var selectedPhotoUrl: URL?
+    @Published var imageToShare: UIImage?
     let mediaService = MediaService()
     let sources: FriendProfileResourcable.Type
     var safari: SFSafariViewWrapper?
@@ -89,6 +97,20 @@ final class FriendProfileViewModel: FriendProfileViewModelProtocol {
     func onImageViewer(imageUrl: URL) {
         chatHistoryCoordinator.showImageViewer(image: nil, imageUrl: imageUrl)
     }
+    
+    func shareImage(completion: @escaping () -> Void) {
+        DispatchQueue.global().async { [weak self] in
+            guard let uploadUrl = self?.selectedPhotoUrl else { return }
+            if let imageData = try? Data(contentsOf: uploadUrl) {
+                if let image = UIImage(data: imageData) {
+                    DispatchQueue.main.async {
+                        self?.imageToShare = image
+                        completion()
+                    }
+                }
+            }
+        }
+    }
 
     func onSafari(url: String) {
         guard let url = URL(string: url) else { return }
@@ -99,6 +121,28 @@ final class FriendProfileViewModel: FriendProfileViewModelProtocol {
 
     func onUserIdTap() {
         pasteboardService.copyToPasteboard(text: profile.nickname)
+    }
+    
+    func writeToUser() {
+        let room = self.matrixUseCase.customCheckRoomExist(mxId: userId)
+        print("slasl;asl  \(room)")
+        if let room = room {
+            chatHistoryCoordinator.popToRoot()
+            chatHistoryCoordinator.chatRoom(room: room)
+        } else {
+            matrixUseCase.createDirectRoom(userId: userId) { [weak self] state, roomId in
+                guard let self = self else { return }
+                switch state {
+                case .roomCreateError:
+                    break
+                case .roomCreateSucces, .roomAlreadyExist:
+                    if let mxRoomId = roomId,
+                       let room = self.matrixUseCase.customCheckRoomExist(mxId: userId) {
+                        self.chatHistoryCoordinator.chatRoom(room: room)
+                    }
+                }
+            }
+        }
     }
 
     func loadUserNote() {

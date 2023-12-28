@@ -14,9 +14,9 @@ enum ChatActions: CaseIterable {
         switch self {
         case .pin:
             if isPinned {
-                return R.image.chatHistory.pin.image
+                return R.image.chatHistory.unpin.image
             }
-            return R.image.chatHistory.unpin.image
+            return R.image.chatHistory.pin.image
         case .watchProfile:
             return R.image.chatHistory.person.image
         case .removeChat:
@@ -36,10 +36,11 @@ enum ChatActions: CaseIterable {
     func text(_ isPinned: Bool) -> String {
         switch self {
         case .pin:
+            print("slaslasl  \(isPinned)")
             if isPinned {
-                return R.string.localizable.chatHistoryPin()
+                return R.string.localizable.chatHistoryUnPin()
             } else {
-                return "Открепить"
+                return R.string.localizable.chatHistoryPin()
             }
         case .watchProfile:
             return R.string.localizable.chatHistoryWatchProfile()

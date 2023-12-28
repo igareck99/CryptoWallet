@@ -14,28 +14,7 @@ struct ChannelParticipantView: View {
 
     var body: some View {
         HStack(alignment: .center, spacing: 10) {
-            AsyncImage(defaultUrl: avatar,
-                       updatingPhoto: false,
-                       url: nil,
-                       placeholder: {
-                ZStack{
-                    Circle()
-                        .cornerRadius(20)
-                        .frame(width: 40, height: 40)
-                        .foregroundColor(.dodgerTransBlue)
-                    Text(title.firstLetter.uppercased())
-                        .foregroundColor(.white)
-                        .font(.largeTitleRegular34)
-                        .frame(width: 20,
-                               height: 20)
-                }
-            },
-                       result:{
-                Image(uiImage: $0)
-                    .resizable()
-            })
-                .frame(width: 40, height: 40)
-                .cornerRadius(20)
+            avatarView
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
                     .font(.bodyRegular17)
@@ -43,8 +22,30 @@ struct ChannelParticipantView: View {
                 Text(subtitle)
                     .font(.caption1Regular12)
                     .foregroundColor(.romanSilver)
-                    .padding(.top, 4)
             }
-        }.frame(height: 64)
+        }
+    }
+    
+    private var avatarView: some View {
+        AsyncImage(defaultUrl: avatar,
+                   updatingPhoto: false,
+                   url: nil,
+                   placeholder: {
+            ZStack {
+                Circle()
+                    .cornerRadius(20)
+                    .frame(width: 40, height: 40)
+                    .foregroundColor(.diamond)
+                Text(title.firstLetter.uppercased())
+                    .foregroundColor(.white)
+                    .font(.title1Bold28)
+                    .frame(width: 20,
+                           height: 20)
+            }
+        },
+                   result: {
+            Image(uiImage: $0)
+                .resizable()
+        })
     }
 }

@@ -7,12 +7,14 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
     // MARK: - Internal Properties
 
     @StateObject var viewModel: ViewModel
+    @StateObject var participantsViewModel: ChannelParticipantsViewModel
 
     // MARK: - Private Properties
 
     @Binding var showParticipantsView: Bool
     @State private var showMenuView = false
     @State var selectedUser: ChannelParticipantsData?
+    @State var chatData = ChatData.emptyObject()
     @State private var showUserSettings = false
     @State private var selectedRole: ChannelRole?
     @Environment(\.presentationMode) private var presentationMode
@@ -21,20 +23,14 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
 
     var body: some View {
         NavigationView {
-            ScrollView {
-                VStack(alignment: .leading) {
-                    Text(R.string.localizable.createChannelAdding())
-                        .foregroundColor(.romanSilver)
-                        .font(.bodyRegular17)
-                        .padding(.leading, 16)
-                    Divider()
-                        .padding(.top, 11)
-                    cellStatus
-                }
+            VStack(spacing: .zero) {
                 Divider()
+                    .foreground(.brightGray)
+                    .frame(height: 0.5)
                 cellStatus
                     .searchable(text: $viewModel.searchText)
             }
+            .listStyle(.inset)
             .onDisappear {
                 viewModel.searchText = ""
             }
@@ -92,18 +88,21 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
                         .cancelActions($viewModel.showChangeRole)
                 })
             .sheet(isPresented: $viewModel.showUserSettings, content: {
-                UserSettingsAssembly.build(userId: $viewModel.tappedUserId,
-                                           showBottomSheet: $viewModel.showChangeRole,
-                                           showUserProfile: $viewModel.showUserProfile,
-                                           roomId: viewModel.room.roomId,
-                                           roleCompare: viewModel.compareRoles()) {
+                UserSettingsAssembly.build(
+                    userId: $viewModel.tappedUserId,
+                    showBottomSheet: $viewModel.showChangeRole,
+                    showUserProfile: $viewModel.showUserProfile,
+                    roomId: viewModel.room.roomId,
+                    roleCompare: viewModel.compareRoles()
+                ) {
                     viewModel.showUserSettings = false
                     viewModel.onUserRemoved()
                 } onUserProfile: {
-                    showParticipantsView = false
-                    presentationMode.wrappedValue.dismiss()
                     viewModel.showUserSettings = false
+                    viewModel.dismissSheet()
+                    participantsViewModel.coordinator?.onUserProfile(viewModel.tappedUserId, viewModel.room.roomId)
                 }
+                .presentationDragIndicator(.visible)
                 .presentationDetents([.height(computeSizeOfUserMenu(viewModel.compareRoles()))])
             })
         }
@@ -112,31 +111,28 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
     // MARK: - Private Properties
 
     private var cellStatus: some View {
-        LazyVStack(spacing: 0) {
+        List {
             ForEach(viewModel.getChannelUsersFiltered(), id: \.self) { item in
-                VStack {
+                VStack(spacing: .zero) {
                     HStack {
                         ChannelParticipantView(
                             avatar: item.avatar, 
                             title: item.name,
                             subtitle: item.role.text
                         )
+                        .listItemTint(.brightGray)
                         .onTapGesture {
                             viewModel.tappedUserId = item.matrixId
                             viewModel.showUserSettings = true
                         }
                         Spacer()
                     }
-                    Divider()
-                        .padding(.leading, 56)
-                        .ignoresSafeArea(.all)
+                    .background(.white)
+                    .frame(height: 43)
                 }
-                .background(.white)
-                .frame(height: 64)
-                .padding(.horizontal, 16)
             }
         }
-        .ignoresSafeArea(.all)
+        .listStyle(.plain)
     }
 
     // MARK: - Private methods
@@ -156,15 +152,32 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 .font(.bodySemibold17)
                 .lineLimit(1)
         }
+        ToolbarItem(placement: .navigationBarTrailing) {
+            Button(action: {
+                if let coordinator = participantsViewModel.coordinator {
+                    coordinator.showSelectContact(mode: .channelParticipantsAdd,
+                                                   chatData: $chatData, contactsLimit: nil,
+                                                   channelCoordinator: coordinator,
+                                                   onUsersSelected: { contacts in
+                        viewModel.onInviteUsersToChannel(users: contacts)
+                        self.presentationMode.wrappedValue.dismiss()
+                    })
+                }
+            }, label: {
+                R.image.channelSettings.addParticipantsPlus.image
+                    .resizable()
+                    .frame(width: 28, height: 28)
+            })
+        }
     }
 
     private func computeSizeOfUserMenu(_ value: ChannelUserActions) -> CGFloat {
         if value.delete && value.changeRole {
-            return CGFloat(223)
+            return CGFloat(189)
         } else if value.delete || value.changeRole {
-            return CGFloat(183)
+            return CGFloat(149)
         } else {
-            return CGFloat(109)
+            return CGFloat(75)
         }
     }
 }

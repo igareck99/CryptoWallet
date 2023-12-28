@@ -38,7 +38,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
             _viewState = newValue
         }
     }
-
+    private var pinnedRooms: [String] = []
     @Published var searchText: String = ""
 
     // MARK: - Private Properties
@@ -52,6 +52,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
     private let chatObjectFactory: ChatHistoryObjectFactoryProtocol
     private let keychainService: KeychainServiceProtocol = KeychainService.shared
     private let matrixObjectFactory: MatrixObjectFactoryProtocol = MatrixObjectFactory()
+    private let userDefaults: UserDefaultsService = UserDefaultsService.shared
     var coordinator: ChatsCoordinatable?
     private var roomsTimer: AnyPublisher<Date, Never>?
 
@@ -99,6 +100,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
                 guard let self = self else { return }
+                self.getPinnedMessages()
                 let rooms = self.matrixUseCase.matrixSession?.rooms
                 self.matrixUseCase.objectChangePublisher.send()
                 debugPrint("MATRIX DEBUG ChatHistoryViewModel roomsTimer")
@@ -151,7 +153,6 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
         completion: @escaping ([MatrixChannel]) -> Void
     ) {
         isLoading = true
-        self.objectWillChange.send()
         matrixUseCase.getPublicRooms(filter: filter) { [weak self] room in
             guard let self = self else { return }
             self.joinRoom(roomId: room.roomId, openChat: true)
@@ -161,9 +162,8 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                 !self.chatHistoryRooms.contains { item2 in
                     item1.roomId == item2.roomId
                 }
-            }
+            }.filter({ $0.name.contains(filter) })
             self.isLoading = false
-            self.objectWillChange.send()
             completion(result)
         }
     }
@@ -201,6 +201,20 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
         Task {
             await joinToInvitedRooms()
         }
+    }
+    
+    func pinRoom(_ roomId: String, _ isPinned: Bool) {
+        if isPinned {
+            pinnedRooms = pinnedRooms.filter({ $0 != roomId })
+        } else {
+            pinnedRooms.append(roomId)
+        }
+        self.chatHistoryRooms = self.chatObjectFactory.makeChatHistoryRooms(
+            mxRooms: self.auraRooms,
+            viewModel: self
+        )
+        matrixUseCase.objectChangePublisher.send()
+        userDefaults.set(pinnedRooms, forKey: .pinnedChats)
     }
 
     // MARK: - Private Methods
@@ -277,7 +291,8 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                                 }
                             }
                         case .pin:
-                            ()
+                            self?.pinRoom(room.roomId, room.isPinned)
+                            self?.coordinator?.dismissCurrentSheet()
                         case .removeChat:
                             self?.coordinator?.dismissCurrentSheet()
                             self?.eventSubject.send(.onDeleteRoom(room.roomId))
@@ -294,10 +309,10 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                 guard let self = self else { return }
                 if !text.isEmpty {
                     self.isLoading = true
-                    chatSections = []
+                    var chatSectionsCurrent: [ChatHistorySection] = []
                     let joinedRooms = findJoinedRooms(with: text)
                     if !joinedRooms.isEmpty {
-                        chatSections.append(
+                        chatSectionsCurrent.append(
                             ChatHistorySection(
                                 data: .joinedChats,
                                 views: joinedRooms
@@ -312,9 +327,10 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                     }
                     group.notify(queue: .main) {
                         if !self.gloabalSearch.isEmpty {
-                            self.chatSections.append(ChatHistorySection(data: .gloabalChats, views: self.gloabalSearch))
+                            chatSectionsCurrent.append(ChatHistorySection(data: .gloabalChats, views: self.gloabalSearch))
                         }
                         self.finishView = joinedRooms + self.gloabalSearch
+                        self.chatSections = chatSectionsCurrent
                         self.isLoading = false
                     }
                 } else {
@@ -330,20 +346,40 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
             .sink { [weak self] _ in
 //                debugPrint("MATRIX DEBUG ChatHistoryViewModel objectChangePublisher")
                 guard let self = self else { return }
-                self.auraRooms = self.matrixUseCase.auraNoEventsRooms
+                self.updateRoomsOnPin()
                 Task {
                     await self.joinToInvitedRooms()
                 }
                 self.chatHistoryRooms = self.chatObjectFactory.makeChatHistoryRooms(
                     mxRooms: self.auraRooms,
                     viewModel: self
-                )
+                ).sorted(by: {
+                    return $0.isPinned && !$1.isPinned
+                })
                 if !self.isSearching {
                     chatSections = [ChatHistorySection(data: .emptySection, views: self.chatHistoryRooms)]
                 }
                 self.objectWillChange.send()
             }
             .store(in: &subscriptions)
+    }
+    
+    private func updateRoomsOnPin() {
+        self.getPinnedMessages()
+        self.auraRooms = self.matrixUseCase.auraNoEventsRooms.map {
+            if self.pinnedRooms.contains($0.roomId) {
+                let room = AuraRoomData(id: $0.id, isChannel: $0.isChannel,
+                                        isAdmin: $0.isAdmin, isPinned: true, isOnline: $0.isOnline, isDirect:
+                                            $0.isDirect, unreadedEvents: $0.unreadedEvents,
+                                        lastMessage: $0.lastMessage, lastMessageTime: $0.lastMessageTime,
+                                        roomAvatar: $0.roomAvatar, roomName: $0.roomName,
+                                        numberUsers: $0.numberUsers, topic: $0.topic,
+                                        roomId: $0.roomId, events: $0.events,
+                                        eventCollections: $0.eventCollections, participants: $0.participants)
+                return room
+            }
+            return $0
+        }
     }
 
     @MainActor
@@ -364,6 +400,11 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                 debugPrint("MATRIX DEBUG ChatHistoryViewModel matrixUseCase.joinRoom \(repsonse)")
             }
         }
+    }
+
+    private func getPinnedMessages() {
+        guard let result = userDefaults.array(forKey: .pinnedChats) as? [String] else { return }
+        pinnedRooms = result
     }
 
     private func allowPushNotifications() {

@@ -39,12 +39,14 @@ extension ChatHistoryObjectFactory: ChatHistoryObjectFactoryProtocol {
                 )
                 let nameView = chatRowObjectFactory.makeNameView(
                     room.lastMessageTime,
-                    room.roomName
+                    room.roomName,
+                    room.unreadedEvents,
+                    room.isPinned
                 )
                 let messageView = chatRowObjectFactory.makeLastMessageView(
                     room.lastMessage,
                     room.unreadedEvents,
-                    room.isPinned,
+                    room.roomName,
                     true
                 )
                 let value = ChatHistoryData(

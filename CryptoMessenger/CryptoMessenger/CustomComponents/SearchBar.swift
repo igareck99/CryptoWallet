@@ -44,11 +44,3 @@ struct SearchBar: View {
         .cornerRadius(8)
     }
 }
-
-// MARK: - UIApplication ()
-
-extension UIApplication {
-    func dismissKeyboard() {
-        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
-}

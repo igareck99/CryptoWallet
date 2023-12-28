@@ -1,6 +1,9 @@
 import SwiftUI
 
 protocol ChatsCoordinatable: Coordinator {
+    
+    func writeToUser(_ userId: String)
+    
     func showImageViewer(image: Image?, imageUrl: URL?)
 
     func chatRoom(

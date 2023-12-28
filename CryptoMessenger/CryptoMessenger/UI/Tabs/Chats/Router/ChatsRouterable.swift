@@ -2,6 +2,10 @@ import Foundation
 import SwiftUI
 
 protocol ChatsRouterable: View {
+    
+    func writeToUser(_ userId: String)
+    
+    func navPathChild() -> Binding<NavigationPath>
 
     func showVideo(url: URL)
 
@@ -116,6 +120,11 @@ protocol ChatsRouterable: View {
     func presentedItem() -> Binding<BaseSheetLink?>
 
     func chatCreate(
+        view: any View,
+        onDisappear: @escaping () -> Void
+    )
+    
+    func channelParticipantsViewCreate(
         view: any View,
         onDisappear: @escaping () -> Void
     )

@@ -29,7 +29,6 @@ protocol RemoteDataServiceProtocol {
 
     var dataSizePublisher: Published<SavedExpectData>.Publisher { get }
     var dataState: SavedExpectData { get }
-    var changeStatePublisher: ObservableObjectPublisher { get }
     var isFinishedLaunch: Published<URL?>.Publisher { get }
 
     // MARK: - Methods
@@ -61,7 +60,6 @@ final class RemoteDataService: NSObject, RemoteDataServiceProtocol, ObservableOb
     
     var dataSizePublisher: Published<SavedExpectData>.Publisher { $dataState }
     var isFinishedLaunch: Published<URL?>.Publisher { $isUploadFinished }
-    var changeStatePublisher = ObservableObjectPublisher()
     @Published var dataState = SavedExpectData()
     @Published var isUploadFinished: URL?
 

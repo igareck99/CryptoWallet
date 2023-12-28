@@ -8,7 +8,7 @@ struct LastMessageData: Identifiable, ViewGeneratable {
     let messageType: MessageType
     let isFromCurrentUser: Bool
     let unreadedEvents: Int
-    let isPinned: Bool
+    let roomName: String
 
     // MARK: - ViewGeneratable
 
@@ -26,13 +26,10 @@ struct LastMessageDataView: View {
     @State var showLocationTransition = false
 
     var body: some View {
-        HStack(alignment: .bottom) {
+        VStack(alignment: .leading, spacing: nil, content: {
+            displayNameView()
             content()
-            Spacer()
-            unreadEventsCountView()
-                .padding(.trailing, 16)
-                .padding(.top, 12)
-        }
+        })
     }
 
     @ViewBuilder
@@ -86,6 +83,18 @@ struct LastMessageDataView: View {
         default:
             EmptyView()
         }
+    }
+
+    private func displayNameView() -> some View {
+        AnyView(
+            Text(
+                data.roomName.firstUppercased,
+                [
+                    .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left))
+                ]
+            ).font(.calloutMedium16)
+                .foregroundColor(.chineseBlack)
+        )
     }
 
     private func lastEventView(text: String, systemImageName: String) -> some View {

@@ -19,11 +19,11 @@ enum BaseSheetLink: Hashable, Identifiable {
         onSelectImage: (UIImage?) -> Void,
         onSelectVideo: (URL?) -> Void
     )
-    case channelPatricipants(
-        viewModel: ChannelInfoViewModel,
-        showParticipantsView: Binding<Bool>
-    )
     case createChat(
+        view: () -> any View,
+        onDisappear: () -> Void
+    )
+    case channelPatricipantsSheet(
         view: () -> any View,
         onDisappear: () -> Void
     )
@@ -82,6 +82,11 @@ enum BaseSheetLink: Hashable, Identifiable {
     case sendingMessageMenu(
         event: RoomEvent,
         onTapItem: (NotSendedMessage, RoomEvent) -> Void
+    )
+    case channelPatricipants(
+        viewModel: ChannelInfoViewModel,
+        showParticipantsView: Binding<Bool>,
+        coordinator: ChannelParticipantsFlowCoordinatorProtocol
     )
 
     // Transaction
