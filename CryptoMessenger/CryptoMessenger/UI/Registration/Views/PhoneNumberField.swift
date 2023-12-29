@@ -21,6 +21,7 @@ struct PhoneNumberField: UIViewRepresentable {
         textField.placeholder = placeholder
         textField.becomeFirstResponder()
         textField.addTarget(context.coordinator, action: #selector(Coordinator.onTextUpdate), for: .editingChanged)
+        textField.maxDigits = 10
         return textField
     }
 
