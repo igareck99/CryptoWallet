@@ -34,9 +34,11 @@ final class ChannelMediaViewModel: ObservableObject {
 
     // MARK: - Lifecycle
 
-    init(room: AuraRoomData,
-         resources: ChannelMediaSourcesable.Type = ChannelMediaSources.self,
-         mediaService: MediaServiceProtocol = MediaService()) {
+    init(
+        room: AuraRoomData,
+        resources: ChannelMediaSourcesable.Type = ChannelMediaSources.self,
+        mediaService: MediaServiceProtocol = MediaService()
+    ) {
         self.resources = resources
         self.room = room
         self.mediaService = mediaService
@@ -52,15 +54,21 @@ final class ChannelMediaViewModel: ObservableObject {
     // MARK: - Private Methods
 
     private func updateData() {
-        mediaService.downloadChatImages(roomId: room.roomId) { urls in
-            self.photos = urls
-        }
-        mediaService.downloadChatFiles(roomId: room.roomId) { files in
-            self.files = files
-        }
-        mediaService.downloadChatUrls(roomId: room.roomId) { urls in
-            self.links = urls
+        Task {
+            let chatImages = await mediaService.downloadChatImages(roomId: room.roomId)
+            await MainActor.run {
+                photos = chatImages
+            }
+
+            let chatFiles = await mediaService.downloadChatFiles(roomId: room.roomId)
+            await MainActor.run {
+                files = chatFiles
+            }
+
+            let chatUrls = await mediaService.downloadChatUrls(roomId: room.roomId)
+            await MainActor.run {
+                links = chatUrls
+            }
         }
     }
 }
-

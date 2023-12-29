@@ -56,6 +56,7 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
                 let roomId = mxRoom.roomId ?? ""
                 var powerLevels = true
                 var isAdmin = false
+                // MARK: Async call !!!
                 mxRoom.state { state in
                     powerLevels = state?.powerLevels?.eventsDefault == 50
                     isAdmin = state?.powerLevels?.powerLevelOfUser(withUserID: matrixUseCase.getUserId()) == 100

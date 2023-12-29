@@ -1,30 +1,54 @@
-import UIKit
 import Combine
+import UIKit
 import MatrixSDK
 
 // MARK: - MediaServiceProtocol
 
 protocol MediaServiceProtocol {
-    func downloadChatImages(roomId: String,
-                            completion: @escaping ([URL]) -> Void)
-    func downloadChatFiles(roomId: String,
-                           completion: @escaping ([FileData]) -> Void)
-    func downloadChatUrls(roomId: String,
-                          completion: @escaping ([URL]) -> Void)
+    func downloadChatImages(roomId: String) async -> [URL]
+    func downloadChatFiles(roomId: String) async -> [FileData]
+    func downloadChatUrls(roomId: String) async -> [URL]
     func downloadAvatarUrl(completion: @escaping (URL?) -> Void)
     func addPhotoFeed(image: UIImage, userId: String, completion: @escaping (URL?) -> Void)
     func deletePhotoFeed(url: String, completion: @escaping (URL?) -> Void)
     func getPhotoFeedPhotos(userId: String, completion: @escaping ([URL]) -> Void)
-    func uploadChatPhoto(roomId: String, image: UIImage,
-                         completion: @escaping (Result <String?, MediaServiceError>) -> Void)
-    func uploadChatFile(roomId: String, url: URL,
-                        completion: @escaping (Result <String?, MediaServiceError>) -> Void)
-    func uploadChatContact(roomId: String, contact: Contact,
-                           completion: @escaping (Result <String?, MediaServiceError>) -> Void)
-    func uploadVoiceMessage(roomId: String, audio: URL, duration: UInt, completion: @escaping (Result <String?, MediaServiceError>) -> Void)
-    func uploadVideoMessage(for roomId: String, url: URL, thumbnail: MXImage?,
-                            completion: @escaping (Result <String?, MediaServiceError>) -> Void)
-    func downloadData(_ url: URL?, completion: @escaping (Data?) -> Void)
+
+    func uploadChatPhoto(
+        roomId: String,
+        image: UIImage,
+        completion: @escaping (Result <String?, MediaServiceError>) -> Void
+    )
+
+    func uploadChatFile(
+        roomId: String,
+        url: URL,
+        completion: @escaping (Result <String?, MediaServiceError>) -> Void
+    )
+
+    func uploadChatContact(
+        roomId: String,
+        contact: Contact,
+        completion: @escaping (Result <String?, MediaServiceError>) -> Void
+    )
+
+    func uploadVoiceMessage(
+        roomId: String,
+        audio: URL,
+        duration: UInt,
+        completion: @escaping (Result <String?, MediaServiceError>) -> Void
+    )
+
+    func uploadVideoMessage(
+        for roomId: String,
+        url: URL,
+        thumbnail: MXImage?,
+        completion: @escaping (Result <String?, MediaServiceError>) -> Void
+    )
+
+    func downloadData(
+        url: URL?,
+        completion: @escaping (Data?) -> Void
+    )
 }
 
 enum MediaServiceError: Error {
@@ -39,7 +63,6 @@ enum MediaServiceError: Error {
 // MARK: - MediaService
 
 final class MediaService: ObservableObject, MediaServiceProtocol {
-    
 
     // MARK: - Private Properties
 
@@ -95,7 +118,10 @@ final class MediaService: ObservableObject, MediaServiceProtocol {
             .store(in: &subscriptions)
     }
 
-    func downloadData(_ url: URL?, completion: @escaping (Data?) -> Void) {
+    func downloadData(
+        url: URL?,
+        completion: @escaping (Data?) -> Void
+    ) {
         guard let url = url else {
             completion(nil)
             return
@@ -149,71 +175,75 @@ final class MediaService: ObservableObject, MediaServiceProtocol {
 
     // MARK: - ChatMedia
 
-    func downloadChatImages(roomId: String,
-                            completion: @escaping ([URL]) -> Void) {
-        guard let room = self.matrixService.rooms.first(where: { $0.room.roomId == roomId })
-        else { return }
-        var data: [URL] = []
-        for item in room.events().renderableEvents {
-            switch item.messageType {
-            case let .image(url):
-                guard let imageUrl = url else { break }
-                data.append(imageUrl)
-            default:
-                completion([])
-            }
+    func downloadChatImages(roomId: String) async -> [URL] {
+
+        guard let room = self.matrixService.rooms.first(
+            where: { $0.room.roomId == roomId }
+        ) else {
+            return []
         }
-        completion(data)
+
+        let imageUrls: [URL] = room.events().renderableEvents.reduce(
+            into: [URL]()
+        ) { result, event in
+            guard case let .image(url) = event.messageType,
+                  let imageUrl = url else {
+                return
+            }
+            result.append(imageUrl)
+        }
+        return imageUrls
     }
 
-    func downloadChatFiles(roomId: String,
-                           completion: @escaping ([FileData]) -> Void) {
-        guard let room = self.matrixService.rooms.first(where: { $0.room.roomId == roomId })
-        else { return }
-        var data: [FileData] = []
-        for item in room.events().renderableEvents {
-            switch item.messageType {
-            case let .file(fileName, url):
-                guard let fileUrl = url else { break }
-                let fileData = FileData(fileName: fileName,
-                                        url: fileUrl,
-                                        date: item.timestamp)
-                data.append(fileData)
-            default:
-                break
-            }
+    func downloadChatFiles(roomId: String) async -> [FileData] {
+
+        guard let room = self.matrixService.rooms.first(
+            where: { $0.room.roomId == roomId }
+        ) else {
+            return []
         }
-        completion(data)
+
+        let fileDatas: [FileData] = room.events().renderableEvents.reduce(into: [FileData]()) { result, event in
+            guard case let .file(fileName, url) = event.messageType,
+                  let fileUrl = url else {
+                return
+            }
+            let fileData = FileData(
+                fileName: fileName,
+                url: fileUrl,
+                date: event.timestamp
+            )
+            result.append(fileData)
+        }
+
+        return fileDatas
     }
 
-    func downloadChatUrls(roomId: String,
-                          completion: @escaping ([URL]) -> Void) {
-        var data = [URL]()
-        guard let room = self.matrixService.rooms.first(where: { $0.room.roomId == roomId })
-                        else { return }
-        for input in room.events().renderableEvents {
-            do {
-                switch input.messageType {
-                case let .text(string):
-                    let detector = try NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
-                    let matches = detector.matches(in: string,
-                                                   options: [],
-                                                   range: NSRange(location: 0,
-                                                                  length: string.utf16.count))
-                    for match in matches {
-                        guard let range = Range(match.range, in: string) else { continue }
-                        let url = string[range]
-                        guard let url = URL(string: string) else { return }
-                        data.append(url)
-                    }
-                default:
-                    break
-                }
-            } catch {
-                completion(data)
+    func downloadChatUrls(roomId: String) async -> [URL] {
+
+        guard let room = self.matrixService.rooms.first(
+            where: { $0.room.roomId == roomId }
+        ) else {
+            return []
+        }
+
+        let chatUrls: [URL] = room.events().renderableEvents.reduce(into: [URL]()) { result, event in
+            guard case let .text(messageText) = event.messageType,
+                  let detector = try? NSDataDetector(
+                    types: NSTextCheckingResult.CheckingType.link.rawValue
+                  ) else {
+                return
+            }
+            let range = NSRange(location: 0, length: messageText.utf16.count)
+            let matches = detector.matches(in: messageText, options: [], range: range)
+            matches.forEach { match in
+                guard let range = Range(match.range, in: messageText) else { return }
+                let url = messageText[range]
+                guard let url = URL(string: messageText) else { return }
+                result.append(url)
             }
         }
-        completion(data)
+        return chatUrls
     }
 
     // MARK: - Chat
