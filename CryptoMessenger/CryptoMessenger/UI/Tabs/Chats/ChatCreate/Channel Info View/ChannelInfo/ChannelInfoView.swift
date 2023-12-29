@@ -528,6 +528,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         ForEach(viewModel.getChannelUsers(), id: \.self) { item in
             if viewModel.getChannelUsers().firstIndex(of: item) ?? 2 < 2 {
                 ChannelParticipantView(
+                    avatar: item.avatar,
                     title: item.name,
                     subtitle: viewModel.isChannel ? item.role.text : item.matrixId
                 )

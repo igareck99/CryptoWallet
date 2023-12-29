@@ -117,6 +117,7 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 VStack {
                     HStack {
                         ChannelParticipantView(
+                            avatar: item.avatar, 
                             title: item.name,
                             subtitle: item.role.text
                         )
