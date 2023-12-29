@@ -771,7 +771,7 @@ final class ChatRoomViewModel: ObservableObject {
                             let homeServer = self.config.matrixURL
                             self.roomAvatarUrl = MXURL(mxContentURI: url.absoluteString)?.contentURL(on: homeServer)
                             self.isAvatarLoading = false
-                            self.mediaService.downloadData(self.roomAvatarUrl) { data in
+                            self.mediaService.downloadData(url: self.roomAvatarUrl) { data in
                                 guard let data = data else { return }
                                 DispatchQueue.main.async { self.chatData.image = UIImage(data: data) }
                             }
