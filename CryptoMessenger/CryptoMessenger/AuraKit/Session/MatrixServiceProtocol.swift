@@ -8,10 +8,8 @@ protocol MatrixServiceProtocol {
 	var loginStatePublisher: Published<MatrixState>.Publisher { get }
 	var devicesPublisher: Published<[MXDevice]>.Publisher { get }
     var roomStatePublisher: Published<MXRoomState>.Publisher { get }
-	var rooms: [AuraRoom] { get }
-    var auraRooms: [AuraRoomData] { get }
+    var rooms: [MXRoom]? { get }
 	var matrixSession: MXSession? { get }
-    var auraNoEventsRooms: [AuraRoomData] { get }
 
 	func closeSessionAndClearData()
 
@@ -24,7 +22,13 @@ protocol MatrixServiceProtocol {
 	// MARK: - Session
 	func initializeSessionStore(completion: @escaping (EmptyResult) -> Void)
 	func startSession(completion: @escaping (Result<MatrixState, MXErrors>) -> Void)
-    func loginByJWT(token: String, deviceId: String, userId: String, homeServer: URL, completion: @escaping LoginCompletion)
+    func loginByJWT(
+        token: String,
+        deviceId: String,
+        userId: String,
+        homeServer: URL,
+        completion: @escaping LoginCompletion
+    )
 	func login(userId: String, password: String, homeServer: URL, completion: @escaping LoginCompletion)
 	func logout(completion: @escaping (Result<MatrixState, Error>) -> Void)
 
@@ -59,27 +63,57 @@ protocol MatrixServiceProtocol {
     func isDirectRoomExists(userId: String) -> String?
 	func placeVoiceCall(roomId: String, completion: @escaping (Result<MXCall, MXErrors>) -> Void)
 	func placeVideoCall(roomId: String, completion: @escaping (Result<MXCall, MXErrors>) -> Void)
-    func uploadImage(for roomId: String, image: UIImage,
-                     completion: @escaping (Result <String?, MXErrors>) -> Void)
-    func uploadFile(for roomId: String, url: URL,
-                    completion: @escaping (Result <String?, MXErrors>) -> Void)
-    func uploadContact(for roomId: String, contact: Contact,
-                       completion: @escaping (Result <String?, MXErrors>) -> Void)
-    func uploadVoiceMessage(for roomId: String,
-                            url: URL,
-                            duration: UInt,
-                            completion: @escaping (Result <String?, MXErrors>) -> Void)
-    func uploadVideoMessage(for roomId: String,
-                            url: URL,
-                            thumbnail: MXImage?,
-                            completion: @escaping (Result <String?, MXErrors>) -> Void)
-    func enableEncryptionWithAlgorithm(roomId: String,
-                                       completion: @escaping (Result <String?, MXErrors>) -> Void)
-    func getPublicRooms(filter: String,
-                        completion: @escaping  (Result <[MXPublicRoom]?, MXErrors>) -> Void)
-    func sendLocation(roomId: String,
-                      location: LocationData?,
-                      completion: @escaping (Result <String?, MXErrors>) -> Void)
+
+    // MARK: - Upload
+
+    func uploadImage(
+        for roomId: String,
+        image: UIImage,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    )
+
+    func uploadFile(
+        for roomId: String,
+        url: URL,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    )
+
+    func uploadContact(
+        for roomId: String,
+        contact: Contact,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    )
+
+    func uploadVoiceMessage(
+        for roomId: String,
+        url: URL,
+        duration: UInt,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    )
+
+    func uploadVideoMessage(
+        for roomId: String,
+        url: URL,
+        thumbnail: MXImage?,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    )
+
+    func enableEncryptionWithAlgorithm(
+        roomId: String,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    )
+
+    func getPublicRooms(
+        filter: String,
+        completion: @escaping  (Result <[MXPublicRoom]?, MXErrors>) -> Void
+    )
+
+    func sendLocation(
+        roomId: String,
+        location: LocationData?,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    )
+
     func markAllAsRead(roomId: String)
     func edit(roomId: String, text: String, eventId: String)
     func redact(

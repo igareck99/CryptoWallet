@@ -11,7 +11,8 @@ protocol ChatHistoryObjectFactoryProtocol {
     ) -> [ChatHistoryData]
 
     func makeChatHistoryChannels(
-        dataRooms: [ChatHistoryData]?, isJoined: Bool,
+        dataRooms: [ChatHistoryData]?, 
+        isJoined: Bool,
         viewModel: any ChatHistoryViewDelegate
     ) -> [MatrixChannel]
 }

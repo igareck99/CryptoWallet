@@ -66,24 +66,24 @@ final class MediaService: ObservableObject, MediaServiceProtocol {
 
     // MARK: - Private Properties
 
-    private let matrixService: MatrixServiceProtocol
+    private let matrixUsecase: MatrixUseCaseProtocol
     @Injectable private var apiClient: APIClientManager
     @Injectable private var matrixUseCase: MatrixUseCaseProtocol
     private let config: ConfigType
     private var subscriptions = Set<AnyCancellable>()
 
     init(
-        matrixService: MatrixServiceProtocol = MatrixService.shared,
+        matrixUsecase: MatrixUseCaseProtocol = MatrixUseCase.shared,
         config: ConfigType = Configuration.shared
     ) {
-        self.matrixService = matrixService
+        self.matrixUsecase = matrixUsecase
         self.config = config
     }
 
     // MARK: - Internal Methods
 
     func downloadAvatarUrl(completion: @escaping (URL?) -> Void) {
-        matrixService.getAvatarUrl { [weak self] link in
+        matrixUsecase.getAvatarUrl { [weak self] link in
             guard let self = self else { return }
             let homeServer = self.config.matrixURL
             let avatarUrl = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
@@ -176,9 +176,8 @@ final class MediaService: ObservableObject, MediaServiceProtocol {
     // MARK: - ChatMedia
 
     func downloadChatImages(roomId: String) async -> [URL] {
-
-        guard let room = self.matrixService.rooms.first(
-            where: { $0.room.roomId == roomId }
+        guard var room: AuraRoomData = matrixUsecase.rooms.first(
+            where: { $0.roomId == roomId }
         ) else {
             return []
         }
@@ -196,33 +195,32 @@ final class MediaService: ObservableObject, MediaServiceProtocol {
     }
 
     func downloadChatFiles(roomId: String) async -> [FileData] {
-
-        guard let room = self.matrixService.rooms.first(
-            where: { $0.room.roomId == roomId }
+        guard var room: AuraRoomData = matrixUsecase.rooms.first(
+            where: { $0.roomId == roomId }
         ) else {
             return []
         }
 
-        let fileDatas: [FileData] = room.events().renderableEvents.reduce(into: [FileData]()) { result, event in
-            guard case let .file(fileName, url) = event.messageType,
-                  let fileUrl = url else {
-                return
+        let fileDatas: [FileData] = room.events().renderableEvents
+            .reduce(into: [FileData]()) { result, event in
+                guard case let .file(fileName, url) = event.messageType,
+                      let fileUrl = url else {
+                    return
+                }
+                let fileData = FileData(
+                    fileName: fileName,
+                    url: fileUrl,
+                    date: event.timestamp
+                )
+                result.append(fileData)
             }
-            let fileData = FileData(
-                fileName: fileName,
-                url: fileUrl,
-                date: event.timestamp
-            )
-            result.append(fileData)
-        }
 
         return fileDatas
     }
 
     func downloadChatUrls(roomId: String) async -> [URL] {
-
-        guard let room = self.matrixService.rooms.first(
-            where: { $0.room.roomId == roomId }
+        guard var room: AuraRoomData = self.matrixUsecase.rooms.first(
+            where: { $0.roomId == roomId }
         ) else {
             return []
         }
@@ -248,13 +246,17 @@ final class MediaService: ObservableObject, MediaServiceProtocol {
 
     // MARK: - Chat
 
-    func uploadVoiceMessage(roomId: String,
-                            audio: URL,
-                            duration: UInt,
-                            completion: @escaping (Result <String?, MediaServiceError>) -> Void) {
-        matrixService.uploadVoiceMessage(for: roomId,
-                                         url: audio,
-                                         duration: duration) { result in
+    func uploadVoiceMessage(
+        roomId: String,
+        audio: URL,
+        duration: UInt,
+        completion: @escaping (Result <String?, MediaServiceError>) -> Void
+    ) {
+        matrixUsecase.uploadVoiceMessage(
+            for: roomId,
+            url: audio,
+            duration: duration
+        ) { result in
             switch result {
             case let .success(eventId):
                 completion(.success(eventId))
@@ -264,11 +266,12 @@ final class MediaService: ObservableObject, MediaServiceProtocol {
         }
     }
 
-    func uploadChatPhoto(roomId: String,
-                         image: UIImage,
-                         completion: @escaping (Result <String?, MediaServiceError>) -> Void) {
-        matrixService.uploadImage(for: roomId,
-                                  image: image) { result in
+    func uploadChatPhoto(
+        roomId: String,
+        image: UIImage,
+        completion: @escaping (Result <String?, MediaServiceError>) -> Void
+    ) {
+        matrixUsecase.uploadImage(for: roomId, image: image) { result in
             switch result {
             case let .success(eventId):
                 completion(.success(eventId))
@@ -278,11 +281,12 @@ final class MediaService: ObservableObject, MediaServiceProtocol {
         }
     }
 
-    func uploadChatFile(roomId: String,
-                        url: URL,
-                        completion: @escaping (Result <String?, MediaServiceError>) -> Void) {
-        matrixService.uploadFile(for: roomId,
-                                 url: url) { result in
+    func uploadChatFile(
+        roomId: String,
+        url: URL,
+        completion: @escaping (Result <String?, MediaServiceError>) -> Void
+    ) {
+        matrixUsecase.uploadFile(for: roomId, url: url) { result in
             switch result {
             case let .success(eventId):
                 completion(.success(eventId))
@@ -292,10 +296,11 @@ final class MediaService: ObservableObject, MediaServiceProtocol {
         }
     }
 
-    func uploadChatContact(roomId: String, contact: Contact,
-                           completion: @escaping (Result <String?, MediaServiceError>) -> Void) {
-        matrixService.uploadContact(for: roomId,
-                                    contact: contact) { result in
+    func uploadChatContact(
+        roomId: String, contact: Contact,
+        completion: @escaping (Result <String?, MediaServiceError>) -> Void
+    ) {
+        matrixUsecase.uploadContact(for: roomId, contact: contact) { result in
             switch result {
             case let .success(eventId):
                 completion(.success(eventId))
@@ -305,13 +310,17 @@ final class MediaService: ObservableObject, MediaServiceProtocol {
         }
     }
 
-    func uploadVideoMessage(for roomId: String,
-                            url: URL,
-                            thumbnail: MXImage?,
-                            completion: @escaping (Result <String?, MediaServiceError>) -> Void) {
-        matrixService.uploadVideoMessage(for: roomId,
-                                         url: url,
-                                         thumbnail: thumbnail) { result in
+    func uploadVideoMessage(
+        for roomId: String,
+        url: URL,
+        thumbnail: MXImage?,
+        completion: @escaping (Result <String?, MediaServiceError>) -> Void
+    ) {
+        matrixUsecase.uploadVideoMessage(
+            for: roomId,
+            url: url,
+            thumbnail: thumbnail
+        ) { result in
             switch result {
             case let .success(eventId):
                 completion(.success(eventId))

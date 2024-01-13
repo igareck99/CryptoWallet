@@ -54,7 +54,7 @@ extension ChatsCoordinator: ChatsCoordinatable {
         router.showContactInfo(contactInfo: contactInfo, delegate: self)
     }
 
-    func firstAction(room: AuraRoom) {
+    func firstAction(room: AuraRoomData) {
         router.routeToFirstAction(room: room, coordinator: self)
     }
 

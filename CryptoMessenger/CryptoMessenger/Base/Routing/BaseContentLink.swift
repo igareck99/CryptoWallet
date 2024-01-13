@@ -19,10 +19,10 @@ enum BaseContentLink: Hashable, Identifiable {
 
     // Chat history
 
-    case chatRoom(
-        room: AuraRoom,
-        coordinator: ChatsCoordinatable
-    )
+//    case chatRoom(
+//        room: AuraRoomData,
+//        coordinator: ChatsCoordinatable
+//    )
 
     case chatHistory
 

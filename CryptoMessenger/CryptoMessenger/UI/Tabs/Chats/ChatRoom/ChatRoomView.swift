@@ -398,10 +398,15 @@ struct ChatRoomView: View {
 
             SlideCard(position: $cardGroupPosition) {
                 VStack(spacing: 0) {
-                    DirectMenuView(viewModel: DirectChatMenuViewModel(room: viewModel.room, showNotificationsChangeView: $showNotificationsChangeView),
-                                   action: $viewModel.directAction,
-                                   cardGroupPosition: $cardGroupPosition,
-                                   onMedia: { viewModel.send(.onMedia(viewModel.room)) })
+                    DirectMenuView(
+                        viewModel: DirectChatMenuViewModel(
+                            room: viewModel.room,
+                            showNotificationsChangeView: $showNotificationsChangeView
+                        ),
+                        action: $viewModel.directAction,
+                        cardGroupPosition: $cardGroupPosition,
+                        onMedia: { viewModel.send(.onMedia(viewModel.room)) }
+                    )
                 }.padding(.vertical, 32)
             }
         }
@@ -553,7 +558,7 @@ struct ChatRoomView: View {
                     placeholder: {
                         ZStack {
                             Color.aliceBlue
-                            Text(viewModel.room.summary.summary?.displayName?.firstLetter.uppercased() ?? "?")
+                            Text(viewModel.room.room.summary.summary?.displayName?.firstLetter.uppercased() ?? "?")
                                 .foregroundColor(.white)
                                 .font(.title3Semibold20)
                         }
@@ -610,10 +615,14 @@ struct ChatRoomView: View {
             }
             .background(Color.white)
             .onTapGesture {
-                viewModel.send(.onSettings(chatData: $viewModel.chatData,
-                                           saveData: $viewModel.saveData,
-                                           room: viewModel.room,
-                                           isLeaveChannel: $isLeaveChannel))
+                viewModel.send(
+                    .onSettings(
+                        chatData: $viewModel.chatData,
+                        saveData: $viewModel.saveData,
+                        room: viewModel.room,
+                        isLeaveChannel: $isLeaveChannel
+                    )
+                )
             }
         }
         ToolbarItem(placement: .navigationBarTrailing) {

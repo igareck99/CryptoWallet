@@ -8,7 +8,7 @@ final class SettingsViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    var room: AuraRoom
+    var room: AuraRoomData
     var coordinator: ChatsCoordinatable?
     @Published var topActions: [SettingsAction] = [.media, .notifications, .admins]
     @Published var bottomActions: [SettingsAction] = [.share, .exit, .complain]
@@ -26,9 +26,10 @@ final class SettingsViewModel: ObservableObject {
 
     // MARK: - Lifecycle
 
-    init(room: AuraRoom,
-         pushNotifications: PushNotificationsServiceProtocol = PushNotificationsService.shared,
-         resources: SettingsResourcable.Type = SettingsResources.self
+    init(
+        room: AuraRoomData,
+        pushNotifications: PushNotificationsServiceProtocol = PushNotificationsService.shared,
+        resources: SettingsResourcable.Type = SettingsResources.self
     ) {
         self.resources = resources
         self.room = room
@@ -112,16 +113,23 @@ final class SettingsViewModel: ObservableObject {
 
     func changeNotificationState(_ value: Bool) {
         if value {
-            self.pushNotifications.allMessages(room: self.room,
-                                               completion: { value in
-                if value == .allMessagesOn || value == .isAlreadyEnable {
+            pushNotifications.allMessages(room: room) { [weak self] value in
+                guard let self = self else { return }
+                guard value == .allMessagesOn || value == .isAlreadyEnable else {
+                    return
+                }
+                DispatchQueue.main.async {
                     self.isEnabled = true
                     self.objectWillChange.send()
                 }
-            })
+            }
         } else {
-            self.pushNotifications.mute(room: self.room) { value in
-                if value == .muteOn || value == .isAlreadyMuted {
+            self.pushNotifications.mute(room: room) { [weak self] value in
+                guard let self = self else { return }
+                guard value == .muteOn || value == .isAlreadyMuted else {
+                    return
+                }
+                DispatchQueue.main.async {
                     self.isEnabled = false
                     self.objectWillChange.send()
                 }

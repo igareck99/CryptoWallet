@@ -92,93 +92,101 @@ extension MatrixService {
 			}
 		}
 	}
-    
+
     func inviteUser(userId: String, roomId: String, completion: @escaping EmptyResultBlock ) {
         client?.invite(.userId(userId), toRoom: roomId) { response in
             guard case .success = response else { completion(.failure); return }
             completion(.success)
         }
     }
-    
+
     func kickUser(userId: String, roomId: String, reason: String, completion: @escaping EmptyResultBlock) {
         client?.kickUser(userId, fromRoom: roomId, reason: reason) { response in
             guard case .success = response else { completion(.failure); return }
             completion(.success)
         }
     }
-    
+
     func banUser(userId: String, roomId: String, reason: String, completion: @escaping EmptyResultBlock) {
         client?.banUser(userId, fromRoom: roomId, reason: reason) { response in
             guard case .success = response else { completion(.failure); return }
             completion(.success)
         }
     }
-    
+
     func unbanUser(userId: String, roomId: String, completion: @escaping EmptyResultBlock) {
         client?.unbanUser(userId, fromRoom: roomId) { response in
             guard case .success = response else { completion(.failure); return }
             completion(.success)
         }
     }
-    
+
     func leaveRoom(roomId: String, completion: @escaping EmptyResultBlock) {
         client?.leaveRoom(roomId) {response in
             guard case .success = response else { completion(.failure); return }
             completion(.success)
         }
-        
     }
-    
+
     func updateUsersPowerLevel(
         userIds: [String],
         roomId: String,
         powerLevel: Int,
         completion: @escaping EmptyResultBlock
     ) {
-        let matrixRoom = rooms.first(where: { $0.room.roomId == roomId })?.room
+        let matrixRoom = rooms?.first(where: { $0.roomId == roomId })
         guard let room = matrixRoom else { completion(.failure); return }
         var powerLevelsJSON = ["users": [:]]
         for user in userIds {
             powerLevelsJSON["users"]?[user] = powerLevel
         }
         let powerLevelsEvent = MXEventType.roomPowerLevels
-        room.sendStateEvent(powerLevelsEvent,
-                            content: powerLevelsJSON,
-                            stateKey: "") { result in
+        room.sendStateEvent(
+            powerLevelsEvent,
+            content: powerLevelsJSON,
+            stateKey: ""
+        ) { result in
             debugPrint("room.setPowerLevel for Users result: \(result)")
-            guard case .success = result else { completion(.failure); return }
+            guard case .success = result else {
+                completion(.failure)
+                return
+            }
             completion(.success)
         }
     }
-    
+
     func updateUserPowerLevel(
         userId: String,
         roomId: String,
         powerLevel: Int,
         completion: @escaping EmptyResultBlock
     ) {
-        
-        let matrixRoom = rooms.first(where: { $0.room.roomId == roomId })?.room
-        guard let room = matrixRoom else { completion(.failure); return }
+        guard let room = rooms?.first(where: { $0.roomId == roomId }) else {
+            completion(.failure)
+            return
+        }
         room.setPowerLevel(
             ofUser: userId,
             powerLevel: powerLevel
         ) { result in
             debugPrint("room.setPowerLevel result: \(result)")
-            guard case .success = result else { completion(.failure); return }
+            guard case .success = result else {
+                completion(.failure)
+                return
+            }
             completion(.success)
         }
     }
-    
+
     func avatarUrlForUser(_ userId: String, completion: @escaping (URL?) -> Void) {
-        matrixSession?.matrixRestClient.avatarUrl(forUser: userId, completion: { response in
-            switch response {
-            case let .success(value):
-                let url = MXURL(mxContentURI: value.absoluteString)?.contentURL(on: Configuration.shared.matrixURL)
-                completion(url)
-            default:
-                break
+        matrixSession?.matrixRestClient.avatarUrl(forUser: userId) { response in
+            guard case let .success(value) = response else {
+                completion(nil)
+                return
             }
-        })
+            let mUrl = Configuration.shared.matrixURL
+            let url = MXURL(mxContentURI: value.absoluteString)?.contentURL(on: mUrl)
+            completion(url)
+        }
     }
 }

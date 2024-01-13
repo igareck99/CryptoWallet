@@ -96,7 +96,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
         fileService: FileManagerProtocol = FileManagerService.shared,
         config: ConfigType = Configuration.shared,
         resources: ChatRoomSourcesable.Type = ChatRoomResources.self,
-        availabilityFacade: ChatRoomTogglesFacadeProtocol = ChatRoomViewModelAssembly.build()
+        availabilityFacade: ChatRoomTogglesFacadeProtocol = ChatRoomTogglesFacadeAssembly.build()
     ) {
         self.room = room
         self.coordinator = coordinator
@@ -155,9 +155,9 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
 
     private func getCurrentEvents(_ currentRoom: AuraRoomData) -> [RoomEvent] {
         var currentEvents: [RoomEvent] = []
-        currentRoom.events.forEach { [weak self] value in
+        currentRoom.roomEvents.forEach { [weak self] value in
             guard let self = self else { return }
-            let item = self.room.events.first(where: { $0.eventId == value.eventId })
+            let item = self.room.roomEvents.first(where: { $0.eventId == value.eventId })
             var currentEvent = value
             if item != nil {
                 let id = value == item ? item?.id : value.id
@@ -194,7 +194,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             if value.sentState == .sent || value.sentState == .sentLocaly {
                 let view = self.factory.makeOneEventView(
                     value: value,
-                    events: self.room.events,
+                    events: self.room.roomEvents,
                     currentEvents: currentEvents,
                     oldViews: self.itemsFromMatrix,
                     delegate: self,
@@ -230,7 +230,8 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
 
     private func makeDisplayItems(_ views: [any ViewGeneratable]) -> [any ViewGeneratable] {
         var currentViews: [any ViewGeneratable] = views
-        var outputEvents: [RoomEvent] = self.room.events.filter({ $0.sentState == .failToSend }).map {
+        var outputEvents: [RoomEvent] = room.roomEvents
+            .filter({ $0.sentState == .failToSend }).map {
                 let event = RoomEvent(id: $0.id,
                                       eventId: $0.eventId,
                                       roomId: $0.roomId,
@@ -254,7 +255,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             let view = self.factory.makeOneEventView(
                 value: value,
                 events: [],
-                currentEvents: self.room.events,
+                currentEvents: self.room.roomEvents,
                 oldViews: [],
                 delegate: self,
                 onLongPressMessage: { _ in },
@@ -313,19 +314,20 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
         matrixUseCase.objectChangePublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                guard
-                    let self = self,
-                    let currentRoom = self.matrixUseCase.auraRooms.first(where: { $0.roomId == self.room.roomId })
-                else {
+                guard let self = self,
+                var currentRoom: AuraRoomData = self.matrixUseCase.rooms.first(
+                    where: { $0.roomId == self.room.roomId }
+                ) else {
                     return
                 }
+
                 self.updateRoomPowerLevel()
                 let currentEvents: [RoomEvent] = self.getCurrentEvents(currentRoom)
                 var currentViews: [any ViewGeneratable] = self.getCurrentViews(currentEvents)
                 currentViews = self.makeDisplayItems(currentViews)
                 self.itemsFromMatrix = currentViews
                 self.room = currentRoom
-                self.room.events = currentEvents
+                self.room.roomEvents = currentEvents
                 self.displayItems = self.itemsFromMatrix
                 delay(0.1) {
                     guard !self.itemsFromMatrix.isEmpty else { return }
@@ -541,12 +543,15 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     private func onTapNotSendedMessage(_ event: RoomEvent) {
         self.coordinator.notSendedMessageMenu(
             event: event,
-            onTapItem: { type, event in
+            onTapItem: { [weak self] type, event in
+            guard let self = self else { return }
             self.coordinator.dismissCurrentSheet()
             switch type {
             case .delete:
-                self.room.events = self.room.events.filter({ $0.eventId != event.eventId })
-                self.displayItems = self.displayItems.filter({  $0.id != event.id })
+                self.room.roomEvents = self.room.roomEvents
+                        .filter({ $0.eventId != event.eventId })
+                self.displayItems = self.displayItems
+                        .filter {  $0.id != event.id }
             case .resend:
                 break
             }
@@ -609,14 +614,19 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     }
 
     private func removeMessage(_ eventId: String) {
-        guard let event = self.room.events.first(where: { $0.eventId == eventId }) else { return }
-        
-        self.room.events = self.room.events.filter({ $0.eventId != eventId })
+        guard let event = self.room.roomEvents
+            .first(where: { $0.eventId == eventId }) else {
+            return
+        }
+        self.room.roomEvents = self.room.roomEvents.filter({ $0.eventId != eventId })
         self.displayItems = self.displayItems.filter({ $0.id != event.id })
     }
 
     private func onRemoveReaction(_ event: ReactionNewEvent) {
-        guard let userId = event.sendersIds.first(where: { $0 == matrixUseCase.getUserId() }) else { return }
+        guard let userId = event.sendersIds
+            .first(where: { $0 == matrixUseCase.getUserId() }) else {
+            return
+        }
         matrixUseCase.removeReaction(
             roomId: room.roomId,
             text: event.emoji,
@@ -630,16 +640,20 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     // MARK: - Internal Methods
 
     @discardableResult
-    func makeOutputEventView(_ type: MessageType,
-                             _ isReply: Bool = false) -> RoomEvent {
+    func makeOutputEventView(
+        _ type: MessageType,
+        _ isReply: Bool = false
+    ) -> RoomEvent {
         let sender = matrixUseCase.getUserId()
         let eventId = UUID()
-        let event = factory.makeChatOutputEvent(eventId,
-                                                eventId.uuidString,
-                                                type, room.roomId,
-                                                sender,
-                                                matrixUseCase.fromCurrentSender(sender),
-                                                isReply)
+        let event = factory.makeChatOutputEvent(
+            eventId,
+            eventId.uuidString,
+            type, room.roomId,
+            sender,
+            matrixUseCase.fromCurrentSender(sender),
+            isReply
+        )
         return event
     }
 
@@ -648,8 +662,8 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
         state: RoomSentState = .sentLocaly,
         eventId: String = ""
     ) {
-        guard let index = self.room.events.firstIndex(of: event) else { return }
-        self.room.events.remove(at: index)
+        guard let index = self.room.roomEvents.firstIndex(of: event) else { return }
+        self.room.roomEvents.remove(at: index)
         let newEvent = RoomEvent(
             id: event.id,
             eventId: eventId,
@@ -668,8 +682,8 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
         )
         guard let view = factory.makeOneEventView(
             value: newEvent,
-            events: room.events,
-            currentEvents: room.events,
+            events: room.roomEvents,
+            currentEvents: room.roomEvents,
             oldViews: displayItems,
             delegate: self,
             onLongPressMessage: { _ in },
@@ -681,13 +695,16 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
         ) else {
             return
         }
-        guard let existingViewIndex = self.displayItems.firstIndex(where: { $0.id == newEvent.id }) else { return }
+        guard let existingViewIndex = self.displayItems
+            .firstIndex(where: { $0.id == newEvent.id }) else {
+            return
+        }
         if state == .sentLocaly {
             self.displayItems.append(view)
-            self.room.events.append(newEvent)
+            self.room.roomEvents.append(newEvent)
         } else {
             self.displayItems[existingViewIndex] = view
-            self.room.events.insert(newEvent, at: index)
+            self.room.roomEvents.insert(newEvent, at: index)
         }
     }
 
@@ -773,8 +790,8 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     private func addOutputEvent(event: RoomEvent) {
         guard let view = self.factory.makeOneEventView(
             value: event,
-            events: self.room.events,
-            currentEvents: self.room.events,
+            events: self.room.roomEvents,
+            currentEvents: self.room.roomEvents,
             oldViews: self.displayItems,
             delegate: self,
             onLongPressMessage: { _ in },
@@ -784,7 +801,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
         ) else {
             return
         }
-        self.room.events.append(event)
+        self.room.roomEvents.append(event)
         self.displayItems.append(view)
     }
 

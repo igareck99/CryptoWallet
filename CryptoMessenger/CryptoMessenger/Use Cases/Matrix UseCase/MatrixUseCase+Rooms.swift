@@ -130,7 +130,7 @@ extension MatrixUseCase {
         matrixService.matrixSession?.matrixRestClient?
             .setTopic(ofRoom: roomId, topic: topic, completion: completion)
     }
-    
+
     func isInvitedToRoom(roomId: String) -> Bool? {
         matrixService.isInvitedToRoom(roomId: roomId)
     }
@@ -299,9 +299,12 @@ extension MatrixUseCase {
     }
 
     func getRoomState(roomId: String, completion: @escaping EmptyFailureBlock<MXRoomState>) {
-
-        let matrixRoom = matrixService.rooms.first(where: { $0.room.roomId == roomId })?.room
-        guard let room = matrixRoom else { completion(.failure); return }
+        guard let room: MXRoom = matrixService.rooms?.first(
+            where: { $0.roomId == roomId }
+        ) else {
+            completion(.failure)
+            return
+        }
         DispatchQueue.main.async {
             room.liveTimeline { timeline in
                 guard let state = timeline?.state else { completion(.failure); return }
@@ -333,9 +336,12 @@ extension MatrixUseCase {
         roomId: String,
         completion: @escaping EmptyFailureBlock<MXRoomMembers>
     ) {
-        let matrixRoom = matrixService.rooms.first(where: { $0.room.roomId == roomId })?.room
-        guard let room = matrixRoom else { completion(.failure); return }
-
+        guard let room = matrixService.rooms?.first(
+            where: { $0.roomId == roomId }
+        ) else {
+            completion(.failure)
+            return
+        }
         room.liveTimeline { timeline in
             guard let state: MXRoomState = timeline?.state else { completion(.failure); return }
             completion(.success(state.members))
@@ -343,12 +349,10 @@ extension MatrixUseCase {
     }
 
     func customCheckRoomExist(mxId: String) -> AuraRoomData? {
-        guard let roomId: String = matrixService.isDirectRoomExists(
-            userId: mxId
-        ) else {
+        guard let roomId: String = matrixService.isDirectRoomExists(userId: mxId) else {
             return nil
         }
-        guard let room: AuraRoomData = auraNoEventsRooms.first(
+        guard let room: AuraRoomData = rooms.first(
             where: { $0.roomId == roomId }
         ) else {
             return nil

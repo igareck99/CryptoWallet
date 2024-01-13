@@ -6,12 +6,18 @@ import MatrixSDK
 final class AuraRoom: ObservableObject {
     @Published var summary: RoomSummary
     @Published var eventCache: [MXEvent] = []
-    var room: MXRoom
+    let config: ConfigType
+    let room: MXRoom
     var isOnline = false
-    var roomAvatar: URL?
 
-    var id: ObjectIdentifier {
-        ObjectIdentifier(self)
+    var roomId: String {
+        room.roomId
+    }
+
+    var roomAvatar: URL? {
+        let avatarUrlStr: String = room.summary?.avatar ?? ""
+        let homeServer = config.matrixURL
+        return MXURL(mxContentURI: avatarUrlStr)?.contentURL(on: homeServer)
     }
 
     var isDirect: Bool {
@@ -27,7 +33,7 @@ final class AuraRoom: ObservableObject {
             let inviteEvent = eventCache.last {
                 $0.type == kMXEventTypeStringRoomMember && $0.stateKey == room.mxSession.myUserId
             }
-            guard let sender = inviteEvent?.sender else { return .text("") }
+            guard inviteEvent?.sender != nil else { return .text("") }
             return .text("Invitation to Chat 🤚")
         }
         let lastMessageEvent = eventCache.last {
@@ -40,18 +46,13 @@ final class AuraRoom: ObservableObject {
         return lastMessageEvent?.messageType ?? .text("")
     }
 
-    // MARK: - Lifecycle
-
     init(
         _ room: MXRoom,
         config: ConfigType = Configuration.shared
     ) {
         self.room = room
+        self.config = config
         self.summary = RoomSummary(room.summary)
-        if let avatar = room.summary.avatar {
-            let homeServer = config.matrixURL
-            roomAvatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
-        }
         let enumerator = room.enumeratorForStoredMessages // WithType(in: Self.displayedMessageTypes)
 		let currentBatch = enumerator?.nextEventsBatch(250, threadId: nil) ?? []
         eventCache.append(contentsOf: currentBatch)
@@ -93,5 +94,16 @@ final class AuraRoom: ObservableObject {
             self.eventCache.append(event)
         }
         self.objectWillChange.send()
+    }
+}
+
+extension AuraRoom: Hashable {
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(roomId)
+    }
+
+    static func == (lhs: AuraRoom, rhs: AuraRoom) -> Bool {
+        lhs.roomId == rhs.roomId
     }
 }

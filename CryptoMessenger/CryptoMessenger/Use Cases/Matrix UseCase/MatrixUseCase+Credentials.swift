@@ -2,6 +2,44 @@ import Foundation
 import MatrixSDK
 
 extension MatrixUseCase {
+    
+    func observeLoginState() {
+        NotificationCenter.default
+            .addObserver(
+                self,
+                selector: #selector(userDidLoggedIn),
+                name: .userDidLoggedIn,
+                object: nil
+            )
+    }
+    
+    @objc func userDidLoggedIn() {
+        matrixService.updateState(with: .loggedIn(userId: matrixService.getUserId()))
+        updateCredentialsIfAvailable()
+    }
+    
+    // TODO: Отрефачить логику входа по пин коду
+    func updateCredentialsIfAvailable() {
+        guard let credentials = retrievCredentials() else { return }
+        matrixService.updateService(credentials: credentials)
+        matrixService.initializeSessionStore { [weak self] result in
+            guard case .success = result else {
+                self?.matrixService.updateState(with: .failure(.loginFailure))
+                return
+            }
+            self?.matrixService.startSession { result in
+                guard case .success = result, let userId = credentials.userId else {
+                    self?.matrixService.updateState(with: .failure(.loginFailure))
+                    return
+                }
+                self?.matrixService.configureFetcher()
+                self?.matrixService.updateState(with: .loggedIn(userId: userId))
+                self?.matrixService.updateUnkownDeviceWarn(isEnabled: false)
+                self?.matrixService.startListeningForRoomEvents()
+                self?.subscribeToEvents()
+            }
+        }
+    }
 
     func save(credentials: MXCredentials) {
         debugPrint("MATRIX DEBUG MatrixUseCase save(credentials: MXCredentials) \(credentials)")

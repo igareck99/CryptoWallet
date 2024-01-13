@@ -6,13 +6,9 @@ protocol ChatsCoordinatable: Coordinator {
     
     func showImageViewer(image: Image?, imageUrl: URL?)
 
-    func chatRoom(
-        room: AuraRoomData
-    )
+    func chatRoom(room: AuraRoomData)
 
-    func firstAction(
-        room: AuraRoom
-    )
+    func firstAction(room: AuraRoomData)
 
     func showCreateChat()
 
@@ -24,9 +20,7 @@ protocol ChatsCoordinatable: Coordinator {
         coordinator: ChatsCoordinatable
     )
 
-    func chatMedia(
-        room: AuraRoomData
-    )
+    func chatMedia(room: AuraRoomData)
 
     func friendProfile(
         userId: String,
@@ -43,9 +37,7 @@ protocol ChatsCoordinatable: Coordinator {
         coordinator: ChatsCoordinatable
     )
 
-    func notifications(
-        roomId: String
-    )
+    func notifications(roomId: String)
 
     func popToRoot()
 

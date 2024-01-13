@@ -45,8 +45,9 @@ extension MatrixService {
 	}
 
 	func remove(userDevices: [MXDevice], completion: @escaping (EmptyResult) -> Void) {
+        let deviceRemovalGroup = DispatchGroup()
 		userDevices.forEach { [weak self] userDevice in
-			self?.deviceRemovalGroup.enter()
+			deviceRemovalGroup.enter()
 			self?.removeDevice(by: userDevice.deviceId ) { result in
 				switch result {
 				case .success:
@@ -54,7 +55,7 @@ extension MatrixService {
 				case .failure:
 					debugPrint("Failed REMOVE device with ID: " + userDevice.deviceId)
 				}
-				self?.deviceRemovalGroup.leave()
+				deviceRemovalGroup.leave()
 			}
 		}
 		deviceRemovalGroup.notify(queue: .main) { [weak self] in

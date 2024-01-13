@@ -34,7 +34,7 @@ protocol ChatsRouterable: View {
     )
 
     func routeToFirstAction(
-        room: AuraRoom,
+        room: AuraRoomData,
         coordinator: ChatsCoordinatable
     )
 

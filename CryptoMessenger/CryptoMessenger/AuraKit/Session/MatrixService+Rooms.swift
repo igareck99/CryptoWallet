@@ -1,6 +1,6 @@
 import Foundation
-import UIKit
 import MatrixSDK
+import UIKit
 
 // MARK: - Rooms
 
@@ -9,18 +9,23 @@ extension MatrixService {
 	func startListeningForRoomEvents() {
 		listenReference = session?.listenToEvents { [weak self] event, direction, roomState in
 			guard let self = self else { return }
-			let affectedRooms = self.rooms
-                .filter { $0.summary.summary?.roomId == event.roomId }
-
-			affectedRooms.forEach {
-				$0.add(event: event, direction: direction, roomState: roomState as? MXRoomState)
-			}
+//            let affectedRooms: [MXRoom] = self.rooms?
+//                .filter { $0.summary?.roomId == event.roomId } ?? []
+//			affectedRooms.forEach {
+//				$0.add(event: event,
+//                    direction: direction,
+//                    roomState: roomState as? MXRoomState
+//                )
+//			}
 			self.objectChangePublisher.send()
 		}
 		objectChangePublisher.send()
 	}
 
-	func createRoom(parameters: MXRoomCreationParameters, completion: @escaping (MXResponse<MXRoom>) -> Void) {
+	func createRoom(
+        parameters: MXRoomCreationParameters,
+        completion: @escaping (MXResponse<MXRoom>) -> Void
+    ) {
 		session?.createRoom(parameters: parameters) { [weak self] response in
             self?.objectChangePublisher.send()
             self?.session?.updateClientInformation()
@@ -28,7 +33,11 @@ extension MatrixService {
 		}
 	}
 
-	func uploadData(data: Data, for room: MXRoom, completion: @escaping GenericBlock<URL?>) {
+	func uploadData(
+        data: Data,
+        for room: MXRoom,
+        completion: @escaping GenericBlock<URL?>
+    ) {
 		uploader?.uploadData(data, filename: nil, mimeType: "image/jpeg", success: { link in
 			guard let link = link, let url = URL(string: link) else {
 				completion(nil)
@@ -40,24 +49,28 @@ extension MatrixService {
 		})
 	}
 
-    func uploadVoiceMessage(for roomId: String,
-                            url: URL,
-                            duration: UInt,
-                            completion: @escaping (Result <String?, MXErrors>) -> Void) {
-        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
+    func uploadVoiceMessage(
+        for roomId: String,
+        url: URL,
+        duration: UInt,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    ) {
+        guard let room = rooms?.first(where: { $0.roomId == roomId }) else {
             completion(.failure(.audioUploadError)); return
         }
         var localEcho: MXEvent?
-        room.sendVoiceMessage(localURL: url,
-                              additionalContentParams: nil,
-                              mimeType: "audio/ogg",
-                              duration: duration,
-                              samples: [],
-                              localEcho: &localEcho) { response in
+        room.sendVoiceMessage(
+            localURL: url,
+            additionalContentParams: nil,
+            mimeType: "audio/ogg",
+            duration: duration,
+            samples: [],
+            localEcho: &localEcho
+        ) { response in
             switch response {
             case let .success(result):
                 completion(.success(result))
-            case let .failure(error):
+            case .failure(_):
                 completion(.failure(.audioUploadError))
             }
         }
@@ -131,7 +144,7 @@ extension MatrixService {
     }
 
     func isRoomEncrypted(roomId: String, completion: @escaping (Bool?) -> Void) {
-        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
+        guard let room = rooms?.first(where: { $0.roomId == roomId }) else {
             completion(nil)
             return
         }
@@ -141,7 +154,7 @@ extension MatrixService {
     }
 
     func isRoomPublic(roomId: String, completion: @escaping (Bool?) -> Void) {
-        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
+        guard let room = rooms?.first(where: { $0.roomId == roomId }) else {
             completion(nil)
             return
         }
@@ -159,9 +172,12 @@ extension MatrixService {
         }
     }
 
-    func setJoinRule(roomId: String, isPublic: Bool,
-                     completion: @escaping (MXResponse<Void>?) -> Void) {
-        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
+    func setJoinRule(
+        roomId: String,
+        isPublic: Bool,
+        completion: @escaping (MXResponse<Void>?) -> Void
+    ) {
+        guard let room = rooms?.first(where: { $0.roomId == roomId }) else {
             completion(nil)
             return
         }
@@ -171,10 +187,12 @@ extension MatrixService {
         }
     }
 
-    func setRoomState(roomId: String,
-                      isPublic: Bool,
-                      completion: @escaping (MXResponse<Void>?) -> Void) {
-        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
+    func setRoomState(
+        roomId: String,
+        isPublic: Bool,
+        completion: @escaping (MXResponse<Void>?) -> Void
+    ) {
+        guard let room = rooms?.first(where: { $0.roomId == roomId }) else {
             completion(nil)
             return
         }
@@ -188,7 +206,7 @@ extension MatrixService {
 		roomId: String,
 		completion: @escaping (Result<MXCall, MXErrors>) -> Void
 	) {
-		guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room
+		guard let room = rooms?.first(where: { $0.roomId == roomId })
 		else { completion(.failure(.voiceCallPlaceError)); return }
 
 		room.placeCall(withVideo: false) { response in
@@ -207,7 +225,7 @@ extension MatrixService {
 		roomId: String,
 		completion: @escaping (Result<MXCall, MXErrors>) -> Void
 	) {
-		guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room
+		guard let room = rooms?.first(where: { $0.roomId == roomId })
 		else { completion(.failure(.videoCallPlaceError)); return }
 
 		room.placeCall(withVideo: true) { response in
@@ -222,9 +240,12 @@ extension MatrixService {
 		}
 	}
 
-    func uploadImage(for roomId: String, image: UIImage,
-                     completion: @escaping (Result <String?, MXErrors>) -> Void) {
-        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
+    func uploadImage(
+        for roomId: String,
+        image: UIImage,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    ) {
+        guard let room = rooms?.first(where: { $0.roomId == roomId }) else {
             completion(.failure(.imageUploadError)); return
         }
         let fixedImage = image.fixOrientation()
@@ -242,7 +263,7 @@ extension MatrixService {
             switch response {
             case let .success(result):
                 completion(.success(result))
-            case let .failure(error):
+            case .failure(_):
                 completion(.failure(.imageUploadError))
             default:
                 break
@@ -250,9 +271,12 @@ extension MatrixService {
         }
     }
 
-    func uploadFile(for roomId: String, url: URL,
-                    completion: @escaping (Result <String?, MXErrors>) -> Void) {
-        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
+    func uploadFile(
+        for roomId: String,
+        url: URL,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    ) {
+        guard let room = rooms?.first(where: { $0.roomId == roomId }) else {
             completion(.failure(.fileUploadError)); return
         }
         var localEcho: MXEvent?
@@ -271,11 +295,14 @@ extension MatrixService {
         }
     }
 
-    func uploadContact(for roomId: String,
-                       contact: Contact,
-                       completion: @escaping (Result <String?, MXErrors>) -> Void) {
-        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
-            completion(.failure(.contactUploadError)); return
+    func uploadContact(
+        for roomId: String,
+        contact: Contact,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    ) {
+        guard let room = rooms?.first(where: { $0.roomId == roomId }) else {
+            completion(.failure(.contactUploadError))
+            return
         }
         var localEcho: MXEvent?
         var content: [String: Any] = [:]
@@ -300,14 +327,15 @@ extension MatrixService {
         roomId: String,
         completion: @escaping (Result <String?, MXErrors>) -> Void
     ) {
-        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
-            completion(.failure(.encryptRoomError)); return
+        guard let room = rooms?.first(where: { $0.roomId == roomId }) else {
+            completion(.failure(.encryptRoomError))
+            return
         }
         room.enableEncryption(withAlgorithm: "") { response in
             switch response {
-            case let .success(_):
+            case .success(_):
                 completion(.success("Is Encrypted"))
-            case let .failure(_):
+            case .failure(_):
                 completion(.failure(.encryptRoomError))
             }
         }
@@ -319,8 +347,9 @@ extension MatrixService {
         thumbnail: MXImage?,
         completion: @escaping (Result <String?, MXErrors>) -> Void
     ) {
-        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
-            completion(.failure(.videoUploadError)); return
+        guard let room = rooms?.first(where: { $0.roomId == roomId }) else {
+            completion(.failure(.videoUploadError))
+            return
         }
 
         Task {
@@ -333,23 +362,26 @@ extension MatrixService {
                     localEcho: &localEcho
                 ) { response in
                     switch response {
-                        case let .success(result):
-                            completion(.success(result))
-                        case let .failure(error):
-                            debugPrint(error)
-                            completion(.failure(.videoUploadError))
+                    case let .success(result):
+                        completion(.success(result))
+                    case let .failure(error):
+                        debugPrint(error)
+                        completion(.failure(.videoUploadError))
                     }
                 }
             }
         }
     }
 
-    func sendText(_ roomId: String,
-                  _ text: String,
-                  completion: @escaping (Result <String?, MXErrors>) -> Void) {
+    func sendText(
+        _ roomId: String,
+        _ text: String,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    ) {
         guard !text.isEmpty else { return }
-        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
-            completion(.failure(.sendTextError)); return
+        guard let room = rooms?.first(where: { $0.roomId == roomId }) else {
+            completion(.failure(.sendTextError))
+            return
         }
         var localEcho: MXEvent?
         room.sendTextMessage(text, localEcho: &localEcho) { response in
@@ -363,33 +395,38 @@ extension MatrixService {
         }
     }
 
-    func sendReply(_ text: String,
-                   _ roomId: String,
-                   _ eventId: String,
-                   _ customParameters: [String: Any],
-                   completion: @escaping (Result <String?, MXErrors>) -> Void) {
-        guard let matrixRoom = rooms.first(where: { $0.room.roomId == roomId })?.room else {
+    func sendReply(
+        _ text: String,
+        _ roomId: String,
+        _ eventId: String,
+        _ customParameters: [String: Any],
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    ) {
+        guard let matrixRoom = rooms?.first(where: { $0.roomId == roomId }) else {
             completion(.failure(.sendReplyError))
             return
         }
         var localEcho: MXEvent?
-        matrixSession?.event(withEventId: eventId,
-                             inRoom: roomId, { result in
+        matrixSession?.event(
+            withEventId: eventId,
+            inRoom: roomId, { result in
             switch result {
             case let .success(event):
                 if let longitude = event.content["longitude"],
                    let latitude = event.content["latitude"] {
                     event.wireContent["geo_uri"] = "geo:\(latitude),\(longitude)"
                 }
-                matrixRoom.sendReply(to: event,
-                                     textMessage: text,
-                                     formattedTextMessage: nil,
-                                     stringLocalizations: nil,
-                                     localEcho: &localEcho,
-                                     customParameters: customParameters) { _ in
+                matrixRoom.sendReply(
+                    to: event,
+                    textMessage: text,
+                    formattedTextMessage: nil,
+                    stringLocalizations: nil,
+                    localEcho: &localEcho,
+                    customParameters: customParameters
+                ) { _ in
                     completion(.success("Reply Send"))
                 }
-            case let .failure(error):
+            case .failure(_):
                 completion(.failure(.sendReplyError))
             }
         })
@@ -401,24 +438,20 @@ extension MatrixService {
         completion: @escaping (Result <String?, MXErrors>) -> Void
     ) {
         guard let unwrappedLocation = location,
-              let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
+              let room = rooms?.first(where: { $0.roomId == roomId }) else {
             completion(.failure(.sendGeoError))
             return
         }
 
         var localEcho: MXEvent?
-        do {
-            let content = try LocationEvent(location: unwrappedLocation).encodeContent()
-            room.sendMessage(withContent: content, localEcho: &localEcho) { result in
-                switch result {
-                case .success(let text):
-                    completion(.success(text))
-                case .failure(_):
-                    completion(.failure(.sendGeoError))
-                }
+        let content = LocationEvent(location: unwrappedLocation).encodeContent()
+        room.sendMessage(withContent: content, localEcho: &localEcho) { result in
+            switch result {
+            case .success(let text):
+                completion(.success(text))
+            case .failure(_):
+                completion(.failure(.sendGeoError))
             }
-        } catch {
-            debugPrint("Error create LocationEvent")
         }
     }
 
@@ -427,9 +460,7 @@ extension MatrixService {
         model: TransferCryptoEvent,
         completion: @escaping (Result <String?, MXErrors>) -> Void
     ) {
-        guard let room = rooms.first(
-            where: { $0.room.roomId == roomId }
-        )?.room else {
+        guard let room = rooms?.first(where: { $0.roomId == roomId }) else {
             completion(.failure(.sendCryptoError))
             return
         }
@@ -450,7 +481,7 @@ extension MatrixService {
     }
 
     func markAllAsRead(roomId: String) {
-        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
+        guard let room = rooms?.first(where: { $0.roomId == roomId }) else {
             return
         }
         room.markAllAsRead()
@@ -458,7 +489,7 @@ extension MatrixService {
 
     func edit(roomId: String, text: String, eventId: String) {
         guard !text.isEmpty else { return }
-        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
+        guard let room = rooms?.first(where: { $0.roomId == roomId }) else {
             return
         }
         var localEcho: MXEvent?
@@ -484,21 +515,27 @@ extension MatrixService {
             })
     }
 
-    func redact(roomId: String,
-                eventId: String, reason: String?) {
-        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
+    func redact(
+        roomId: String,
+        eventId: String,
+        reason: String?
+    ) {
+        guard let room = rooms?.first(where: { $0.roomId == roomId }) else {
             return
         }
         room.redactEvent(eventId, reason: reason) { _ in }
     }
 
-    func getPublicRooms(filter: String,
-                        completion: @escaping  (Result <[MXPublicRoom]?, MXErrors>) -> Void) {
-        client?.publicRooms(onServer: nil,
-                            limit: 100,
-                            filter: filter,
-                            includeAllNetworks: false,
-                            completion: { response in
+    func getPublicRooms(
+        filter: String,
+        completion: @escaping  (Result <[MXPublicRoom]?, MXErrors>) -> Void
+    ) {
+        client?.publicRooms(
+            onServer: nil,
+            limit: 100,
+            filter: filter,
+            includeAllNetworks: false,
+            completion: { response in
             switch response {
             case let .success(result):
                 completion(.success(result.chunk))

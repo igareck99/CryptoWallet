@@ -2,7 +2,7 @@ import SwiftUI
 
 enum ChatRoomAssembly {
     static func build(
-		room: AuraRoom,
+		room: AuraRoomData,
 		coordinator: ChatsCoordinatable?
 	) -> some View {
         let groupCallsUseCase = GroupCallsUseCase(roomId: room.room.roomId)

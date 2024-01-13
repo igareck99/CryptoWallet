@@ -10,7 +10,6 @@ disabled_rules:
 
 opt_in_rules:
   - toggle_bool
-  - sorted_imports
   - last_where
   - function_default_parameter_at_end
   - convenience_type
@@ -119,12 +118,9 @@ unneeded_parentheses_in_closure_argument:
     severity: error
 
 unused_closure_parameter:
-    severity: error
+    severity: warning
 
 unused_optional_binding:
-    severity: error
-
-vertical_parameter_alignment:
     severity: error
 
 void_return:

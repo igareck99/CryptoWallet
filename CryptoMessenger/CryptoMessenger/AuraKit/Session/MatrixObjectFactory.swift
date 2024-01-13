@@ -110,9 +110,10 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
                     numberUsers: Int(members),
                     topic: summary.summary?.topic ?? "",
                     roomId: roomId,
-                    events: events,
+                    roomEvents: events,
                     eventCollections: EventCollection(currentBatch),
-                    participants: []
+                    participants: [], 
+                    room: mxRoom
                 )
                 return room
             }

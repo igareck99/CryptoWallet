@@ -7,7 +7,7 @@ final class DirectChatMenuViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    let room: AuraRoom
+    let room: AuraRoomData
     @Published var actions: [DirectAction] = []
     @Binding var showNotificationsChangeView: Bool
 
@@ -20,11 +20,13 @@ final class DirectChatMenuViewModel: ObservableObject {
 
     // MARK: - Lifecycle
 
-    init(room: AuraRoom,
-         showNotificationsChangeView: Binding<Bool>,
-         availabilityFacade: MenuActionsTogglesFacadeProtocol = MenuActionsFacadeAssembly.build(),
-         pushNotifications: PushNotificationsServiceProtocol = PushNotificationsService.shared,
-         userSettings: UserCredentialsStorage & UserFlowsStorage = UserDefaultsService.shared) {
+    init(
+        room: AuraRoomData,
+        showNotificationsChangeView: Binding<Bool>,
+        availabilityFacade: MenuActionsTogglesFacadeProtocol = MenuActionsFacadeAssembly.build(),
+        pushNotifications: PushNotificationsServiceProtocol = PushNotificationsService.shared,
+        userSettings: UserCredentialsStorage & UserFlowsStorage = UserDefaultsService.shared
+    ) {
         self.room = room
         self._showNotificationsChangeView = showNotificationsChangeView
         self.availabilityFacade = availabilityFacade

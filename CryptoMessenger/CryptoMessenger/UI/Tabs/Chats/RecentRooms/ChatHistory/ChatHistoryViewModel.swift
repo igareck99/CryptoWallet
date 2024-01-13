@@ -45,7 +45,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
 
     private let stateValueSubject = CurrentValueSubject<ChatHistoryFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
-    @Injectable private(set) var matrixUseCase: MatrixUseCaseProtocol
+    private let matrixUseCase: MatrixUseCaseProtocol
     private let pushService: PushNotificationsServiceProtocol
     private let userSettings: UserCredentialsStorage & UserFlowsStorage
     private let factory: ChannelUsersFactoryProtocol.Type
@@ -59,6 +59,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
     // MARK: - Lifecycle
 
     init(
+        matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,
         resources: ChatHistorySourcesable.Type = ChatHistorySources.self,
         pushService: PushNotificationsServiceProtocol = PushNotificationsService.shared,
         userSettings: UserCredentialsStorage & UserFlowsStorage = UserDefaultsService.shared,
@@ -66,6 +67,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
         chatObjectFactory: ChatHistoryObjectFactoryProtocol = ChatHistoryObjectFactory(),
         matrixObjectFactory: MatrixObjectFactoryProtocol = MatrixObjectFactory()
     ) {
+        self.matrixUseCase = matrixUseCase
         self.resources = resources
         self.pushService = pushService
         self.userSettings = userSettings
@@ -78,6 +80,9 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
     deinit {
         subscriptions.forEach { $0.cancel() }
         subscriptions.removeAll()
+
+        timerSubscription?.cancel()
+        timerSubscription = nil
     }
 
     var timerSubscription: AnyCancellable?
@@ -89,11 +94,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
             .publish(every: 0.5, on: RunLoop.main, in: .default)
             .autoconnect()
             .prefix(
-                untilOutputFrom: Just(())
-                    .delay(
-                        for: 60,
-                        scheduler: RunLoop.main
-                    )
+                untilOutputFrom: Just(()).delay(for: 10, scheduler: RunLoop.main)
             ).eraseToAnyPublisher()
 
         timerSubscription = roomsTimer?
@@ -101,13 +102,13 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
             .sink { [weak self] _ in
                 guard let self = self else { return }
                 self.getPinnedMessages()
-                let rooms = self.matrixUseCase.matrixSession?.rooms
+//                let isRoomsReady = self.matrixUseCase.isRoomsCheckReady
                 self.matrixUseCase.objectChangePublisher.send()
                 debugPrint("MATRIX DEBUG ChatHistoryViewModel roomsTimer")
-                guard rooms != nil else { return }
-                debugPrint("MATRIX DEBUG ChatHistoryViewModel roomsTimer.cancel()")
-                self.timerSubscription?.cancel()
-                self.timerSubscription = nil
+//                guard isRoomsReady else { return }
+//                debugPrint("MATRIX DEBUG ChatHistoryViewModel roomsTimer.cancel()")
+//                self.timerSubscription?.cancel()
+//                self.timerSubscription = nil
                 Task {
                     await self.joinToInvitedRooms()
                 }
@@ -197,7 +198,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
     }
 
     func onAppear() {
-        self.auraRooms = self.matrixUseCase.auraNoEventsRooms
+        self.auraRooms = self.matrixUseCase.rooms
         Task {
             await joinToInvitedRooms()
         }
@@ -344,41 +345,63 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
             .subscribe(on: DispatchQueue.global(qos: .userInteractive))
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-//                debugPrint("MATRIX DEBUG ChatHistoryViewModel objectChangePublisher")
                 guard let self = self else { return }
                 self.updateRoomsOnPin()
+                self.auraRooms = self.matrixUseCase.rooms
                 Task {
                     await self.joinToInvitedRooms()
                 }
-                self.chatHistoryRooms = self.chatObjectFactory.makeChatHistoryRooms(
+
+                let newRooms = self.chatObjectFactory.makeChatHistoryRooms(
                     mxRooms: self.auraRooms,
                     viewModel: self
                 ).sorted(by: {
                     return $0.isPinned && !$1.isPinned
                 })
+                
+                if newRooms.hashValue != self.chatHistoryRooms.hashValue {
+                    self.chatHistoryRooms = newRooms
+                }
                 if !self.isSearching {
-                    chatSections = [ChatHistorySection(data: .emptySection, views: self.chatHistoryRooms)]
+                    chatSections = [
+                        ChatHistorySection(
+                            data: .emptySection,
+                            views: self.chatHistoryRooms
+                        )
+                    ]
                 }
                 self.objectWillChange.send()
             }
             .store(in: &subscriptions)
     }
-    
+
     private func updateRoomsOnPin() {
         self.getPinnedMessages()
-        self.auraRooms = self.matrixUseCase.auraNoEventsRooms.map {
-            if self.pinnedRooms.contains($0.roomId) {
-                let room = AuraRoomData(id: $0.id, isChannel: $0.isChannel,
-                                        isAdmin: $0.isAdmin, isPinned: true, isOnline: $0.isOnline, isDirect:
-                                            $0.isDirect, unreadedEvents: $0.unreadedEvents,
-                                        lastMessage: $0.lastMessage, lastMessageTime: $0.lastMessageTime,
-                                        roomAvatar: $0.roomAvatar, roomName: $0.roomName,
-                                        numberUsers: $0.numberUsers, topic: $0.topic,
-                                        roomId: $0.roomId, events: $0.events,
-                                        eventCollections: $0.eventCollections, participants: $0.participants)
-                return room
+        self.auraRooms = self.matrixUseCase.rooms.map {
+            guard !pinnedRooms.contains($0.roomId) else {
+                return $0
             }
-            return $0
+            let room = AuraRoomData(
+                id: $0.id,
+                isChannel: $0.isChannel,
+                isAdmin: $0.isAdmin,
+                isPinned: true,
+                isOnline: $0.isOnline,
+                isDirect: $0.isDirect,
+                unreadedEvents: $0.unreadedEvents,
+                lastMessage: $0.lastMessage,
+                lastMessageTime: $0.lastMessageTime,
+                roomAvatar: $0.roomAvatar,
+                roomName: $0.roomName,
+                numberUsers: $0.numberUsers,
+                topic: $0.topic,
+                roomId: $0.roomId,
+                roomEvents: $0.roomEvents,
+                eventCollections: $0.eventCollections,
+                participants: $0.participants, 
+                room: $0.room
+            )
+            return room
         }
     }
 
@@ -386,7 +409,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
     private func joinToInvitedRooms() async {
         guard isStartedToJoinInvitedRooms == false else { return }
         isStartedToJoinInvitedRooms = true
-        let aurRooms = self.matrixUseCase.auraNoEventsRooms
+        let aurRooms = self.matrixUseCase.rooms
         aurRooms.forEach { room in
             // проверка на уже присоединенную комнату
             guard let isInvited: Bool = self.matrixUseCase.isInvitedToRoom(
@@ -396,7 +419,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
             }
             debugPrint("MATRIX DEBUG ChatHistoryViewModel matrixUseCase.joinRoom isInvited \(isInvited)")
             self.matrixUseCase.joinRoom(roomId: room.roomId) { repsonse in
-                debugPrint("MATRIX DEBUG ChatHistoryViewModel matrixUseCase.joinRoom \(room.roomId)")
+                debugPrint("MATRIX DEBUG ChatHistoryViewModel matrixUseCase.joinRoom \(room.room.roomId)")
                 debugPrint("MATRIX DEBUG ChatHistoryViewModel matrixUseCase.joinRoom \(repsonse)")
             }
         }

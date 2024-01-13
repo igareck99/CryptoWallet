@@ -5,8 +5,6 @@ import SwiftUI
 // swiftlint:disable all
 
 protocol ChatComponentsFactoryProtocol {
-	func makeChatEventView(event: RoomMessage, viewModel: ChatRoomViewModel) -> AnyView
-
 	func makeChatMessageEventView(
 		showFile: Binding<Bool>,
 		showMap: Binding<Bool>,
@@ -52,7 +50,7 @@ struct ChatComponentsFactory {
 extension ChatComponentsFactory: ChatComponentsFactoryProtocol {
 
     // MARK: - Internal Methods
-
+/*
 	func makeChatEventView(
 		event: RoomMessage,
 		viewModel: ChatRoomViewModel
@@ -147,7 +145,7 @@ extension ChatComponentsFactory: ChatComponentsFactoryProtocol {
 				.flippedUpsideDown()
 		)
 	}
-
+*/
 	private func textForCallEventReason(
 		eventType: String,
 		content: [String: Any]

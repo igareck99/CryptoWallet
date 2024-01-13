@@ -42,15 +42,16 @@ extension ChatsRouter: ChatsRouterable {
     }
 
     func routeToFirstAction(
-        room: AuraRoom,
+        room: AuraRoomData,
         coordinator: ChatsCoordinatable
     ) {
-        state.path.append(
-            BaseContentLink.chatRoom(
-                room: room,
-                coordinator: coordinator
-            )
-        )
+        debugPrint("MATRIX DEBUG routeToFirstAction NOT IMPLEMENTED")
+//        state.path.append(
+//            BaseContentLink.chatRoom(
+//                room: room,
+//                coordinator: coordinator
+//            )
+//        )
     }
 
     func start() {

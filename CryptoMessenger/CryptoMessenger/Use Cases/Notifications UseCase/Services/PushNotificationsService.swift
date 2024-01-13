@@ -16,9 +16,16 @@ protocol PushNotificationsServiceProtocol {
 	func requestForRemoteNotificationsAuthorizationStatus(
 		completion: @escaping (UNNotificationSettings) -> Void
 	)
-    
-    func mute(room: AuraRoom, completion: @escaping (NotificationsActionState) -> Void)
-    func allMessages(room: AuraRoom, completion: @escaping (NotificationsActionState) -> Void)
+
+    func mute(
+        room: AuraRoomData,
+        completion: @escaping (NotificationsActionState) -> Void
+    )
+
+    func allMessages(
+        room: AuraRoomData,
+        completion: @escaping (NotificationsActionState) -> Void
+    )
 }
 
 // MARK: - NotificationsActionState
@@ -77,7 +84,7 @@ extension PushNotificationsService: PushNotificationsServiceProtocol {
 		}
 	}
 
-    func addPushRuleToMute(room: AuraRoom) {
+    func addPushRuleToMute(room: AuraRoomData) {
         guard let roomId = room.room.roomId else {
             return
         }
@@ -89,8 +96,8 @@ extension PushNotificationsService: PushNotificationsServiceProtocol {
             highlight: false
         )
     }
-    
-    func addPushRuleToUnmuteMute(room: AuraRoom) {
+
+    func addPushRuleToUnmuteMute(room: AuraRoomData) {
         guard let roomId = room.room.roomId else {
             return
         }
@@ -104,7 +111,7 @@ extension PushNotificationsService: PushNotificationsServiceProtocol {
     }
 
     func allMessages(
-        room: AuraRoom,
+        room: AuraRoomData,
         completion: @escaping (NotificationsActionState) -> Void
     ) {
         if !room.room.isMuted {
@@ -126,15 +133,15 @@ extension PushNotificationsService: PushNotificationsServiceProtocol {
         }
     }
 
-    func removePushRule(room: AuraRoom, rule: MXPushRule) {
+    func removePushRule(room: AuraRoomData, rule: MXPushRule) {
         room.room.mxSession.notificationCenter.removeRule(rule)
     }
 
-    func enablePushRule(room: AuraRoom, rule: MXPushRule) {
+    func enablePushRule(room: AuraRoomData, rule: MXPushRule) {
         room.room.mxSession.notificationCenter.enableRule(rule, isEnabled: true)
     }
 
-    func mute(room: AuraRoom, completion: @escaping (NotificationsActionState) -> Void) {
+    func mute(room: AuraRoomData, completion: @escaping (NotificationsActionState) -> Void) {
         guard !room.room.isMuted else {
             completion(.isAlreadyMuted)
             return
@@ -156,7 +163,7 @@ extension PushNotificationsService: PushNotificationsServiceProtocol {
             completion(.muteOn)
         } else {
             removePushRule(room: room, rule: rule)
-            self.addPushRuleToMute(room: room)
+            addPushRuleToMute(room: room)
             completion(.muteOn)
         }
     }

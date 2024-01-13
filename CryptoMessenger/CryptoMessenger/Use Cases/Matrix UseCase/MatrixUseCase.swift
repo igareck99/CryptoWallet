@@ -2,14 +2,36 @@ import Combine
 import Foundation
 import MatrixSDK
 
-// swiftlint:disable all
-
-// MARK: - MatrixUseCase
-
 final class MatrixUseCase {
 
-    // MARK: - Private Properties
+    static let shared = MatrixUseCase()
 
+    var objectChangePublisher: ObservableObjectPublisher {
+        matrixService.objectChangePublisher
+    }
+
+    var loginStatePublisher: Published<MatrixState>.Publisher {
+        matrixService.loginStatePublisher
+    }
+
+    var devicesPublisher: Published<[MXDevice]>.Publisher {
+        matrixService.devicesPublisher
+    }
+
+    var roomStatePublisher: Published<MXRoomState>.Publisher {
+        matrixService.roomStatePublisher
+    }
+
+    var matrixSession: MXSession? {
+        matrixService.matrixSession
+    }
+
+    var isRoomsCheckReady: Bool {
+        debugPrint("MATRIX DEBUG MatrixUseCase isRoomsCheckReady \(matrixService.matrixSession?.rooms)")
+        return matrixService.matrixSession?.rooms != nil
+    }
+
+    var rooms = [AuraRoomData]()
     let matrixService: MatrixServiceProtocol
     let config: ConfigType
     let cache: ImageCacheServiceProtocol
@@ -17,14 +39,12 @@ final class MatrixUseCase {
     let keychainService: KeychainServiceProtocol
     let userSettings: UserDefaultsServiceProtocol & UserCredentialsStorage
     let channelFactory: ChannelUsersFactoryProtocol.Type
+    let matrixobjectFactory: MatrixObjectFactoryProtocol
 	private var subscriptions = Set<AnyCancellable>()
 	private let toggles: MatrixUseCaseTogglesProtocol
-
-    // MARK: - Static Properties
-
-	static let shared = MatrixUseCase()
-    
-    // MARK: - Lifecycle
+    private let chatObjectFactory: ChatHistoryObjectFactoryProtocol
+    private let eventsFactory: RoomEventObjectFactoryProtocol
+    var listenReference: MXSessionEventListener?
 
     init(
         matrixService: MatrixServiceProtocol = MatrixService.shared,
@@ -34,7 +54,10 @@ final class MatrixUseCase {
         config: ConfigType = Configuration.shared,
         cache: ImageCacheServiceProtocol = ImageCacheService.shared,
         jitsiFactory: JitsiWidgetFactoryProtocol.Type = JitsiWidgetFactory.self,
-        channelFactory: ChannelUsersFactoryProtocol.Type = ChannelUsersFactory.self
+        channelFactory: ChannelUsersFactoryProtocol.Type = ChannelUsersFactory.self,
+        chatObjectFactory: ChatHistoryObjectFactoryProtocol = ChatHistoryObjectFactory(),
+        matrixobjectFactory: MatrixObjectFactoryProtocol = MatrixObjectFactory(),
+        eventsFactory: RoomEventObjectFactoryProtocol = RoomEventObjectFactory()
     ) {
         self.matrixService = matrixService
         self.keychainService = keychainService
@@ -44,193 +67,81 @@ final class MatrixUseCase {
         self.cache = cache
         self.jitsiFactory = jitsiFactory
         self.channelFactory = channelFactory
+        self.chatObjectFactory = chatObjectFactory
+        self.matrixobjectFactory = matrixobjectFactory
+        self.eventsFactory = eventsFactory
         observeLoginState()
         observeSessionToken()
     }
 
-    // MARK: - Private Methods
-    
-    private func observeSessionToken() {
-        NotificationCenter.default
-            .addObserver(
-                self,
-                selector: #selector(tokenRefreshed),
-                name: .didRefreshToken,
-                object: nil
-            )
+    func subscribeToEvents() {
+        listenReference = matrixSession?.listenToEvents { [weak self] event, direction, roomState in
+            debugPrint("MATRIX DEBUG MatrixUseCase listenToEvents")
+            guard let self = self else { return }
+            // Update the rooms number, etc...
+            self.checkRoomsUpdate(mxRooms: self.matrixSession?.rooms)
+            DispatchQueue.main.async {
+                self.objectChangePublisher.send()
+            }
+        } as? MXSessionEventListener
     }
-    
-    @objc func tokenRefreshed() {
-        guard let apiToken: String = keychainService.apiAccessToken,
-              let userId: String = userSettings.userId,
-              let deviceId: String = keychainService[.deviceId]
-        else {
+
+    private func checkRoomsUpdate(mxRooms: [MXRoom]?) {
+        guard let updatedRooms = mxRooms, rooms.count != updatedRooms.count else {
             return
         }
 
-        let homeServer = config.matrixURL
-        loginByJWT(
-            token: apiToken,
-            deviceId: deviceId,
-            userId: userId,
-            homeServer: homeServer
-        ) { result in
-            
-            if case .success = result {
-                debugPrint("MatrixUseCase tokenRefreshed loginByJWT TOKEN REFRESHED")
-            } else {
-                debugPrint("MatrixUseCase tokenRefreshed loginByJWT TOKEN NOT REFRESHED")
-            }
+        let existingRoomsIds: Set<String> = rooms.reduce(into: Set<String>()) {
+            $0.insert($1.roomId)
         }
+
+        let updatedRoomsIds: Set<String> = updatedRooms.reduce(into: Set<String>()) {
+            $0.insert($1.roomId)
+        }
+
+        // Detect removed rooms
+        let removedRoomsIds: Set<String> = existingRoomsIds.subtracting(updatedRoomsIds)
+        removedRoomsIds.forEach { removedRoomId in
+            guard let roomToRemove: (Int, AuraRoomData) = rooms.enumerated()
+                .first(where: { room in room.1.roomId == removedRoomId }) else {
+                    return
+                }
+            rooms.remove(at: roomToRemove.0)
+        }
+
+        // Detect new rooms
+        let newRoomsIds: Set<String> = updatedRoomsIds.subtracting(existingRoomsIds)
+        let newRooms: [MXRoom] = newRoomsIds.compactMap {
+            guard let newRoom: MXRoom = matrixSession?.room(withRoomId: $0) else {
+                return nil
+            }
+            return newRoom
+        }
+
+        let newAuraRooms: [AuraRoomData] = matrixobjectFactory
+            .makeAuraRooms(
+                mxRooms: newRooms,
+                isMakeEvents: true,
+                config: config,
+                eventsFactory: eventsFactory,
+                matrixUseCase: self
+            )
+        debugPrint("MATRIX DEBUG MatrixUseCase checkRoomsUpdate")
+        self.rooms.append(contentsOf: newAuraRooms)
+        self.objectChangePublisher.send()
     }
-
-	private func observeLoginState() {
-		NotificationCenter.default
-			.addObserver(
-				self,
-				selector: #selector(userDidLoggedIn),
-				name: .userDidLoggedIn,
-				object: nil
-			)
-	}
-
-	@objc func userDidLoggedIn() {
- 		matrixService.updateState(with: .loggedIn(userId: matrixService.getUserId()))
-		updateCredentialsIfAvailable()
-	}
-
-	// TODO: Отрефачить логику входа по пин коду
-    func updateCredentialsIfAvailable() {
-		guard let credentials = retrievCredentials() else { return }
-		matrixService.updateService(credentials: credentials)
-		matrixService.initializeSessionStore { [weak self] result in
-
-			guard case .success = result else {
-				self?.matrixService.updateState(with: .failure(.loginFailure))
-				return
-			}
-
-			self?.matrixService.startSession { result in
-				guard case .success = result, let userId = credentials.userId else {
-					self?.matrixService.updateState(with: .failure(.loginFailure))
-					return
-				}
-
-				self?.matrixService.configureFetcher()
-				self?.matrixService.updateState(with: .loggedIn(userId: userId))
-				self?.matrixService.updateUnkownDeviceWarn(isEnabled: false)
-				self?.matrixService.startListeningForRoomEvents()
-			}
-
-		}
-	}
 }
 
 // MARK: - MatrixUseCaseProtocol
 
 extension MatrixUseCase: MatrixUseCaseProtocol {
-	var objectChangePublisher: ObservableObjectPublisher { matrixService.objectChangePublisher }
-	var loginStatePublisher: Published<MatrixState>.Publisher { matrixService.loginStatePublisher }
-	var devicesPublisher: Published<[MXDevice]>.Publisher { matrixService.devicesPublisher }
-    var roomStatePublisher: Published<MXRoomState>.Publisher { matrixService.roomStatePublisher }
-	var rooms: [AuraRoom] { matrixService.rooms }
-    var auraRooms: [AuraRoomData] { matrixService.auraRooms }
-    var auraNoEventsRooms: [AuraRoomData] { matrixService.auraNoEventsRooms }
 
-	// MARK: - Session
-
-	var matrixSession: MXSession? { matrixService.matrixSession }
-    
-    func loginByJWT(
-        token: String,
-        deviceId: String,
-        userId: String,
-        homeServer: URL,
-        completion: @escaping EmptyFailureBlock<AuraMatrixCredentials>
-    ) {
-        matrixService.updateClient(with: homeServer)
-        matrixService.loginByJWT(
-            token: token,
-            deviceId: deviceId,
-            userId: userId,
-            homeServer: homeServer
-        ) { [weak self] result in
-            self?.handleLogin(response: result, completion: completion)
-        }
-    }
-    
-    private func handleLogin(
-        response: Result<MXCredentials, Error>,
-        completion: @escaping EmptyFailureBlock<AuraMatrixCredentials>
-    ) {
-        guard case .success(let credentials) = response else {
-            matrixService.updateState(with: .failure(.loginFailure))
-            completion(.failure)
-            return
-        }
-        
-        save(credentials: credentials)
-        matrixService.updateService(credentials: credentials)
-        
-        matrixService.initializeSessionStore { [weak self] result in
-            
-            guard case .success = result else {
-                self?.matrixService.updateState(with: .failure(.loginFailure))
-                completion(.failure)
-                return
-            }
-            
-            self?.matrixService.startSession { result in
-                guard case .success = result, let userId = credentials.userId else {
-                    self?.matrixService.updateState(with: .failure(.loginFailure))
-                    completion(.failure)
-                    return
-                }
-                
-                self?.matrixService.updateState(with: .loggedIn(userId: userId))
-                self?.matrixService.updateUnkownDeviceWarn(isEnabled: false)
-                self?.matrixService.startListeningForRoomEvents()
-                self?.serverSyncWithServerTimeout()
-
-                guard let homeServer = credentials.homeServer,
-                      let userId = credentials.userId,
-                      let accessToken = credentials.accessToken,
-                      let deviceId = credentials.deviceId
-                else {
-                    completion(.failure)
-                    return
-                }
-                
-                let auraMxCredentials = AuraMatrixCredentials(
-                    homeServer: homeServer,
-                    userId: userId,
-                    accessToken: accessToken,
-                    deviceId: deviceId
-                )
-                completion(.success(auraMxCredentials))
-            }
-        }
-    }
-    
-    func logout(completion: @escaping (Result<MatrixState, Error>) -> Void) {
-        matrixService.logout { [weak self] in
-            completion($0)
-            self?.closeSession()
-        }
-    }
-
-	func closeSession() {
-        debugPrint("MATRIX DEBUG MatrixUseCase closeSession")
-		matrixService.closeSessionAndClearData()
-	}
-    
     // MARK: - Sync
-    
+
     func serverSyncWithServerTimeout() {
         // TODO: Trigger storage sync with server
-        matrixService.matrixSession?.backgroundSync(completion: { response in
+        matrixService.matrixSession?.backgroundSync { response in
             debugPrint("matrixService.matrixSession?.backgroundSync: \(response)")
-        })
-        
-    }  
+        }
+    }
 }

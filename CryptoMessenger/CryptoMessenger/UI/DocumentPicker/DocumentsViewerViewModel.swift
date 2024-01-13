@@ -16,7 +16,7 @@ final class DocumentsViewerViewModel: ObservableObject {
 
     // MARK: - Lifecycle
 
-    init(togglesFacade: ChatRoomTogglesFacadeProtocol = ChatRoomViewModelAssembly.build()) {
+    init(togglesFacade: ChatRoomTogglesFacadeProtocol = ChatRoomTogglesFacadeAssembly.build()) {
         self.togglesFacade = togglesFacade
     }
 }

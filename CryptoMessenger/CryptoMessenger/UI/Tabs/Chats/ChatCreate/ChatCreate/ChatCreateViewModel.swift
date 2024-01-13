@@ -314,7 +314,7 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
                     self.matrixUseCase.objectChangePublisher.send()
 
                     if let mxRoomId = roomId,
-                       let auraRoomData: AuraRoomData = matrixUseCase.auraNoEventsRooms.first(
+                       let auraRoomData: AuraRoomData = matrixUseCase.rooms.first(
                         where: { $0.roomId == mxRoomId }
                        ) {
                         coordinator?.onFriendProfile(room: auraRoomData)

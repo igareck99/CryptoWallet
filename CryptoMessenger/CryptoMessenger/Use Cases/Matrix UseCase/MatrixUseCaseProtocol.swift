@@ -8,9 +8,8 @@ protocol MatrixUseCaseProtocol {
     var roomStatePublisher: Published<MXRoomState>.Publisher { get }
 	var loginStatePublisher: Published<MatrixState>.Publisher { get }
 	var devicesPublisher: Published<[MXDevice]>.Publisher { get }
-	var rooms: [AuraRoom] { get }
-    var auraRooms: [AuraRoomData] { get }
-    var auraNoEventsRooms: [AuraRoomData] { get }
+	var rooms: [AuraRoomData] { get }
+    var isRoomsCheckReady: Bool { get }
 
 	// MARK: - Session
 	var matrixSession: MXSession? { get }
@@ -47,7 +46,10 @@ protocol MatrixUseCaseProtocol {
     )
 
     func customCheckRoomExist(mxId: String) -> AuraRoomData?
-    func createGroupRoom(_ info: ChatData, completion: @escaping (RoomCreateState, String?) -> Void)
+    func createGroupRoom(
+        _ info: ChatData,
+        completion: @escaping (RoomCreateState, String?) -> Void
+    )
     func getRoomAvatarUrl(roomId: String) -> URL?
     func getUserAvatar(avatarString: String, completion: @escaping EmptyFailureBlock<UIImage>)
     func avatarUrlForUser(_ userId: String, completion: @escaping (URL?) -> Void)
@@ -126,6 +128,39 @@ protocol MatrixUseCaseProtocol {
         roomId: String,
         text: String,
         eventId: String,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    )
+
+    // MARK: - Upload
+    func uploadVideoMessage(
+        for roomId: String,
+        url: URL,
+        thumbnail: MXImage?,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    )
+
+    func uploadContact(
+        for roomId: String,
+        contact: Contact,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    )
+
+    func uploadFile(
+        for roomId: String,
+        url: URL,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    )
+
+    func uploadImage(
+        for roomId: String,
+        image: UIImage,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    )
+
+    func uploadVoiceMessage(
+        for roomId: String,
+        url: URL,
+        duration: UInt,
         completion: @escaping (Result <String?, MXErrors>) -> Void
     )
 

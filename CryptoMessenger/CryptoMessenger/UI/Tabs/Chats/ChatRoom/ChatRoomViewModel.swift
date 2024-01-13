@@ -19,14 +19,14 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var dismissScreen = false
     @Published var showSettings = false
     @Published var isOneDayMessages = false
-    @Published var rooms: [AuraRoom] = []
+    @Published var rooms: [AuraRoomData] = []
     @Published var participants: [ChannelParticipantsData] = []
 
     @Published private(set) var keyboardHeight: CGFloat = 0
     @Published private(set) var emojiStorage: [ReactionStorage] = []
     @Published private(set) var state: ChatRoomFlow.ViewState = .idle
     @Published private(set) var userMessage: Message?
-    @Published private(set) var room: AuraRoom
+    @Published private(set) var room: AuraRoomData
     @Published var messages: [RoomMessage] = []
     @Published var translatedMessages: [RoomMessage] = []
     @Published var photosToSend: [UIImage] = []
@@ -104,7 +104,7 @@ final class ChatRoomViewModel: ObservableObject {
     // MARK: - Lifecycle
 
     init(
-		room: AuraRoom,
+		room: AuraRoomData,
 		p2pCallsUseCase: P2PCallUseCaseProtocol = P2PCallUseCase.shared,
 		availabilityFacade: ChatRoomTogglesFacadeProtocol = ChatRoomViewModelAssembly.build(), 
         toggleFacade: MainFlowTogglesFacadeProtocol,
@@ -209,7 +209,8 @@ final class ChatRoomViewModel: ObservableObject {
     
     func joinRoom(_ roomId: String) {
         self.matrixUseCase.joinRoom(roomId: roomId) { [weak self] _ in
-            guard let newRoom = self?.matrixUseCase.rooms.first(where: { $0.room.roomId == roomId }) else {
+            guard let newRoom = self?.matrixUseCase.rooms
+                .first(where: { $0.room.roomId == roomId }) else {
                 return
             }
             self?.coordinator?.firstAction(room: newRoom)
@@ -459,11 +460,13 @@ final class ChatRoomViewModel: ObservableObject {
                     self?.inputText = ""
                     guard let id = self?.room.room.roomId else { return }
                     DispatchQueue.global(qos: .background).async {
-                        self?.mediaService.uploadChatFile(roomId: id,
-                                                          url: url) { result in
+                        self?.mediaService.uploadChatFile(
+                            roomId: id,
+                            url: url
+                        ) { result in
                             switch result {
                             case .success(let success):
-                                self?.room.updateEvents(eventId: success)
+                                self?.room.room.updateEvents(eventId: success)
                             default:
                                 break
                             }
@@ -785,14 +788,14 @@ final class ChatRoomViewModel: ObservableObject {
             .subscribe(on: DispatchQueue.global(qos: .userInitiated))
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                guard
-                    let self = self,
-                    let room = self.matrixUseCase.rooms.first(where: { $0.room.id == self.room.id })
-                else {
+                guard let self = self,
+                      var room: AuraRoomData = self.matrixUseCase.rooms
+                    .first(where: { $0.id == self.room.id }) else {
                     return
                 }
                 if self.isTranslating() {
-                    self.translatedMessages = room.events().renderableEvents.filter({ !$0.eventId.contains("kMXEventLocalId") })
+                    self.translatedMessages = room.events().renderableEvents
+                        .filter({ !$0.eventId.contains("kMXEventLocalId") })
                         .map {
                             var message = $0.message(self.fromCurrentSender($0.sender))
                             message?.eventId = $0.eventId
@@ -992,10 +995,10 @@ final class ChatRoomViewModel: ObservableObject {
                 eventId: mxEvent.eventId,
                 roomId: mxEvent.roomId
             )
-		} else if let mxRoom = matrixUseCase.rooms.first(where: { $0.room.id == self.room.id }),
-			let mxEvent = mxRoom.eventCache.first(where: { cachedEvent in
-			cachedEvent.eventId == event.eventId
-		}) {
+		} else if let mxRoom = matrixUseCase.rooms
+            .first(where: { $0.id == self.room.id }),
+			let mxEvent = mxRoom.eventCache
+            .first(where: { $0.eventId == event.eventId }) {
             self.groupCallsUseCase.joinGroupCallInRoom(
                 eventId: mxEvent.eventId,
                 roomId: mxEvent.roomId

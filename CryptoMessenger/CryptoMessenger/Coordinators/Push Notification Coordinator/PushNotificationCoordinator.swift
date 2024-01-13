@@ -13,9 +13,11 @@ final class PushNotificationCoordinator<Router: PushNotificationRouterable>: NSO
 	private weak var delegate: PushNotificationCoordinatorDelegate?
     private var toggleFacade: MainFlowTogglesFacadeProtocol
     private let router: Router
+    private let config: ConfigType
     private weak var chatsCoordinator: ChatsCoordinatable?
     private weak var walletCoordinator: WalletCoordinatable?
     private weak var profileCoordinatable: ProfileCoordinatable?
+    private let matrixobjectFactory: MatrixObjectFactoryProtocol
 
     init(
         userInfo: [AnyHashable: Any],
@@ -26,7 +28,9 @@ final class PushNotificationCoordinator<Router: PushNotificationRouterable>: NSO
         router: Router,
         chatsCoordinator: ChatsCoordinatable?,
         walletCoordinator: WalletCoordinatable?,
-        profileCoordinatable: ProfileCoordinatable?
+        profileCoordinatable: ProfileCoordinatable?,
+        config: ConfigType = Configuration.shared,
+        matrixobjectFactory: MatrixObjectFactoryProtocol = MatrixObjectFactory()
     ) {
         self.toggleFacade = toggleFacade
         self.userInfo = userInfo
@@ -37,6 +41,8 @@ final class PushNotificationCoordinator<Router: PushNotificationRouterable>: NSO
         self.chatsCoordinator = chatsCoordinator
         self.walletCoordinator = walletCoordinator
         self.profileCoordinatable = profileCoordinatable
+        self.config = config
+        self.matrixobjectFactory = matrixobjectFactory
 	}
 }
 
@@ -46,12 +52,11 @@ extension PushNotificationCoordinator: Coordinator {
 
 	func start() {
         guard let matrixEvent: MatrixNotification = parser.parseMatrixEvent(userInfo: userInfo),
-              let room: AuraRoomData = matrixUseCase.auraNoEventsRooms.first(
-                where: { $0.roomId == matrixEvent.roomId }
-              )
-        else {
+              let currentRoom: AuraRoomData = matrixUseCase.rooms.first(
+                where: { $0.room.roomId == matrixEvent.roomId }
+              ) else {
             return
         }
-        chatsCoordinator?.chatRoom(room: room)
-	}
+        chatsCoordinator?.chatRoom(room: currentRoom)
+    }
 }

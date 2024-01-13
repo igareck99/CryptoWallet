@@ -50,11 +50,11 @@ extension ViewsBaseFactory {
             TokenInfoAssembly.build(wallet: wallet)
         case let .adressScanner(value: value):
             WalletAddressScannerAssembly.build(scannedCode: value)
-        case let .chatRoom(room, coordinator):
-            ChatRoomAssembly.build(
-                room: room,
-                coordinator: coordinator
-            )
+//        case let .chatRoom(room, coordinator):
+//            ChatRoomAssembly.build(
+//                room: room,
+//                coordinator: coordinator
+//            )
         case let .chatSettings(
             chatData,
             isLeaveChannel,

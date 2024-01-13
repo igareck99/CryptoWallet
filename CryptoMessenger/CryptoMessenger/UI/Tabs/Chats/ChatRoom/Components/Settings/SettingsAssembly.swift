@@ -5,10 +5,9 @@ enum SettingsAssembly {
         chatData: Binding<ChatData>,
         isLeaveRoom: Binding<Bool>,
         saveData: Binding<Bool>,
-        room: AuraRoom,
+        room: AuraRoomData,
         coordinator: ChatsCoordinatable
     ) -> some View {
-        let groupCallsUseCase = GroupCallsUseCase(roomId: room.room.roomId)
         let viewModel = SettingsViewModel(room: room)
         viewModel.coordinator = coordinator
         return SettingsView(
