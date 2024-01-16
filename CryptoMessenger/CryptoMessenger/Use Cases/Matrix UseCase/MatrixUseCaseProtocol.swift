@@ -5,12 +5,15 @@ import MatrixSDK
 protocol MatrixUseCaseProtocol {
 
 	var objectChangePublisher: ObservableObjectPublisher { get }
+    var roomEventChangePublisher: ObservableObjectPublisher { get }
     var roomStatePublisher: Published<MXRoomState>.Publisher { get }
 	var loginStatePublisher: Published<MatrixState>.Publisher { get }
 	var devicesPublisher: Published<[MXDevice]>.Publisher { get }
+    var room: AuraRoomData? { get set }
 	var rooms: [AuraRoom] { get }
     var auraRooms: [AuraRoomData] { get }
     var auraNoEventsRooms: [AuraRoomData] { get }
+    var mxEvents: [MXEvent] { get }
 
 	// MARK: - Session
 	var matrixSession: MXSession? { get }
@@ -33,6 +36,9 @@ protocol MatrixUseCaseProtocol {
     func serverSyncWithServerTimeout()
 
 	// MARK: - Rooms
+    func startListeningRoomEvents(_ roomId: String)
+    func startListeningForRoomEvents()
+    func paginate(_ room: AuraRoomData, _ paginationCount: UInt) async -> [RoomEvent]
     func createChannel(
         name: String,
         topic: String,

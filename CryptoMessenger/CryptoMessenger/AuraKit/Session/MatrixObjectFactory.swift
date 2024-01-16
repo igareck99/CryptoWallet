@@ -72,7 +72,8 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
                     roomAvatar = avatarUrl
                 }
                 let enumerator = mxRoom.enumeratorForStoredMessages
-                let currentBatch = enumerator?.nextEventsBatch(50, threadId: nil) ?? []
+                // TODO: - Watch
+                let currentBatch = enumerator?.nextEventsBatch(100, threadId: nil) ?? []
                 var messageType = MessageType.text("")
                 let lastMessageEvent = currentBatch.last { $0.type == kMXEventTypeStringRoomMessage }
                 if currentBatch.last?.type == "m.call.hangup" {

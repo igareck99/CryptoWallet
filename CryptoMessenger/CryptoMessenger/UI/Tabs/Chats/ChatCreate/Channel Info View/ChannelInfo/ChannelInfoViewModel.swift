@@ -133,9 +133,10 @@ final class ChannelInfoViewModel {
 
     private func getRoomInfo() {
         if let room = matrixUseCase.getRoomInfo(roomId: room.roomId) {
-            roomDisplayName = room.summary?.displayName ?? ""
-            channelTopic = room.summary?.topic ?? ""
-            objectWillChange.send()
+            DispatchQueue.main.async { [weak self] in
+                self?.roomDisplayName = room.summary?.displayName ?? ""
+                self?.channelTopic = room.summary?.topic ?? ""
+            }
         }
 
         matrixUseCase.getRoomState(roomId: room.roomId) { [weak self] result in
@@ -232,7 +233,6 @@ final class ChannelInfoViewModel {
         let config = Configuration.shared
         let homeServer = config.matrixURL
         self.roomImageUrl = MXURL(mxContentURI: url.absoluteString)?.contentURL(on: homeServer)
-        print("s,aslaslkaskl  \(self.roomImageUrl)")
     }
 
     func setData() {
@@ -245,7 +245,6 @@ final class ChannelInfoViewModel {
 extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
     
     func userProfile() {
-        print("laslaslasl")
         self.coordinator?.friendProfile(userId: tappedUserId, roomId: room.roomId)
     }
 

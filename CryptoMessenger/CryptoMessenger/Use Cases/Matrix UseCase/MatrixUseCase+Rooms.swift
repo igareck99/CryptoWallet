@@ -62,7 +62,7 @@ extension MatrixUseCase {
             completion(.roomAlreadyExist, roomId)
             return
         }
-
+        
         let parameters = MXRoomCreationParameters()
         parameters.inviteArray = [userId]
         parameters.isDirect = true
@@ -317,6 +317,18 @@ extension MatrixUseCase {
             }
         }
     }
+    
+    func paginate(_ room: AuraRoomData, _ paginationCount: UInt) async -> [RoomEvent] {
+        let result = (try? await self.matrixService.initializeRoom(room, paginationCount)) ?? []
+        let roomEventsFactory = RoomEventObjectFactory()
+        let events = roomEventsFactory.makeChatHistoryRoomEvents(eventCollections: EventCollection(result),
+                                                                 matrixUseCase: self)
+        return events
+    }
+    
+    func startListeningRoomEvents(_ roomId: String) {
+        matrixService.startListeningRoomEvents(roomId)
+    }
 
     func getRoomState(roomId: String, completion: @escaping EmptyFailureBlock<MXRoomState>) {
 
@@ -446,4 +458,5 @@ extension MatrixUseCase {
             }
         }
     }
+    
 }

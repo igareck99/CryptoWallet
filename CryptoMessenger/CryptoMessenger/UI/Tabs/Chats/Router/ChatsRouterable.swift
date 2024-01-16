@@ -2,7 +2,10 @@ import Foundation
 import SwiftUI
 
 protocol ChatsRouterable: View {
-    
+
+    func writeToUser(_ room: AuraRoomData,
+                     _ coordinator: ChatsCoordinatable)
+
     func navPathChild() -> Binding<NavigationPath>
     
     func previousScreen()

@@ -143,6 +143,7 @@ extension ChatViewModel {
                             state: .sentLocaly,
                             eventId: eventId
                         )
+                        self.scrollToBottom()
                     case .failure(_):
                         self.changeSedingEvent(
                             event: event,
@@ -161,6 +162,7 @@ extension ChatViewModel {
             self.activeEditMessage = nil
             quickAction = nil
             self.inputText = ""
+            self.scrollToBottom()
         default:
             let event = self.makeOutputEventView(.text(inputText))
             matrixUseCase.sendText(
@@ -170,12 +172,13 @@ extension ChatViewModel {
                     guard let self = self else { return }
                     switch result {
                     case let .success(eventId):
-                    guard let eventId = eventId else { return }
-                    self.changeSedingEvent(
-                        event: event,
-                        state: .sentLocaly,
-                        eventId: eventId
-                    )
+                        guard let eventId = eventId else { return }
+                        self.changeSedingEvent(
+                            event: event,
+                            state: .sentLocaly,
+                            eventId: eventId
+                        )
+                        self.scrollToBottom()
                     case let .failure(result):
                     self.changeSedingEvent(
                         event: event,

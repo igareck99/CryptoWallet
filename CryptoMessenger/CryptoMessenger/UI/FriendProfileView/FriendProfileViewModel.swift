@@ -122,7 +122,7 @@ final class FriendProfileViewModel: FriendProfileViewModelProtocol {
     func onUserIdTap() {
         pasteboardService.copyToPasteboard(text: profile.nickname)
     }
-    
+
     func writeToUser() {
         let newRoom = self.matrixUseCase.customCheckRoomExist(mxId: userId)
         if matrixUseCase.getUserId() == userId {
@@ -131,15 +131,15 @@ final class FriendProfileViewModel: FriendProfileViewModelProtocol {
         if let newRoom = newRoom {
             chatHistoryCoordinator.chatRoom(room: newRoom, roomOpenState: .friendProfile)
         } else {
-            Task {
-                let result = await matrixUseCase.createDirectRoom(userId: userId)
-                if let roomId = result.1 {
+            Task { [weak self] in
+                let result = await self?.matrixUseCase.createDirectRoom(userId: userId)
+                if let roomId = result?.1 {
                     let room = AuraRoomData(isChannel: false,
                                             isAdmin: false,
                                             isPinned: false,
                                             isOnline: false,
                                             isDirect: false,
-                                            lastMessage: .text(""),
+                                            unreadedEvents: 0, lastMessage: .text(""),
                                             lastMessageTime: Date(),
                                             roomName: "",
                                             numberUsers: 2,

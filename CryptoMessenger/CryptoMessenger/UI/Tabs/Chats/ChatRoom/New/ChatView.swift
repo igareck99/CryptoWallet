@@ -14,7 +14,7 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
     var body: some View {
         ScrollViewReader { proxy in
             VStack(spacing: .zero) {
-                ReversedScrollView(.vertical) {
+                ReversedScrollView(.vertical, $viewModel.hasReachedTop) {
                     ForEach(viewModel.displayItems, id: \.id) { item in
                         item.view()
                             .clipped()
@@ -33,12 +33,12 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
                         viewModel.isKeyboardVisible = false
                     }
                 }
-                .onChange(of: viewModel.scroolString) { newValue in
-                    debugPrint("scrollToBottom viewModel.scroolString: \(newValue)")
-                    DispatchQueue.main.async {
-                        proxy.scrollTo(viewModel.scroolString, anchor: .bottom)
-                    }
-                }
+//                .onChange(of: viewModel.scroolString) { newValue in
+//                    debugPrint("scrollToBottom viewModel.scroolString: \(newValue)")
+//                    DispatchQueue.main.async {
+//                        proxy.scrollTo(viewModel.scroolString, anchor: .bottom)
+//                    }
+//                }
                 .onAppear {
                     viewModel.eventSubject.send(.onAppear(proxy))
                 }
@@ -55,6 +55,14 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
                 )
             }
         }
+        .onChange(of: viewModel.hasReachedTop, perform: { newValue in
+            if newValue {
+                DispatchQueue.main.async {
+                    viewModel.paginate()
+                    viewModel.hasReachedTop = false
+                }
+            }
+        })
         .navigationBarBackButtonHidden(true)
         .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
         .toolbarBackground(.visible, for: .navigationBar)
@@ -72,6 +80,7 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
         ToolbarItem(placement: .navigationBarLeading) {
             Button(action: {
                 viewModel.previousScreen()
+                viewModel.resetlistners()
             }, label: {
                 R.image.navigation.backButton.image
             })

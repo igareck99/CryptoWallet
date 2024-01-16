@@ -142,7 +142,7 @@ extension ChatsCoordinator: ChatsCoordinatable {
     func popToRoot() {
         router.popToRoot()
     }
-    
+
     func previousScreen() {
         router.previousScreen()
     }

@@ -36,7 +36,6 @@ enum ChatActions: CaseIterable {
     func text(_ isPinned: Bool) -> String {
         switch self {
         case .pin:
-            print("slaslasl  \(isPinned)")
             if isPinned {
                 return R.string.localizable.chatHistoryUnPin()
             } else {

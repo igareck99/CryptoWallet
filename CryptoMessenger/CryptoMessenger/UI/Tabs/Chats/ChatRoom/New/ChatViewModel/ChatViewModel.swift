@@ -23,11 +23,12 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     @Published var room: AuraRoomData
     let openRoomState: RoomOpenState
     @Published var replyDescriptionText = ""
+    @Published var paginationCount = 15
     var sources: ChatRoomSourcesable.Type = ChatRoomResources.self
     var coordinator: ChatsCoordinatable
     let mediaService = MediaService()
     let matrixobjectFactory: MatrixObjectFactoryProtocol = MatrixObjectFactory()
-    @Injectable var matrixUseCase: MatrixUseCaseProtocol
+    let roomEventObjectFactory: RoomEventObjectFactoryProtocol = RoomEventObjectFactory()
     @Published var eventSubject = PassthroughSubject<ChatRoomFlow.Event, Never>()
 
     // MARK: - Private Properties
@@ -46,6 +47,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     let coreDataService: CoreDataServiceProtocol
     let fileService: FileManagerProtocol
     let walletModelsFactory: WalletModelsFactoryProtocol.Type
+    var matrixUseCase: MatrixUseCaseProtocol
     @Injectable var apiClient: APIClientManager
 
     // MARK: - To replace
@@ -55,11 +57,13 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     var p2pVideoCallPublisher = ObservableObjectPublisher()
     var groupCallPublisher = ObservableObjectPublisher()
     var p2pVoiceCallPublisher = ObservableObjectPublisher()
+    var messagePublisher = ObservableObjectPublisher()
     var roomName: String { room.roomName }
     var isDirect: Bool { room.isDirect }
     var isOnline: Bool { room.isOnline }
     @Published var userHasAccessToMessage = true
     @Published var isChannel = false
+    @Published var scrolledAfterUpdateId = UUID()
 
     private var scrollProxy: ScrollViewProxy?
 
@@ -79,6 +83,15 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     @Published var isVideoCallAvailablility = false
     @Published var isChatGroupMenuAvailable = false
     @Published var isChatDirectMenuAvailable = false
+    var timeline: MXEventTimeline?
+    var roomListenerReference: Any?
+    var currentRoomTimeline: MXEventTimeline?
+    var currentRoomListenerReference: Any?
+    private var isFirstAppear = true
+    @Published var isUpdateView = false
+    @Published var hasReachedTop = false
+    @Published var roomGetEvents: [RoomEvent] = []
+    var mxEvents: [MXEvent] = []
 
     var roomUsersCount: Int {
         room.numberUsers
@@ -95,6 +108,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
         channelFactory: ChannelUsersFactoryProtocol.Type = ChannelUsersFactory.self,
         p2pCallsUseCase: P2PCallUseCaseProtocol = P2PCallUseCase.shared,
         groupCallsUseCase: GroupCallsUseCaseProtocol,
+        matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,
         fileService: FileManagerProtocol = FileManagerService.shared,
         config: ConfigType = Configuration.shared,
         resources: ChatRoomSourcesable.Type = ChatRoomResources.self,
@@ -113,14 +127,19 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
         self.groupCallsUseCase = groupCallsUseCase
         self.resources = resources
         self.availabilityFacade = availabilityFacade
+        self.matrixUseCase = matrixUseCase
         self.fileService = fileService
+        self.matrixUseCase.room = self.room
         bindInput()
         joinRoom(roomId: room.roomId)
+        initializeRoom()
+        print("initChatViewModel")
     }
 
     deinit {
         subscriptions.forEach { $0.cancel() }
         subscriptions.removeAll()
+        print("skaslkasklasDeintChatViewModelCalled")
     }
     
     func previousScreen() {
@@ -154,19 +173,19 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     }
 
     func scrollToBottom() {
-        DispatchQueue.main.async {
-            debugPrint("scrollToBottom scrollProxy: \(self.scrollProxy)")
-            debugPrint("scrollToBottom last: \(self.displayItems.last)")
-            if let last = self.displayItems.last {
-                debugPrint("scrollToBottom last.id: \(last.id)")
-                self.scrollProxy?.scrollTo(last.id, anchor: .bottom)
-            }
-        }
+//        DispatchQueue.main.async {
+//            debugPrint("scrollToBottom scrollProxy: \(self.scrollProxy)")
+//            debugPrint("scrollToBottom last: \(self.displayItems.last)")
+//            if let last = self.displayItems.last {
+//                debugPrint("scrollToBottom last.id: \(last.id)")
+//                self.scrollProxy?.scrollTo(last.id, anchor: .bottom)
+//            }
+//        }
     }
 
-    private func getCurrentEvents(_ currentRoom: AuraRoomData) -> [RoomEvent] {
+    private func getCurrentEvents(_ currentEventsReceived: [RoomEvent]) -> [RoomEvent] {
         var currentEvents: [RoomEvent] = []
-        currentRoom.events.forEach { [weak self] value in
+        currentEventsReceived.forEach { [weak self] value in
             guard let self = self else { return }
             let item = self.room.events.first(where: { $0.eventId == value.eventId })
             var currentEvent = value
@@ -281,7 +300,12 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                     guard let self = self else { return }
                     self.onTapNotSendedMessage(event)
                 },
-                onSwipeReply: { _ in },
+                onSwipeReply: { [weak self] value in
+                    guard let self = self else { return }
+                    self.activeEditMessage = value
+                    self.quickAction = .reply
+                    self.replyDescriptionText = self.factory.makeReplyDescription(self.activeEditMessage)
+                },
                 onTap: { value in
                     if value.isReply,
                        let event = self.room.events.first(where: { $0.eventId == value.rootEventId }) {
@@ -335,32 +359,74 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                 }
             }
             .store(in: &subscriptions)
-
-        matrixUseCase.objectChangePublisher
+        $isUpdateView
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                guard
-                    let self = self,
-                    let currentRoom = self.matrixUseCase.auraRooms.first(where: { $0.roomId == self.room.roomId })
-                else {
+            .sink { [weak self] value in
+                guard let self = self else { return }
+                if !value {
                     return
                 }
+                self.scroolString = self.room.events.first?.id ?? UUID()
+                let roomEventsFactory = RoomEventObjectFactory()
+                let events = roomEventsFactory.makeChatHistoryRoomEvents(eventCollections: EventCollection(self.mxEvents),
+                                                                         
+                                                                         matrixUseCase: self.matrixUseCase)
+                self.roomGetEvents = events
+                self.room = self.room
+            }
+            .store(in: &subscriptions)
+        $room
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                guard let self = self else { return }
                 self.updateRoomPowerLevel()
-                let currentEvents: [RoomEvent] = self.getCurrentEvents(currentRoom)
+                let currentEvents: [RoomEvent] = self.getCurrentEvents(self.roomGetEvents)
                 var currentViews: [any ViewGeneratable] = self.getCurrentViews(currentEvents)
                 currentViews = self.makeDisplayItems(currentViews)
                 self.itemsFromMatrix = currentViews
-                self.room = currentRoom
                 self.room.events = currentEvents
+                self.matrixUseCase.room = room
                 self.displayItems = self.itemsFromMatrix
-                delay(0.1) {
-                    guard !self.itemsFromMatrix.isEmpty else { return }
-                    self.scroolString = self.displayItems.last?.id ?? UUID()
-                }
-                self.objectWillChange.send()
+//                delay(0.1) {
+//                    if self.isFirstAppear {
+//                        guard !self.itemsFromMatrix.isEmpty else { return }
+//                        self.scroolString = self.displayItems.first?.id ?? UUID()
+//                        self.isFirstAppear = false
+//                    }
+//                }
             }
             .store(in: &subscriptions)
-
+        matrixUseCase.roomEventChangePublisher
+            .receive(on: DispatchQueue.global(qos: .utility))
+            .sink { [weak self] _ in
+                guard let self = self else { return }
+            }
+            .store(in: &subscriptions)
+//        matrixUseCase.objectChangePublisher
+//            .receive(on: DispatchQueue.global(qos: .utility))
+//            .sink { [weak self] _ in
+//                guard
+//                    let self = self,
+//                    let currentRoom = self.matrixUseCase.auraRooms.first(where: { $0.roomId == self.room.roomId })
+//                else {
+//                    return
+//                }
+//                self.updateRoomPowerLevel()
+//                let currentEvents: [RoomEvent] = self.getCurrentEvents(currentRoom)
+//                var currentViews: [any ViewGeneratable] = self.getCurrentViews(currentEvents)
+//                currentViews = self.makeDisplayItems(currentViews)
+//                self.itemsFromMatrix = currentViews
+//                self.room = currentRoom
+//                self.room.events = currentEvents
+//                self.matrixUseCase.room = room
+//                self.displayItems = self.itemsFromMatrix
+//                delay(0.1) {
+//                    guard !self.itemsFromMatrix.isEmpty else { return }
+//                    self.scroolString = self.displayItems.last?.id ?? UUID()
+//                }
+//                self.objectWillChange.send()
+//            }
+//            .store(in: &subscriptions)
         p2pVideoCallPublisher
             .subscribe(on: RunLoop.main)
             .receive(on: RunLoop.main)
@@ -403,6 +469,89 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                 self.groupCallsUseCase.placeGroupCallInRoom(roomId: self.room.roomId)
                 self.updateToggles()
             }.store(in: &subscriptions)
+    }
+    
+    // MARK: - Paginate
+
+    func resetlistners() {
+        self.timeline = nil
+        self.roomListenerReference = nil
+        self.currentRoomTimeline = nil
+        self.currentRoomListenerReference = nil
+        self.mxEvents = []
+    }
+    
+    
+    func listenRoomEvents() {
+        guard let mxRoom = self.matrixUseCase.getRoomInfo(roomId: room.roomId) else { return }
+        currentRoomListenerReference = mxRoom.listen { [weak self] event, _, _ in
+            guard let self = self else { return }
+            if !self.mxEvents.contains(event) {
+                print("slaslkasklaskl  \(event)")
+                self.mxEvents.append(event)
+            }
+        }
+    }
+    
+    func initializeRoom() async throws -> [MXEvent] {
+        guard let mxRoom = self.matrixUseCase.getRoomInfo(roomId: room.roomId) else { return [] }
+        return try await withCheckedThrowingContinuation { continuation in
+            mxRoom.liveTimeline { [weak self] timeline in
+                guard let self = self,
+                      let timeline = timeline
+                else {
+                    return
+                }
+                self.timeline = timeline
+                timeline.resetPagination()
+                self.roomListenerReference = timeline.listenToEvents { [weak self] event, _, _ in
+                    guard let self = self else { return }
+                    if !self.mxEvents.contains(event) {
+                        self.mxEvents.insert(event, at: 0)
+                    }
+                }
+                self.paginationCount += 15
+                timeline.paginate(UInt(paginationCount),
+                                  direction: .backwards,
+                                  onlyFromStore: false) { result in
+                    guard result.isSuccess else { return }
+                    self.isUpdateView = true
+                    continuation.resume(returning: self.mxEvents)
+                }
+            }
+        }
+    }
+    
+    func paginate() {
+        timeline?.resetPagination()
+        timeline?.listenToEvents { [weak self] event, _, _ in
+            guard let self = self else { return }
+            if !self.mxEvents.contains(event) {
+                self.mxEvents.insert(event, at: 0)
+            }
+        }
+        timeline?.paginate(UInt(paginationCount),
+                           direction: .backwards,
+                           onlyFromStore: false) { result in
+            guard result.isSuccess else { return }
+            self.isUpdateView = true
+            self.paginationCount += 15
+        }
+    }
+
+    func initializeRoom() {
+        Task {
+            let result = try await self.initializeRoom()
+            let roomEventsFactory = RoomEventObjectFactory()
+            let events = roomEventsFactory.makeChatHistoryRoomEvents(eventCollections: EventCollection(result),
+                                                                     matrixUseCase: self.matrixUseCase)
+            await MainActor.run {
+                self.roomGetEvents = events
+                self.isUpdateView = true
+                self.isUpdateView = false
+            }
+            self.listenRoomEvents()
+        }
     }
 
     func joinRoom(roomId: String) {
@@ -703,7 +852,11 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             onTapNotSendedMessage: { [weak self] event in
                 self?.onTapNotSendedMessage(event)
             },
-            onSwipeReply: { _ in },
+            onSwipeReply: { [weak self] value in
+                guard let self = self else { return }
+                self.activeEditMessage = value
+                self.quickAction = .reply
+                self.replyDescriptionText = self.factory.makeReplyDescription(self.activeEditMessage) },
             onTap: { value in
                 if value.isReply,
                    let event = self.room.events.first(where: { $0.eventId == value.rootEventId }) {
@@ -752,7 +905,6 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             guard let url = url else { return }
             let event = self.makeOutputEventView(.video(url))
             self.addOutputEvent(event: event)
-            self.scrollToBottom()
             self.sendVideo(url, event)
         case .file:
             guard let url = url else { return }
@@ -816,7 +968,11 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             onLongPressMessage: { _ in },
             onReactionTap: { _ in },
             onTapNotSendedMessage: { _ in },
-            onSwipeReply: { _ in },
+            onSwipeReply: { [weak self] value in
+                guard let self = self else { return }
+                self.activeEditMessage = value
+                self.quickAction = .reply
+                self.replyDescriptionText = self.factory.makeReplyDescription(self.activeEditMessage) },
             onTap: { value in
                 if value.isReply,
                    let event = self.room.events.first(where: { $0.eventId == value.rootEventId }) {

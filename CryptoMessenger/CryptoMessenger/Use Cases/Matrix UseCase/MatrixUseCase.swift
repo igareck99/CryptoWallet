@@ -19,6 +19,9 @@ final class MatrixUseCase {
     let channelFactory: ChannelUsersFactoryProtocol.Type
 	private var subscriptions = Set<AnyCancellable>()
 	private let toggles: MatrixUseCaseTogglesProtocol
+    weak var room: AuraRoomData?
+    var roomListenerReference: Any?
+    var timeline: MXEventTimeline?
 
     // MARK: - Static Properties
 
@@ -46,6 +49,12 @@ final class MatrixUseCase {
         self.channelFactory = channelFactory
         observeLoginState()
         observeSessionToken()
+    }
+    
+    deinit {
+        self.room = nil
+        self.roomListenerReference = nil
+        self.timeline = nil
     }
 
     // MARK: - Private Methods
@@ -98,6 +107,10 @@ final class MatrixUseCase {
  		matrixService.updateState(with: .loggedIn(userId: matrixService.getUserId()))
 		updateCredentialsIfAvailable()
 	}
+    
+    func startListeningForRoomEvents() {
+        matrixService.startListeningForRoomEvents()
+    }
 
 	// TODO: Отрефачить логику входа по пин коду
     func updateCredentialsIfAvailable() {
@@ -130,9 +143,12 @@ final class MatrixUseCase {
 
 extension MatrixUseCase: MatrixUseCaseProtocol {
 	var objectChangePublisher: ObservableObjectPublisher { matrixService.objectChangePublisher }
+    var roomEventChangePublisher: ObservableObjectPublisher { matrixService.objectChangePublisher }
+    var mxEvents: [MXEvent] { matrixService.mxEvents }
 	var loginStatePublisher: Published<MatrixState>.Publisher { matrixService.loginStatePublisher }
 	var devicesPublisher: Published<[MXDevice]>.Publisher { matrixService.devicesPublisher }
     var roomStatePublisher: Published<MXRoomState>.Publisher { matrixService.roomStatePublisher }
+    var roomPublisher: Published<AuraRoomData?>.Publisher { matrixService.roomPublisher }
 	var rooms: [AuraRoom] { matrixService.rooms }
     var auraRooms: [AuraRoomData] { matrixService.auraRooms }
     var auraNoEventsRooms: [AuraRoomData] { matrixService.auraNoEventsRooms }

@@ -11,14 +11,22 @@ extension MatrixService {
 			guard let self = self else { return }
 			let affectedRooms = self.rooms
                 .filter { $0.summary.summary?.roomId == event.roomId }
-
 			affectedRooms.forEach {
 				$0.add(event: event, direction: direction, roomState: roomState as? MXRoomState)
 			}
 			self.objectChangePublisher.send()
 		}
-		objectChangePublisher.send()
 	}
+    
+    func startListeningRoomEvents(_ roomId: String) {
+        listenReference = session?.listenToEvents { [weak self] event, _, _ in
+            guard let self = self else { return }
+            if !self.mxEvents.contains(event) {
+                self.mxEvents.append(event)
+            }
+            self.roomEventChangePublisher.send()
+        }
+    }
 
 	func createRoom(parameters: MXRoomCreationParameters, completion: @escaping (MXResponse<MXRoom>) -> Void) {
 		session?.createRoom(parameters: parameters) { [weak self] response in

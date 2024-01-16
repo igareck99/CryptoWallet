@@ -57,7 +57,6 @@ final class ImageEventViewModel: ImageEventViewModelProtocol {
                     name: getFileName(),
                     pathExtension: "jpeg"
                 )
-                print("saslaslkas  \(path)")
             }
         }
     }
@@ -126,9 +125,10 @@ final class ImageEventViewModel: ImageEventViewModelProtocol {
                 state = .loading
             }
             await self.generatePreviewImage(url: url)
-
-            self.sizeOfFile = self.convertToBytes(model.size)
-            self.size = self.sizeOfFile
+            await MainActor.run {
+                self.sizeOfFile = self.convertToBytes(model.size)
+                self.size = self.sizeOfFile
+            }
 
             let (isExist, _) = await fileService.checkFileExist(
                 name: getFileName(),

@@ -5,13 +5,17 @@ import MatrixSDK
 protocol MatrixServiceProtocol {
 
 	var objectChangePublisher: ObservableObjectPublisher { get }
+    var roomEventChangePublisher: ObservableObjectPublisher { get }
 	var loginStatePublisher: Published<MatrixState>.Publisher { get }
 	var devicesPublisher: Published<[MXDevice]>.Publisher { get }
     var roomStatePublisher: Published<MXRoomState>.Publisher { get }
+    var roomPublisher: Published<AuraRoomData?>.Publisher { get }
+    var room: AuraRoomData? { get set }
 	var rooms: [AuraRoom] { get }
     var auraRooms: [AuraRoomData] { get }
 	var matrixSession: MXSession? { get }
     var auraNoEventsRooms: [AuraRoomData] { get }
+    var mxEvents: [MXEvent] { get }
 
 	func closeSessionAndClearData()
 
@@ -50,6 +54,7 @@ protocol MatrixServiceProtocol {
         completion: @escaping (MXResponse<Void>?) -> Void
     )
 	func startListeningForRoomEvents()
+    func startListeningRoomEvents(_ roomId: String)
 	func createRoom(parameters: MXRoomCreationParameters, completion: @escaping (MXResponse<MXRoom>) -> Void)
 	func uploadData(data: Data, for room: MXRoom, completion: @escaping GenericBlock<URL?>)
 	func leaveRoom(roomId: String, completion: @escaping (MXResponse<Void>) -> Void)
@@ -147,7 +152,9 @@ protocol MatrixServiceProtocol {
     )
 
 	// MARK: - Pagination
-	func paginate(room: AuraRoom, event: MXEvent)
+    
+    func initializeRoom(_ room: AuraRoomData,
+                        _ pagination: UInt) async throws -> [MXEvent]
 
 	// MARK: - Pusher
 	func createPusher(pushToken: Data, completion: @escaping GenericBlock<Bool>)

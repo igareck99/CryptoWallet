@@ -23,7 +23,7 @@ extension RoomEventObjectFactory: RoomEventObjectFactoryProtocol {
     ) -> [RoomEvent] {
         let roomEvents = eventCollections.wrapped
         var events = [RoomEvent]()
-        if let currentEvent = roomEvents.first {
+        if let currentEvent = roomEvents.first, currentEvent.roomId != nil {
             events.append(
                 RoomEvent(
                     eventId: UUID().uuidString,
@@ -51,7 +51,8 @@ extension RoomEventObjectFactory: RoomEventObjectFactoryProtocol {
             reactions = eventCollections.reactions(forEvent: event, currentUserId: matrixUseCase.getUserId())
             
             if let nextEvent = roomEvents[safe: model.offset + 1],
-               nextEvent.timestamp.dayAndMonthAndYear != event.timestamp.dayAndMonthAndYear {
+               nextEvent.timestamp.dayAndMonthAndYear != event.timestamp.dayAndMonthAndYear,
+                event.eventId != nil {
                 events.append(
                     RoomEvent(
                         eventId: UUID().uuidString,
@@ -70,24 +71,25 @@ extension RoomEventObjectFactory: RoomEventObjectFactoryProtocol {
                     )
                 )
             }
-
-            let value = RoomEvent(
-                eventId: event.eventId,
-                roomId: event.roomId,
-                sender: event.sender,
-                sentState: .sent,
-                eventType: makeEventType(event: event),
-                shortDate: event.timestamp.hoursAndMinutes,
-                fullDate: event.timestamp.dayAndMonthAndYear,
-                isFromCurrentUser: event.sender == matrixUseCase.getUserId(),
-                isReply: event.isReply(),
-                reactions: reactions,
-                content: event.content,
-                eventSubType: event.type,
-                eventDate: event.timestamp,
-                videoThumbnail: videoThumbnail(event: event)
-            )
-            events.append(value)
+            if event.eventId != nil {
+                let value = RoomEvent(
+                    eventId: event.eventId,
+                    roomId: event.roomId,
+                    sender: event.sender,
+                    sentState: .sent,
+                    eventType: makeEventType(event: event),
+                    shortDate: event.timestamp.hoursAndMinutes,
+                    fullDate: event.timestamp.dayAndMonthAndYear,
+                    isFromCurrentUser: event.sender == matrixUseCase.getUserId(),
+                    isReply: event.isReply(),
+                    reactions: reactions,
+                    content: event.content,
+                    eventSubType: event.type,
+                    eventDate: event.timestamp,
+                    videoThumbnail: videoThumbnail(event: event)
+                )
+                events.append(value)
+            }
         }
         return events
     }

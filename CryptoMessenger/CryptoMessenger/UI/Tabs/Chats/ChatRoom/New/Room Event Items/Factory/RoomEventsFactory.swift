@@ -292,8 +292,11 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
         let oldEvent = oldEvents.first(where: { $0.eventId == event.eventId })
         if event.sentState == .sent {
             if oldEvent == event && !event.isReply {
-                guard let view = oldViews.first(where: { $0.id == event.id }) else { return nil }
-                return view
+//                guard let view = oldViews.first(where: { $0.id == event.id }) else { return nil }
+                let view = oldViews.first(where: { $0.id == event.id })
+                if let view = view {
+                    return view
+                }
             } else if oldEvent == event {
                 let eventReplyEvent = currentEvents.first(where: { $0.eventId == event.rootEventId })
                 if eventReplyEvent == nil {
@@ -318,6 +321,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                 }
             }
         }
+        print("slasklklas  \(event)")
         if event.isReply && eventReply.isEmpty {
             let eventReplyEvent = currentEvents.first(where: { $0.eventId == event.rootEventId })
             if eventReplyEvent == nil || eventReplyEvent?.eventType == MessageType.none {
@@ -364,7 +368,9 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
             )
         }
         let textEvent = TextEvent(
-            id: event.id, userId: event.sender, isFromCurrentUser: event.isFromCurrentUser, avatarUrl: event.senderAvatar,
+            id: event.id, userId: event.sender,
+            isFromCurrentUser: event.isFromCurrentUser,
+            avatarUrl: event.senderAvatar,
             text: text, isReply: event.isReply,
             replyDescription: eventReply,
             width: calculateWidth(text, reactions.count),

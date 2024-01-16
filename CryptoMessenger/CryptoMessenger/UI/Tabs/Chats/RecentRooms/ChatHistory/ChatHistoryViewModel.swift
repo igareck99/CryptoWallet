@@ -85,6 +85,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
     // MARK: - Костыль для принудительного обнровления списка комнат
     private func makeAndBindTimer() {
 //        guard toggles.isRoomsUpdateTimerAvailable else { return }
+        self.matrixUseCase.startListeningForRoomEvents()
         roomsTimer = Timer
             .publish(every: 0.5, on: RunLoop.main, in: .default)
             .autoconnect()

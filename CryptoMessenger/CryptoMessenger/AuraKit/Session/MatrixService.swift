@@ -42,6 +42,7 @@ enum MatrixState: Equatable {
 final class MatrixService: MatrixServiceProtocol {
 
 	var objectChangePublisher = ObservableObjectPublisher()
+    var roomEventChangePublisher = ObservableObjectPublisher()
     var currentOperation: MXHTTPOperation?
 
 	@Published var loginState: MatrixState = .none
@@ -50,7 +51,10 @@ final class MatrixService: MatrixServiceProtocol {
 	var devicesPublisher: Published<[MXDevice]>.Publisher { $devices }
     @Published var currentRoomState = MXRoomState()
     var roomStatePublisher: Published<MXRoomState>.Publisher { $currentRoomState }
-
+    @Published var room: AuraRoomData?
+    var roomPublisher: Published<AuraRoomData?>.Publisher { $room }
+    var mxEvents: [MXEvent] = []
+    
 	private let matrixObjectsFactory: MatrixObjectFactoryProtocol
 	var roomListDataFetcher: MXRoomListDataFetcher?
     var auraRooms: [AuraRoomData] {
@@ -98,6 +102,10 @@ final class MatrixService: MatrixServiceProtocol {
 	let deviceRemovalGroup = DispatchGroup()
 	static let shared = MatrixService()
     private let config: ConfigType
+    var timeline: MXEventTimeline?
+    var roomListenerReference: Any?
+    var currentRoomTimeline: MXEventTimeline?
+    var currentRoomListenerReference: Any?
 
 	init(
 		client: MXRestClient? = nil,
@@ -246,20 +254,37 @@ extension MatrixService {
 		session?.callManager?.callKitAdapter = adapter
 	}
 
+    
 	// MARK: - Pagination
-
-	func paginate(room: AuraRoom, event: MXEvent) {
-		let timeline = room.room.timeline(onEvent: event.eventId)
-		listenReferenceRoom = timeline?.listenToEvents { event, direction, roomState in
-			if direction == .backwards {
-				room.add(event: event, direction: direction, roomState: roomState)
-			}
-			self.objectChangePublisher.send()
-		}
-		timeline?.resetPaginationAroundInitialEvent(withLimit: 1000) { _ in
-			self.objectChangePublisher.send()
-		}
-	}
+    
+    func initializeRoom(_ room: AuraRoomData,
+                        _ pagination: UInt) async throws -> [MXEvent] {
+        guard let mxRoom = self.getRoomInfo(roomId: room.roomId) else { return [] }
+        return try await withCheckedThrowingContinuation { continuation in
+            mxRoom.liveTimeline { [weak self] timeline in
+                guard let self = self,
+                      let timeline = timeline
+                else {
+                    return
+                }
+                self.timeline = timeline
+                timeline.resetPagination()
+                self.roomListenerReference = timeline.listenToEvents { [weak self] event, _, _ in
+                    guard let self = self else { return }
+                    if !self.mxEvents.contains(event) {
+                        self.mxEvents.insert(event, at: 0)
+                    }
+                }
+                timeline.paginate(pagination,
+                                  direction: .backwards,
+                                  onlyFromStore: false) { result in
+                    guard result.isSuccess else { return }
+                    continuation.resume(returning: self.mxEvents)
+                    // self.paginationCount += 30
+                }
+            }
+        }
+    }
 
 	// MARK: - Pusher
 

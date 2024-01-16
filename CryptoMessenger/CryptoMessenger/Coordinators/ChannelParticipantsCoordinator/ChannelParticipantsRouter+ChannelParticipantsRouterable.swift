@@ -21,12 +21,10 @@ extension ChannelParticipantsRouter: ChannelParticipantsRouterable {
         channelCoordinator: ChannelParticipantsFlowCoordinatorProtocol,
         onUsersSelected: @escaping ([Contact]) -> Void
     ) {
-        print("dmdsmdsm,d  \(state.path)")
         state.path.append(BaseContentLink.selectContactsParticipants(mode: mode,
                                                                      chatData: chatData,
                                                                      contactsLimit: contactsLimit,
                                                                      channelParticipantsCoordinator: channelCoordinator,
                                                                      onUsersSelected: onUsersSelected))
-        print("slaslaslsa  \(state.path)")
     }
 }

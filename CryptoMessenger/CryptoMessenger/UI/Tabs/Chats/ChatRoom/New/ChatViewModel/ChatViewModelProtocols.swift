@@ -6,6 +6,8 @@ import SwiftUI
 protocol ChatViewModelProtocol: ObservableObject {
 
     associatedtype MessageSendable = ChatViewModelSendable
+    
+    func resetlistners()
 
     var isSnackbarPresented: Bool { get set }
 
@@ -67,7 +69,9 @@ protocol ChatViewModelProtocol: ObservableObject {
 
     var isDirect: Bool { get }
 
-    var isOnline: Bool { get}
+    var isOnline: Bool { get }
+    
+    var hasReachedTop: Bool { get set }
     
     func onRoomAvatarTap(chatData: Binding<ChatData>, isLeaveChannel: Binding<Bool>)
 
@@ -87,7 +91,10 @@ protocol ChatViewModelProtocol: ObservableObject {
         isLeaveChannel: Binding<Bool>
     )
     
+
     func previousScreen()
+
+    func paginate()
 }
 
 // MARK: - ChatEventsDelegate
