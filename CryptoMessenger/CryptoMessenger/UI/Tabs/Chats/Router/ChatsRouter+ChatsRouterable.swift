@@ -219,6 +219,7 @@ extension ChatsRouter: ChatsRouterable {
         viewModel: ChannelInfoViewModel,
         showParticipantsView: Binding<Bool>
     ) {
+        // TODO: Переделать через
 //        state.presentedItem = .channelPatricipants(
 //            viewModel: viewModel,
 //            showParticipantsView: showParticipantsView

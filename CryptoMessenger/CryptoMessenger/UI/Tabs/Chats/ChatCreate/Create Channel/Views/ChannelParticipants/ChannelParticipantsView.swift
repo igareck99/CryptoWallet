@@ -88,6 +88,7 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
                         .cancelActions($viewModel.showChangeRole)
                 })
             .sheet(isPresented: $viewModel.showUserSettings, content: {
+                // TODO: Переделать через роутер
                 UserSettingsAssembly.build(
                     userId: $viewModel.tappedUserId,
                     showBottomSheet: $viewModel.showChangeRole,
@@ -154,6 +155,7 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
         }
         ToolbarItem(placement: .navigationBarTrailing) {
             Button(action: {
+                // TODO: Убрать вызов во viewModel, и сделать через роутер
                 if let coordinator = participantsViewModel.coordinator {
                     coordinator.showSelectContact(mode: .channelParticipantsAdd,
                                                    chatData: $chatData, contactsLimit: nil,

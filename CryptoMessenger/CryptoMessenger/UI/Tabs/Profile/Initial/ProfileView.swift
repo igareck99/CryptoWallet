@@ -47,9 +47,11 @@ struct ProfileView<ViewModel: ProfileViewModelProtocol>: View {
                     color: .spanishCrimson
                 )
             }
+        // TODO: Сделать через роутер
             .fullScreenCover(isPresented: $viewModel.showWebView) {
                 viewModel.safari
             }
+        // TODO: Сделать через роутер
             .fullScreenCover(isPresented: $viewModel.showImageViewer, content: {
                 ImageViewerRemote(
                     selectedItem: getTagItem(),
@@ -75,6 +77,7 @@ struct ProfileView<ViewModel: ProfileViewModelProtocol>: View {
                                     )
                                 ])
                 })
+                // TODO: Сделать через роутер
                 .sheet(isPresented: $showShareImage, content: {
                     FeedShareSheet(image: viewModel.imageToShare)
                 })

@@ -199,6 +199,7 @@ extension ChatsCoordinator: ChatsCoordinatable {
         viewModel: ChannelInfoViewModel,
         showParticipantsView: Binding<Bool>
     ) {
+        // TODO: Сделать через роутер
         let coordinator = ChannelParticipantsCoordinatorAssembly.build(viewModel,
                                                                        showParticipantsView,
                                                                        router.navPathChild(), { userId, roomId  in
