@@ -24,6 +24,7 @@ final class SelectContactViewModel: ObservableObject, SelectContactViewModelDele
     let resources: SelectContactResourcable.Type = SelectContactResources.self
     var coordinator: ChatCreateFlowCoordinatorProtocol?
     var chatHistoryCoordinator: ChatsCoordinatable?
+    var channelParticipantsCoordinator: ChannelParticipantsFlowCoordinatorProtocol?
     private let config: ConfigType
 
     // MARK: - Private Properties
@@ -89,7 +90,7 @@ final class SelectContactViewModel: ObservableObject, SelectContactViewModelDele
             break
         case .add:
             self.onUsersSelected(result)
-        case .groupCreate:
+        case .groupCreate, .channelParticipantsAdd:
             let data = self.users.filter({ $0.isSelected == true })
             let result: [Contact] = data.map {
                 let contact = Contact(mxId: $0.mxId,
@@ -98,11 +99,15 @@ final class SelectContactViewModel: ObservableObject, SelectContactViewModelDele
                 })
                 return contact
             }
-            chatData.contacts = result
+            if mode == .groupCreate {
+                chatData.contacts = result
                 self.coordinator?.createGroupChat(
                     chatData: chatData,
                     contacts: result
                 )
+            } else {
+                onUsersSelected(result)
+            }
         case .admins:
             break
         }
@@ -251,7 +256,7 @@ final class SelectContactViewModel: ObservableObject, SelectContactViewModelDele
         }
         self.users[index] = newObject
         self.usersViews = self.users
-        if mode == .groupCreate {
+        if mode == .groupCreate || mode == .channelParticipantsAdd {
             usersForCreateItems = self.users.filter({ $0.isSelected == true }).map {
                 let result = SelectContactChipsItem(mxId: $0.mxId,
                                                     name: $0.name, onTap: {

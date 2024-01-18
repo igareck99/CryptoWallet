@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 // MARK: - RoomEvent
 
@@ -21,6 +22,7 @@ struct RoomEvent: Equatable, Hashable {
     let content: [String: Any]
     let eventDate: Date
     let eventSubType: String
+    let image: Image?
     let videoThumbnail: URL?
 
     func hash(into hasher: inout Hasher) {
@@ -55,6 +57,7 @@ struct RoomEvent: Equatable, Hashable {
         eventSubType: String,
         eventDate: Date,
         senderAvatar: URL? = nil,
+        image: Image? = nil,
         videoThumbnail: URL? = nil
     ) {
         self.id = id
@@ -72,6 +75,7 @@ struct RoomEvent: Equatable, Hashable {
         self.reactions = reactions
         self.content = content
         self.videoThumbnail = videoThumbnail
+        self.image = image
         self.eventDate = eventDate
     }
 }

@@ -4,6 +4,12 @@ extension ViewsBaseFactory {
     @ViewBuilder
     static func makeSheet(link: BaseSheetLink) -> some View {
         switch link {
+        case let .channelPatricipantsSheet(
+            view: view,
+            onDisappear: onDisappear
+        ):
+            view()
+                .anyView()
         case let .countryCodeScene(delegate):
             CountryCodePicker(delegate: delegate)
         case let .transactionResult(model):
@@ -33,14 +39,6 @@ extension ViewsBaseFactory {
                 galleryContent: galleryContent,
                 onSelectImage: onSelectImage,
                 onSelectVideo: onSelectVideo
-            )
-        case let .channelPatricipants(
-            viewModel: viewModel,
-            showParticipantsView: showParticipantsView
-        ):
-            ChannelParticipantsView(
-                viewModel: viewModel,
-                showParticipantsView: showParticipantsView
             )
         case let .chatActions(room, onSelect):
             ChatActionsAssembly.build(
@@ -122,6 +120,11 @@ extension ViewsBaseFactory {
             ProfileSettingsMenuAssembly.build(onSelect: result)
         case let .sheetPicker(sourceType):
             ProfileFeedImageAssembly.build(sourceType: sourceType)
+        case let .channelPatricipants(viewModel: viewModel, showParticipantsView: showParticipantsView,
+                                      coordinator: coordinator):
+            ChannelParticipantsViewAssembly.build(viewModel,
+                                                  showParticipantsView,
+                                                  coordinator)
         }
     }
 }

@@ -59,9 +59,7 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
             }
         }
         .navigationBarBackButtonHidden(true)
-        .onTapGesture {
-            hideKeyboard()
-        }
+        .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
         .toolbarBackground(.visible, for: .navigationBar)
         .toolbarBackground(.visible, for: .bottomBar)
         .toolbarRole(.editor)

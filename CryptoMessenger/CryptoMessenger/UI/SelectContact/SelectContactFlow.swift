@@ -31,7 +31,7 @@ enum ContactViewMode: Identifiable {
 
     // MARK: - Types
 
-    case add, admins, send, groupCreate
+    case add, admins, send, groupCreate, channelParticipantsAdd
 
     // MARK: - Internal Properties
 

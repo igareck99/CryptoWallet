@@ -8,6 +8,7 @@ struct ImageEvent: Identifiable, ViewGeneratable {
     let id: UUID
     let imageUrl: URL?
     let size: Int
+    let eventId: String
     let sentState: RoomSentState
     let eventData: any ViewGeneratable
     let loadData: any ViewGeneratable
@@ -20,6 +21,7 @@ struct ImageEvent: Identifiable, ViewGeneratable {
         sentState: RoomSentState,
         eventData: any ViewGeneratable,
         loadData: any ViewGeneratable,
+        eventId: String,
         onTap: @escaping ImageEventTap
     ) {
         self.id = id
@@ -29,6 +31,7 @@ struct ImageEvent: Identifiable, ViewGeneratable {
         self.eventData = eventData
         self.loadData = loadData
         self.onTap = onTap
+        self.eventId = eventId
     }
 
     // MARK: - ViewGeneratable

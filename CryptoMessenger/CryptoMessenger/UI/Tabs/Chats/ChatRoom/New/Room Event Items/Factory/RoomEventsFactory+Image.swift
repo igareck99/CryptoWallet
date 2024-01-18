@@ -56,7 +56,8 @@ extension RoomEventsFactory {
             size: event.dataSize,
             sentState: event.sentState,
             eventData: eventData,
-            loadData: loadInfo
+            loadData: loadInfo,
+            eventId: event.eventId
         ) { image, imageUrl in
             delegate.onImageTap(image: image, imageUrl: imageUrl)
         }

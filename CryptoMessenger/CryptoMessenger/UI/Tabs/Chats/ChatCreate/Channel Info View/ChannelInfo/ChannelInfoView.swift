@@ -107,6 +107,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             } onUserProfile: {
                 viewModel.showUserSettings = false
                 viewModel.dismissSheet()
+                viewModel.userProfile()
             }
             .presentationDragIndicator(.visible)
             .presentationDetents([.height(computeSizeOfUserMenu(viewModel.compareRoles()))])
@@ -270,6 +271,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             }
         }
         .listStyle(.insetGrouped)
+        .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
     }
 
     // MARK: - Private Methods
@@ -420,21 +422,18 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     }
     
     private func channelDescriptionView() -> some View {
-        ZStack {
-            TextEditor(text: .constant(viewModel.channelTopic))
-                .background(viewModel.resources.background)
-                .foregroundColor(viewModel.resources.titleColor)
+        HStack {
+            Text(viewModel.channelTopic)
                 .font(.system(size: 17))
-                .cornerRadius(8)
-            Text(viewModel.channelTopic).opacity(0).padding([.leading, .trailing, .top], 8)
+            Spacer()
         }
     }
     
     private func attachmentsView() -> some View {
         ChannelSettingsView(
             title: resources.attachments,
-            imageName: "folder",
-            accessoryImageName: "chevron.right"
+            accessoryImageName: "",
+            image: R.image.channelSettings.folder.image
         )
         .onTapGesture {
             viewModel.nextScene(scene: .onMedia(viewModel.room.roomId))
@@ -444,8 +443,8 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     private func notificationsView() -> some View {
         ChannelSettingsView(
             title: resources.notifications,
-            accessoryImageName: "chevron.right",
-            image: R.image.channelSettings.folder.image
+            accessoryImageName: "",
+            image: R.image.channelSettings.bell.image
         )
         .onTapGesture {
             viewModel.showNotifications()
@@ -474,7 +473,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         .onTapGesture {
             if viewModel.isChannel {
                 viewModel.showLeaveChannel = true
-            }else{
+            } else {
                 viewModel.showLeaveChat = true
             }
         }
@@ -514,12 +513,14 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 .font(.bodySemibold17)
                 .foregroundColor(viewModel.resources.titleColor)
             Spacer()
-            Text(resources.add)
-                .font(.bodyRegular17)
-                .foregroundColor(viewModel.resources.buttonBackground)
-                .onTapGesture {
-                    showAddUser = true
-                }
+            if viewModel.isAddButtonVisible {
+                Text(resources.add)
+                    .font(.bodyRegular17)
+                    .foregroundColor(viewModel.resources.buttonBackground)
+                    .onTapGesture {
+                        showAddUser = true
+                    }
+            }
         }.frame(height: 24)
     }
 
@@ -540,6 +541,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 }
             }
         }
+        .listStyle(.plain)
     }
 
     @ViewBuilder

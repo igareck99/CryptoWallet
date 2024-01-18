@@ -12,6 +12,14 @@ extension ChatsRouter: ChatsRouterable {
             delegate: delegate
         )
     }
+    
+    func writeToUser(_ userId: String) {
+        
+    }
+
+    func navPathChild() -> Binding<NavigationPath> {
+        return $state.childPath
+    }
 
     func showMap(
         place: Place,
@@ -211,10 +219,10 @@ extension ChatsRouter: ChatsRouterable {
         viewModel: ChannelInfoViewModel,
         showParticipantsView: Binding<Bool>
     ) {
-        state.presentedItem = .channelPatricipants(
-            viewModel: viewModel,
-            showParticipantsView: showParticipantsView
-        )
+//        state.presentedItem = .channelPatricipants(
+//            viewModel: viewModel,
+//            showParticipantsView: showParticipantsView
+//        )
     }
 
     func routePath() -> Binding<NavigationPath> {
@@ -230,6 +238,16 @@ extension ChatsRouter: ChatsRouterable {
         onDisappear: @escaping () -> Void
     ) {
         state.presentedItem = .createChat(
+            view: { view },
+            onDisappear: onDisappear
+        )
+    }
+    
+    func channelParticipantsViewCreate(
+        view: any View,
+        onDisappear: @escaping () -> Void
+    ) {
+        state.presentedItem = .channelPatricipantsSheet(
             view: { view },
             onDisappear: onDisappear
         )

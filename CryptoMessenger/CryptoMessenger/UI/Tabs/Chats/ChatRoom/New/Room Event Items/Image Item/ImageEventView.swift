@@ -18,6 +18,9 @@ struct ImageEventView<
                 thumbnailImage: $viewModel.thumbnailImage,
                 state: $viewModel.state
             )
+            .onAppear {
+                
+            }
             .onTapGesture {
                 guard viewModel.state == .hasBeenDownloadPhoto else { return }
                 viewModel.onImageTap()

@@ -32,7 +32,7 @@ struct SelectContactView<ViewModel>: View where ViewModel: SelectContactViewMode
                     .searchable(text: $viewModel.searchText)
                     .listStyle(.plain)
                 }
-            case .groupCreate:
+            case .groupCreate, .channelParticipantsAdd:
                 VStack {
                     ContactsForSendView(views: $viewModel.usersForCreate,
                                         text: $viewModel.text)

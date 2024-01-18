@@ -18,6 +18,8 @@ protocol ChannelInfoViewModelProtocol: ObservableObject {
     
     var isAuthorized: Bool { get }
     
+    var isAddButtonVisible: Bool { get }
+    
     var leaveChannelText: String { get }
     
     var isChannel: Bool { get }
@@ -137,4 +139,6 @@ protocol ChannelInfoViewModelProtocol: ObservableObject {
     func selectPhoto(
         sourceType: UIImagePickerController.SourceType
     )
+    
+    func userProfile()
 }

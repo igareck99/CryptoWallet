@@ -195,6 +195,22 @@ extension ViewsBaseFactory {
         case .chatHistory:
             // TODO: ?????
             EmptyView()
+        case let .channelPatricipants(viewModel: viewModel, showParticipantsView: showParticipantsView,
+                                      coordinator: coordinator):
+            ChannelParticipantsViewAssembly.build(viewModel,
+                                                  showParticipantsView,
+                                                  coordinator)
+        case let .selectContactsParticipants(
+            mode: mode,
+            chatData: chatData,
+            contactsLimit: contactsLimit,
+            channelParticipantsCoordinator: channelParticipantsCoordinator,
+            onUsersSelected: onUserSelected):
+            SelectContactAssembly.build(mode: mode, chatData: chatData,
+                                        contactsLimit: contactsLimit,
+                                        channelParticipantsCoordinator: channelParticipantsCoordinator,
+                                        onUsersSelected: onUserSelected
+                                        )
         }
     }
 }

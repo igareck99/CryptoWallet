@@ -22,9 +22,12 @@ struct ResizeableTextView: UIViewRepresentable {
         textView.clipsToBounds = true
         textView.layer.cornerRadius = 16
 		textView.text = placeholderText
+        textView.backgroundColor = .aliceBlue
 		textView.delegate = context.coordinator
 		textView.textColor = .chineseBlack
 		textView.font = UIFont.systemFont(ofSize: 17)
+        textView.textContainerInset = UIEdgeInsets(top: 6, left: 12, bottom: 6, right: 0)
+        textView.textColor = .romanSilver
 		return textView
 	}
 

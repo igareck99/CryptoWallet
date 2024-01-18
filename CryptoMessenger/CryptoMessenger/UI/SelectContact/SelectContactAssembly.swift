@@ -7,8 +7,10 @@ enum SelectContactAssembly {
         contactsLimit: Int? = nil,
         coordinator: ChatCreateFlowCoordinatorProtocol? = nil,
         chatHistoryCoordinator: ChatsCoordinatable? = nil,
+        channelParticipantsCoordinator: ChannelParticipantsFlowCoordinatorProtocol? = nil,
         onUsersSelected: @escaping ([Contact]) -> Void
     ) -> some View {
+        print("slaslasl;asl;asl;")
         let viewModel = SelectContactViewModel(
             mode: mode,
             contactsLimit: contactsLimit
@@ -17,6 +19,7 @@ enum SelectContactAssembly {
         }
         viewModel.coordinator = coordinator
         viewModel.chatHistoryCoordinator = chatHistoryCoordinator
+        viewModel.channelParticipantsCoordinator = channelParticipantsCoordinator
         let view = SelectContactView(viewModel: viewModel)
         return view
     }

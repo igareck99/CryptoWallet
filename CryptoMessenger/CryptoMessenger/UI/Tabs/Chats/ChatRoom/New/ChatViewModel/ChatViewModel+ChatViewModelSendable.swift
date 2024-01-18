@@ -14,11 +14,17 @@ extension ChatViewModel {
             switch result {
             case let .success(eventId):
                 guard let eventId = eventId else { return }
-                self.changeSedingEvent(
-                    event: event,
-                    state: .sentLocaly,
-                    eventId: eventId
-                )
+                guard let data = image.jpegData(compressionQuality: 1) else { return }
+                Task {
+                    await self.fileService.saveFile(name: eventId,
+                                              data: data,
+                                              pathExtension: "jpeg")
+                    self.changeSedingEvent(
+                        event: event,
+                        state: .sentLocaly,
+                        eventId: eventId
+                    )
+                }
             case .failure(_):
                 self.changeSedingEvent(
                     event: event,

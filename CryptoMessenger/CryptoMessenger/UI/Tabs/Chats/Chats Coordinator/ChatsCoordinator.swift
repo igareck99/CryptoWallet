@@ -1,9 +1,13 @@
 import SwiftUI
 
+// MARK: - ChatsCoordinator
+
 final class ChatsCoordinator<Router: ChatsRouterable> {
     private let router: Router
     var childCoordinators = [String: Coordinator]()
     var navigationController = UINavigationController()
+    @Published var childPath = NavigationPath()
+    @Published var presentedLink: BaseSheetLink?
 
     init(
         router: Router
@@ -25,6 +29,10 @@ extension ChatsCoordinator: Coordinator {
 // MARK: - ChatsCoordinatable
 
 extension ChatsCoordinator: ChatsCoordinatable {
+    
+    func writeToUser(_ userId: String) {
+        router.writeToUser(userId)
+    }
 
     func onVideoTap(url: URL) {
         router.showVideo(url: url)
@@ -101,6 +109,8 @@ extension ChatsCoordinator: ChatsCoordinatable {
             coordinator: coordinator
         )
     }
+    
+    
 
     func showCreateChat() {
         let coordinator = ChatCreateCoordinatorAssembly.buld { [weak self] coordinator in
@@ -189,10 +199,20 @@ extension ChatsCoordinator: ChatsCoordinatable {
         viewModel: ChannelInfoViewModel,
         showParticipantsView: Binding<Bool>
     ) {
-        router.channelPatricipantsView(
-            viewModel: viewModel,
-            showParticipantsView: showParticipantsView
-        )
+        let coordinator = ChannelParticipantsCoordinatorAssembly.build(viewModel,
+                                                                       showParticipantsView,
+                                                                       router.navPathChild(), { userId, roomId  in
+            self.friendProfile(userId: userId, roomId: roomId)
+        })
+        addChildCoordinator(coordinator)
+        coordinator.startWithView { [weak self] router in
+            self?.router.channelParticipantsViewCreate(view: router,
+                                                       onDisappear: { [weak self] in
+                self?.removeChildCoordinator(coordinator)
+                self?.router.dismissCurrentSheet()
+                self?.childPath = NavigationPath()
+            })
+        }
     }
 
     func dismissCurrentSheet() {
