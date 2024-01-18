@@ -33,7 +33,7 @@ extension CoreDataService {
     }
 
     func getWalletNetworks() -> [WalletNetwork] {
-        let context = persistentContainer.viewContext
+        let context = privateQueueContext
         let fetchRequest = NSFetchRequest<WalletNetwork>(entityName: .entityName)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: .id, ascending: true)]
         do {
@@ -45,7 +45,7 @@ extension CoreDataService {
     }
 
     func getWalletNetworksCount() -> Int {
-        let context = persistentContainer.viewContext
+        let context = privateQueueContext
         let fetchRequest = NSFetchRequest<WalletNetwork>(entityName: .entityName)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: .id, ascending: true)]
         do {
@@ -57,7 +57,7 @@ extension CoreDataService {
     }
 
     func getWalletNetwork(byId id: UUID) -> WalletNetwork? {
-        let context = persistentContainer.viewContext
+        let context = privateQueueContext
         let fetchRequest = NSFetchRequest<WalletNetwork>(entityName: .entityName)
         fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
         do {
@@ -103,7 +103,7 @@ extension CoreDataService {
         fiatBalance: String?
     ) -> WalletNetwork? {
 
-        let context = persistentContainer.viewContext
+        let context = privateQueueContext
         let model = NSEntityDescription.insertNewObject(
             forEntityName: .entityName,
             into: context
@@ -171,7 +171,7 @@ extension CoreDataService {
 
         guard let model = getWalletNetwork(byId: id) else { return nil }
 
-        let context = persistentContainer.viewContext
+        let context = privateQueueContext
         model.setValue(name, forKey: .name)
         model.setValue(lastUpdate, forKey: .lastUpdate)
         model.setValue(cryptoType, forKey: .cryptoType)
@@ -199,7 +199,7 @@ extension CoreDataService {
         let fetchRequest = NSFetchRequest<WalletNetwork>(entityName: .entityName)
         fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
         do {
-            let context = persistentContainer.viewContext
+            let context = privateQueueContext
             let result = try context.fetch(fetchRequest) as [WalletNetwork]
             result.forEach(context.delete)
             try context.save()
@@ -209,7 +209,7 @@ extension CoreDataService {
     }
 
     func deleteAllWalletNetworks() {
-        let context = persistentContainer.viewContext
+        let context = privateQueueContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: .entityName)
         let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
         do {

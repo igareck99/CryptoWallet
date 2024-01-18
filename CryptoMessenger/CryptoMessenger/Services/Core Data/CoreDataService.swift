@@ -13,7 +13,7 @@ final class CoreDataService: NSObject, CoreDataServiceProtocol {
 
 	var subscriptions = [NSFetchedResultsController<WalletNetwork>: FetchResultClosure]()
     
-	lazy var persistentContainer: NSPersistentContainer = {
+	let persistentContainer: NSPersistentContainer = {
 		let container = NSPersistentContainer(name: .containerName)
         container.viewContext.automaticallyMergesChangesFromParent = true
         container.viewContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
@@ -34,11 +34,20 @@ final class CoreDataService: NSObject, CoreDataServiceProtocol {
 		}
 		return container
 	}()
+    
+    let mainQueueContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+    let privateQueueContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
 
-	override init() {
-		super.init()
-		subscribeToNotifications()
-	}
+    override init() {
+        super.init()
+        subscribeToNotifications()
+        configureContexts()
+    }
+    
+    private func configureContexts() {
+        mainQueueContext.persistentStoreCoordinator = persistentContainer.persistentStoreCoordinator
+        privateQueueContext.persistentStoreCoordinator = persistentContainer.persistentStoreCoordinator
+    }
 
 	private func subscribeToNotifications() {
 		NotificationCenter.default.addObserver(
