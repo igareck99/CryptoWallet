@@ -30,7 +30,7 @@ extension CoreDataService {
     }
     
     func getNetworksTokens() -> [NetworkToken] {
-        let context = persistentContainer.viewContext
+        let context = privateQueueContext
         let fetchRequest = NSFetchRequest<NetworkToken>(entityName: .entityName)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: .id, ascending: true)]
         do {
@@ -42,7 +42,7 @@ extension CoreDataService {
     }
 
     func getNetworkToken(byId id: UUID) -> NetworkToken? {
-        let context = persistentContainer.viewContext
+        let context = privateQueueContext
         let fetchRequest = NSFetchRequest<NetworkToken>(entityName: .entityName)
         fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
         do {
@@ -81,7 +81,7 @@ extension CoreDataService {
         network: String
     ) -> NetworkToken? {
 
-        let context = persistentContainer.viewContext
+        let context = privateQueueContext
         let model = NSEntityDescription.insertNewObject(
             forEntityName: .entityName,
             into: context
@@ -132,7 +132,7 @@ extension CoreDataService {
 
         guard let model = getNetworkToken(byId: id) else { return nil }
 
-        let context = persistentContainer.viewContext
+        let context = privateQueueContext
         model.setValue(address, forKey: .address)
         model.setValue(contractType, forKey: .contractType)
         model.setValue(decimals, forKey: .decimals)
@@ -154,7 +154,7 @@ extension CoreDataService {
         let fetchRequest = NSFetchRequest<NetworkToken>(entityName: .entityName)
         fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
         do {
-            let context = persistentContainer.viewContext
+            let context = privateQueueContext
             let result = try context.fetch(fetchRequest) as [NetworkToken]
             result.forEach(context.delete)
             try context.save()
@@ -164,7 +164,7 @@ extension CoreDataService {
     }
 
     func deleteAllNetworksTokens() {
-        let context = persistentContainer.viewContext
+        let context = privateQueueContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: .entityName)
         let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
         do {
