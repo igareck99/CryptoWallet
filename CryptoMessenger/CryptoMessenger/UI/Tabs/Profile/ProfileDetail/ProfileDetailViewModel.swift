@@ -1,5 +1,6 @@
 import Combine
 import SwiftUI
+import PhoneNumberKit
 
 // MARK: - ProfileDetailViewModel
 
@@ -12,12 +13,13 @@ final class ProfileDetailViewModel: ObservableObject {
     @Published var profile = ProfileItem()
     @Published var closeScreen = false
     @Published private(set) var state: ProfileDetailFlow.ViewState = .idle
-
     @Published var selectedImg: UIImage? {
         didSet {
             self.objectWillChange.send()
         }
     }
+    var countryCode = ""
+    var phone = ""
 
     var selectedVid: URL? {
         didSet {
@@ -68,7 +70,6 @@ final class ProfileDetailViewModel: ObservableObject {
     }
 
     // MARK: - Private Methods
-
     private func bindInput() {
         eventSubject
             .sink { [weak self] event in
@@ -165,6 +166,15 @@ final class ProfileDetailViewModel: ObservableObject {
         if let str = keychainService.apiUserPhoneNumber {
             let suffixIndex = str.index(str.startIndex, offsetBy: 3)
             profile.phone = String(str[suffixIndex...])
+        }
+        let phoneNumberKit = PhoneNumberKit()
+        do {
+            let value = try phoneNumberKit.parse(keychainService.apiUserPhoneNumber ?? "")
+            let nationalPhone = phoneNumberKit.format(value, toType: .national).split(separator: " ")
+            self.phone = String(nationalPhone[safe: 1] ?? "") + " " + String(nationalPhone[safe: 2] ?? "")
+            self.countryCode = String(phoneNumberKit.format(value, toType: .international)
+                .split(separator: " ")[0])
+        } catch {
         }
     }
 

@@ -35,6 +35,8 @@ struct NotificationSettingsView: View {
             }
             .listRowSeparator(.hidden)
             .listStyle(.insetGrouped)
+            .scrollContentBackground(.hidden)
+            .background(Color.ghostWhite.edgesIgnoringSafeArea(.all))
         }
     }
 

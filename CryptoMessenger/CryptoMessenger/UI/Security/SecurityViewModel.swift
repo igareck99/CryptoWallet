@@ -1,11 +1,7 @@
 import Combine
 import Foundation
 
-protocol SecurityViewModelProtocol: ObservableObject {
-    
-}
-
-final class SecurityViewModel: SecurityViewModelProtocol {
+final class SecurityViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
@@ -89,11 +85,8 @@ final class SecurityViewModel: SecurityViewModelProtocol {
     // MARK: - Internal Methods
 
 	func pinCodeAvailabilityDidChange(value: Bool) {
-
 		guard keychainService.isPinCodeEnabled != value else { return }
-
 		let pinCode = keychainService.apiUserPinCode
-
         if value {
             send(.onCreatePassword)
         } else {

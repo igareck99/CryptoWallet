@@ -25,6 +25,23 @@ struct SocialListItem: Identifiable, Equatable {
 		self.socialType = socialType
 	}
 
+    var text: String {
+        switch socialType {
+        case .twitter:
+            return "Twitter"
+        case .facebook:
+            return "Facebook"
+        case .vk:
+            return "VK"
+        case .instagram:
+            return "Instagram"
+        case .linkedin:
+            return "Linkedin"
+        case .tiktok:
+            return "Tiktok"
+        }
+    }
+
     var socialNetworkImage: Image {
         switch socialType {
         case .facebook:

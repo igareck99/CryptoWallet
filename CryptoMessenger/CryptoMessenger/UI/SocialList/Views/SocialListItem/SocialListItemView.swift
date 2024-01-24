@@ -18,7 +18,7 @@ struct SocialListItemView: View {
 				.resizable()
 				.frame(width: 24, height: 24)
 				.padding(.leading, 16)
-			TextField("", text: self.$item.url, onEditingChanged: { isEditing in
+            TextField(item.text, text: self.$item.url, onEditingChanged: { isEditing in
                 debugPrint("SocialListItemView onEditingChanged: \(self.item.url)")
 				self.viewModel.socialNetworkDidEdited(item: item, isEditing: isEditing)
 			})
@@ -32,7 +32,7 @@ struct SocialListItemView: View {
                 debugPrint("SocialListItemView onSubmit: \(self.item.url)")
 				self.viewModel.socialNetworkDidSubmitted(item: item)
 			}
-			.frame(height: 30)
+			.frame(height: 48)
 			viewModel.resources.dragDropImage.padding(.trailing, 16)
 		}
 	}

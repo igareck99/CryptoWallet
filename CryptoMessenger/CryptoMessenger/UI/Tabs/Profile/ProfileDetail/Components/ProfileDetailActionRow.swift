@@ -13,13 +13,18 @@ struct ProfileDetailActionRow: View {
 
     var body: some View {
         HStack(spacing: 0) {
-            image
-                .frame(width: 20, height: 20)
-            Text(title)
-                .font(.subheadlineRegular15)
-                .padding(.leading, 16)
+            HStack(alignment: .center, spacing: 16) {
+                image
+                    .resizable()
+                    .frame(width: 30, height: 30)
+                Text(title)
+                    .font(Font.bodyRegular17)
+            }
             Spacer()
-            R.image.additionalMenu.grayArrow.image
+            Image(systemName: "chevron.right")
+                .resizable()
+                .frame(width: 7.16, height: 12.3)
+                .foreground(.lightGray)
         }
     }
 }

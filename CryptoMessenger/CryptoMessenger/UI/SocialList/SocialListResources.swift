@@ -31,7 +31,7 @@ struct SocialListResources {
 extension SocialListResources: SocialListResourcesable {
 
 	var dragDropImage: Image {
-		R.image.profileNetworkDetail.dragDrop.image
+        R.image.socialNetworks.list.image
 	}
 
 	var detailMain: String {

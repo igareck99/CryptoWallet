@@ -13,13 +13,10 @@ struct SecurityAdvancedCellView: View {
     // MARK: - Body
 
     var body: some View {
-        HStack {
+        HStack(alignment: .center) {
             VStack(alignment: .leading, spacing: 4) {
                 Text(title)
                     .font(.bodyRegular17)
-                Text(description)
-                    .font(.caption1Regular12)
-                    .foregroundColor(.romanSilver)
             }
             Spacer()
             Toggle("", isOn: $currentState)
