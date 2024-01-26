@@ -14,14 +14,16 @@ struct ChooseWalletTypeView: View {
     // MARK: - Body
 
     var body: some View {
-        VStack(spacing: 0) {
-
-            Text(R.string.localizable.transferChooseCurrency())
-                .font(.bodySemibold17)
-                .foregroundColor(.chineseBlack)
-                .frame(height: 24)
-                .padding(.vertical, 24)
-
+        VStack(spacing: 10) {
+            ZStack(alignment: .center) {
+                Rectangle()
+                    .frame(width: UIScreen.main.bounds.width,
+                           height: 42)
+                    .foreground(.clear)
+                Text(R.string.localizable.transferChooseCurrency())
+                    .font(.bodySemibold17)
+                    .foregroundColor(.chineseBlack)
+            }
             ForEach(wallletTypes, id: \.self) { item in
                 ChooseWalletTypeCell(walletType: item)
                     .onTapGesture {
@@ -30,7 +32,6 @@ struct ChooseWalletTypeView: View {
                         chooseWalletShow.toggle()
                     }
             }
-            Spacer().frame(height: 24)
         }
     }
 }

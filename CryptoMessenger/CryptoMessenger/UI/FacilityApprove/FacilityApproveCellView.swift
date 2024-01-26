@@ -11,12 +11,7 @@ struct FacilityApproveCellView: View {
     var body: some View {
         
         HStack(spacing: 8) {
-            ZStack {
-                Circle()
-                    .fill(Color.dodgerBlue)
-                    .frame(width: 40, height: 40)
-                item.image
-            }
+            item.image
             VStack(alignment: .leading, spacing: 4) {
                 Text(item.title)
                     .font(.caption1Regular12)

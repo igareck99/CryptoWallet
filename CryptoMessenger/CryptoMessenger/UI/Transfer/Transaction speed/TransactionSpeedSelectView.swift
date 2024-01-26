@@ -34,10 +34,10 @@ struct TransactionSpeedSelectView: View {
 		_ mode: TransactionMode
 	) -> some View {
 		VStack(alignment: .leading, spacing: 4) {
-			texts(title, text)
+            texts(title, text, mode == self.mode)
 				.padding(.horizontal, 4)
 		}
-		.padding(.vertical, 6)
+		.padding(.vertical, 4)
 		.segmentedControlItemTag(
 			tag: mode,
 			onSegmentSelect: { tag in
@@ -49,15 +49,18 @@ struct TransactionSpeedSelectView: View {
 
 	@ViewBuilder
 	private func texts(
-		_ title: String,
-		_ text: String
-	) -> some View {
-		Text(title)
-			.font(.caption1Medium12)
-			.lineLimit(1)
+        _ title: String,
+        _ text: String,
+        _ isSelected: Bool
+    ) -> some View {
+        Text(title)
+            .font(.caption1Medium12)
+            .lineLimit(1)
+            .foreground(isSelected ? .white : .chineseBlack)
 			.truncationMode(.middle)
 		Text(text)
 			.font(.caption1Regular12)
+            .foregroundColor(isSelected ? .white : .ashGray)
 			.lineLimit(1)
 			.truncationMode(.middle)
 	}

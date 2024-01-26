@@ -97,17 +97,16 @@ struct ProfileDetailView: View {
             }
             .listRowBackground(Color.white)
             .listRowSeparator(.hidden)
-            VStack(alignment: .leading,
-                   spacing: 6) {
+            Section {
+                phone()
+            } header: {
                 Text("НОМЕР ТЕЛЕФОНА")
                     .foregroundColor(.romanSilver)
                     .font(Font.bodyRegular17)
-                    .padding(.leading, 4)
-                phone()
             }
-                   .listRowBackground(Color.clear)
-                   .listRowSeparator(.hidden)
-                   .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+            .listRowBackground(Color.clear)
+            .listRowSeparator(.hidden)
+            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             Section {
                 ProfileDetailActionRow(
                     title: R.string.localizable.profileDetailFirstItemCell(),
@@ -198,32 +197,32 @@ struct ProfileDetailView: View {
     @ViewBuilder
     private func phone() -> some View {
         HStack(spacing: 8) {
-            ZStack {
-                RoundedRectangle(cornerRadius: 8)
-                    .frame(width: 64, height: 46, alignment: .center)
-                    .background(.white())
-                    .foregroundColor(.white)
-                Text(viewModel.countryCode)
+            Text(viewModel.countryCode)
+                .font(.bodyRegular17)
+                .foregroundColor(.chineseBlack)
+                .frame(width: 64, height: 46, alignment: .center)
+                .background {
+                    RoundedRectangle(cornerRadius: 8)
+                        .frame(width: 64, height: 46, alignment: .center)
+                        .foregroundColor(.white)
+                }
+            HStack {
+                Text(viewModel.phone)
                     .font(.bodyRegular17)
                     .foregroundColor(.chineseBlack)
+                Spacer()
+                R.image.profileDetail.approveBlue.image
+                    .resizable()
+                    .frame(width: 24, height: 24, alignment: .center)
             }
-            ZStack {
+            .frame(width: UIScreen.main.bounds.width - 64 - 40 - 32,
+                   height: 46)
+            .padding(.horizontal, 16)
+            .background {
                 RoundedRectangle(cornerRadius: 8)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
                     .frame(width: UIScreen.main.bounds.width - 64 - 40,
                            height: 46)
-                    .background(.white())
                     .foregroundColor(.white)
-                HStack {
-                    Text(viewModel.phone)
-                        .font(.bodyRegular17)
-                        .foregroundColor(.chineseBlack)
-                    Spacer()
-                    R.image.profileDetail.approveBlue.image
-                        .resizable()
-                        .frame(width: 24, height: 24, alignment: .center)
-                }
-                .padding(.horizontal, 16)
             }
         }
         .padding(.horizontal, 4)

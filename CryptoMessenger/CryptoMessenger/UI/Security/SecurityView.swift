@@ -17,7 +17,6 @@ struct SecurityView: View {
 
     var body: some View {
         content
-        .background(viewModel.resources.innactiveBackground)
         .onAppear {
             viewModel.send(.onAppear)
         }
@@ -60,49 +59,41 @@ struct SecurityView: View {
         }
     }
 
+    @ViewBuilder
     private var securitySection: some View {
-        VStack(spacing: 0) {
-            Toggle(viewModel.resources.securityPinCodeTitle,
-                   isOn: $viewModel.isPinCodeOn)
-            .background(.white)
-            .frame(height: 34)
-            .listRowSeparator(.hidden)
-            .onAppear {
-                if viewModel.isPinCodeUpdate() {
-                    viewModel.dataIsUpdated = true
+        Toggle(viewModel.resources.securityPinCodeTitle,
+               isOn: $viewModel.isPinCodeOn)
+        .background(.white)
+        .onAppear {
+            if viewModel.isPinCodeUpdate() {
+                viewModel.dataIsUpdated = true
+            }
+        }
+        .onChange(of: viewModel.isPinCodeOn) { value in
+            viewModel.pinCodeAvailabilityDidChange(value: value)
+        }
+        if viewModel.isPinCodeOn { 
+            SecurityAdvancedCellView(title: viewModel.resources.securityBiometryEnterTitle,
+                                     description: viewModel.resources.securityBiometryEnterState,
+                                     currentState: $viewModel.isBiometryOn)
+            .onChange(of: viewModel.isBiometryOn) { item in
+                if item {
+                    viewModel.send(.biometryActivate)
+                } else {
+                    viewModel.updateIsBiometryOn(item: false)
                 }
             }
-            .onChange(of: viewModel.isPinCodeOn) { value in
-                viewModel.pinCodeAvailabilityDidChange(value: value)
-            }
-            if viewModel.isPinCodeOn {
-                Divider()
-                    .frame(height: 0.5)
-                    .foreground(.gainsboro)
-                SecurityAdvancedCellView(title: viewModel.resources.securityBiometryEnterTitle,
-                                         description: viewModel.resources.securityBiometryEnterState,
-                                         currentState: $viewModel.isBiometryOn)
-                .frame(height: 34)
-                .onChange(of: viewModel.isBiometryOn) { item in
+            if viewModel.isFalsePinCodeOnAvailable {
+                SecurityAdvancedCellView(
+                    title: viewModel.resources.securityFalsePasswordTitle,
+                    description: viewModel.resources.securityFalsePasswordState,
+                    currentState: $viewModel.isFalsePinCodeOn
+                )
+                .onChange(of: viewModel.isFalsePinCodeOn) { item in
                     if item {
-                        viewModel.send(.biometryActivate)
+                        viewModel.send(.onFalsePassword)
                     } else {
-                        viewModel.updateIsBiometryOn(item: false)
-                    }
-                }
-                if viewModel.isFalsePinCodeOnAvailable {
-                    SecurityAdvancedCellView(
-                        title: viewModel.resources.securityFalsePasswordTitle,
-                        description: viewModel.resources.securityFalsePasswordState,
-                        currentState: $viewModel.isFalsePinCodeOn
-                    )
-                    .frame(height: 34)
-                    .onChange(of: viewModel.isFalsePinCodeOn) { item in
-                        if item {
-                            viewModel.send(.onFalsePassword)
-                        } else {
-                            viewModel.updateIsFalsePinCode(item: false)
-                        }
+                        viewModel.updateIsFalsePinCode(item: false)
                     }
                 }
             }

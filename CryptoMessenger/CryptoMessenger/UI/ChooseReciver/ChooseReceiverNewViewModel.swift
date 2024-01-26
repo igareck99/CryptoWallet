@@ -313,24 +313,25 @@ final class ChooseReceiverNewViewModel: ObservableObject, ChooseReceiverViewMode
                     }
                 } receiveValue: { [weak self] response in
                     guard let self = self else { return }
-                    self.getUserData(item.mxId) { phone, name in
+                    self.getUserData(item.mxId) { _, name in
                         guard let btc = response[item.mxId]?["bitcoin"]?["address"] else { return }
                         guard let eth = response[item.mxId]?["ethereum"]?["address"] else { return }
                         guard let binance = response[item.mxId]?["binance"]?["address"] else { return }
                         if !btc.isEmpty && !eth.isEmpty && !binance.isEmpty {
                             let userName = name ?? ""
-                            self.userWalletsData.append(UserWallletData(name: item.name.isEmpty ? userName: item.name,
+                            self.userWalletsData.append(UserWallletData(name: item.name.isEmpty ? userName: "item.name",
                                                                         bitcoin: btc,
                                                                         ethereum: eth,
                                                                         binance: binance,
                                                                         aura: eth,
                                                                         url: item.avatar,
-                                                                        phone: phone ?? "",
+                                                                        phone: "phone" ?? "",
                                                                         walletType: self.receiverData.walletType,
                                                                         onTap: { value in
                                 self.setAdress(value)
                             }))
-                            self.userWalletsViews = self.userWalletsData
+                            // self.userWalletsViews = self.userWalletsData
+                            self.userWalletsViews = Array(repeating: self.userWalletsData[0], count: 5)
                         }
                     }
                 }

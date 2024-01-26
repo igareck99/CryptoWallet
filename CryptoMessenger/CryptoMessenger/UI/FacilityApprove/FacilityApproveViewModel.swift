@@ -63,21 +63,21 @@ final class FacilityApproveViewModel: ObservableObject {
 	func addTitles() {
 
 		cellType.append(.init(
-			image: R.image.facilityApprove.postBox.image,
+            image: R.image.facilityApprove.facilityApproveRounds.adress.image,
 			title: R.string.localizable.facilityApproveRecipientAddress(),
 			text: transaction.reciverName ?? transaction.reciverAddress ?? ""
 		))
 
 		let transferAmount = transaction.transferAmount + " " + transaction.transferCurrency
 		cellType.append(.init(
-			image: R.image.facilityApprove.creditCard.image,
+            image: R.image.facilityApprove.facilityApproveRounds.creditCard.image,
 			title: R.string.localizable.facilityApproveTransactionSum(),
 			text: transferAmount
 		))
 
 		let comission = transaction.comissionAmount + " " + transaction.comissionCurrency
 		cellType.append(.init(
-			image: R.image.facilityApprove.percentSign.image,
+            image: R.image.facilityApprove.facilityApproveRounds.percent.image,
 			title: R.string.localizable.facilityApproveCommission(),
 			text: comission
 		))

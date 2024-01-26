@@ -8,6 +8,7 @@ struct FacilityApproveView: View {
 
     @StateObject var viewModel: FacilityApproveViewModel
     @State var showSuccessFacility = false
+    @Environment(\.presentationMode) private var presentationMode
 
     // MARK: - Body
 
@@ -31,6 +32,7 @@ struct FacilityApproveView: View {
                 color: .spanishCrimson
             )
         }
+        .navigationBarBackButtonHidden(true)
         .popup(
             isPresented: $showSuccessFacility,
             type: .toast,
@@ -51,6 +53,13 @@ struct FacilityApproveView: View {
             }
         )
         .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    presentationMode.wrappedValue.dismiss()
+                }, label: {
+                    R.image.navigation.backButton.image
+                })
+            }
             ToolbarItem(placement: .principal) {
                 Text(viewModel.resources.facilityApproveValidateTransaction)
                     .font(.bodySemibold17)
@@ -69,14 +78,11 @@ struct FacilityApproveView: View {
 					.lineLimit(1)
 					.truncationMode(.middle)
 					.padding(.top, 24)
-
 				receiverCellView
-
 				ForEach(viewModel.cellType) { item in
 					FacilityApproveCellView(item: item)
 						.frame(height: 64)
 				}
-
                 Text(viewModel.resources.facilityApproveCheck)
 					.font(.calloutRegular16)
                     .foregroundColor(viewModel.resources.checkTextColor)

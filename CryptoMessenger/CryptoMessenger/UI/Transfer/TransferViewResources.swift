@@ -26,10 +26,14 @@ protocol TransferViewSourcable {
     static var chatLogo: Image { get }
 
     static var logo: Image { get }
+    
+    static var chevronDown: Image { get }
 
     static var contact: Image { get }
 
     static var textColor: Color { get }
+    
+    static var separatorColor: Color { get }
 
     static var background: Color { get }
 
@@ -95,7 +99,7 @@ enum TransferViewSources: TransferViewSourcable {
     }
 
     static var contact: Image {
-        R.image.chat.action.contact.image
+        R.image.transaction.person.image
     }
 
     static var textColor: Color {
@@ -119,10 +123,18 @@ enum TransferViewSources: TransferViewSourcable {
     }
 
     static var inactiveButtonBackground: Color {
-            .ghostWhite
+        .ghostWhite04
     }
 
     static var buttonColor: Color {
         .dodgerBlue
+    }
+    
+    static var separatorColor: Color {
+        .gainsboro
+    }
+    
+    static var chevronDown: Image {
+        R.image.transaction.chevronDown.image
     }
 }

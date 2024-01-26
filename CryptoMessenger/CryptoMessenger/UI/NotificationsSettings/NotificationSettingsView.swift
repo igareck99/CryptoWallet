@@ -24,20 +24,15 @@ struct NotificationSettingsView: View {
     // MARK: - Private Properties
 
     private var content: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            List {
-                if viewModel.isNotificationDevice {
-                    NotificationSettingsCell(field: $viewModel.userAccount)
-                        .listRowSeparator(.hidden)
-                    NotificationSettingsCell(field: $viewModel.onDevice)
-                        .listRowSeparator(.hidden)
-                }
+        List {
+            if viewModel.isNotificationDevice {
+                NotificationSettingsCell(field: $viewModel.userAccount)
+                NotificationSettingsCell(field: $viewModel.onDevice)
             }
-            .listRowSeparator(.hidden)
-            .listStyle(.insetGrouped)
-            .scrollContentBackground(.hidden)
-            .background(Color.ghostWhite.edgesIgnoringSafeArea(.all))
         }
+        .listStyle(.insetGrouped)
+        .scrollContentBackground(.hidden)
+        .background(Color.ghostWhite.edgesIgnoringSafeArea(.all))
     }
 
     // MARK: - Private Methods
