@@ -3,6 +3,7 @@ import SwiftUI
 extension RoomEventsFactory {
     static func makeMapItem(
         event: RoomEvent,
+        nextMessagePadding: CGFloat,
         oldEvents: [RoomEvent],
         oldViews: [any ViewGeneratable],
         lat: Double,
@@ -24,7 +25,7 @@ extension RoomEventsFactory {
         var textColor: Color = .chineseShadow
         switch event.eventType {
         case .video(_), .image(_), .location(_):
-            color = .osloGrayApprox
+            color = .chineseBlack04
             textColor = .white
         default:
             break
@@ -59,6 +60,7 @@ extension RoomEventsFactory {
 
         let bubbleContainer = BubbleContainer(
             offset: .zero,
+            horizontalOffset: 0.0,
             isFromCurrentUser: event.isFromCurrentUser,
             fillColor: event.isFromCurrentUser ? .bubbles : .white,
             cornerRadius: event.isFromCurrentUser ? .right : .left,
@@ -78,9 +80,9 @@ extension RoomEventsFactory {
                     centralContent: bubbleContainer,
                     trailingContent: notSentModel,
                     bottomContent: viewModel,
-                    onLongPress: {
+                    nextMessagePadding: nextMessagePadding, onLongPress: {
                         onLongPressTap(event)
-                    }
+                    }, onTap: {}
                 )
             }
             return EventContainer(
@@ -88,9 +90,10 @@ extension RoomEventsFactory {
                 leadingContent: PaddingModel(),
                 centralContent: bubbleContainer,
                 bottomContent: viewModel,
-                onLongPress: {
+                reactionsSpacing: 6.0,
+                nextMessagePadding: nextMessagePadding, onLongPress: {
                     onLongPressTap(event)
-                }
+                }, onTap: {}
             )
         }
 
@@ -99,9 +102,10 @@ extension RoomEventsFactory {
             centralContent: bubbleContainer,
             trailingContent: PaddingModel(),
             bottomContent: viewModel,
-            onLongPress: {
+            reactionsSpacing: 6.0,
+            nextMessagePadding: nextMessagePadding, onLongPress: {
                 onLongPressTap(event)
-            }
+            }, onTap: {}
         )
     }
 }

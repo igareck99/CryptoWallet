@@ -4,7 +4,9 @@ struct BubbleContainer: Identifiable, ViewGeneratable {
     let id = UUID()
     let fillColor: Color // bubbles
     let edges: Edge.Set
+    let horizontalEdges: Edge.Set
     let offset: CGFloat
+    let horizontalOffset: CGFloat
     let isFromCurrentUser: Bool
     let cornerRadius: CornersRadius
     let content: any ViewGeneratable
@@ -13,8 +15,10 @@ struct BubbleContainer: Identifiable, ViewGeneratable {
     var swipeEdge: Edge
 
     init(
-        edges: Edge.Set = .all,
+        edges: Edge.Set = .vertical,
         offset: CGFloat = 8.0,
+        horizontalEdges: Edge.Set = .horizontal,
+        horizontalOffset: CGFloat = 8.0,
         isFromCurrentUser: Bool,
         fillColor: Color,
         cornerRadius: CornersRadius,
@@ -25,6 +29,8 @@ struct BubbleContainer: Identifiable, ViewGeneratable {
     ) {
         self.edges = edges
         self.offset = offset
+        self.horizontalEdges = horizontalEdges
+        self.horizontalOffset = horizontalOffset
         self.fillColor = fillColor
         self.isFromCurrentUser = isFromCurrentUser
         self.cornerRadius = cornerRadius

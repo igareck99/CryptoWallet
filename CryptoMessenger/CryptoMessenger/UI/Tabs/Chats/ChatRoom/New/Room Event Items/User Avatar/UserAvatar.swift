@@ -8,7 +8,7 @@ struct UserAvatar: Identifiable, ViewGeneratable {
     
     init(
         avatarUrl: URL? = nil,
-        size: CGSize = CGSize(width: 40.0, height: 40.0),
+        size: CGSize = CGSize(width: 48.0, height: 48.0),
         placeholder: any ViewGeneratable
     ) {
         self.avatarUrl = avatarUrl

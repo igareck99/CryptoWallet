@@ -15,7 +15,7 @@ struct AudioEventView<EventData: View,
     @State private var activateShowCard = false
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 2) {
+        VStack(alignment: .leading, spacing: .zero) {
             HStack(alignment: .center, spacing: 12) {
                 AudioEventStateView(state: $viewModel.state)
                     .onTapGesture {
@@ -51,6 +51,7 @@ struct AudioEventView<EventData: View,
                 }
                 eventData
             }
+            .padding(.top, 8)
         }
         .onReceive(viewModel.timer, perform: { _ in
             viewModel.onTimerChange()

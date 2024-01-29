@@ -3,6 +3,7 @@ import SwiftUI
 extension RoomEventsFactory {
     static func makeContactItem(
         event: RoomEvent,
+        nextMessagePadding: CGFloat,
         oldEvents: [RoomEvent],
         oldViews: [any ViewGeneratable],
         name: String?,
@@ -50,7 +51,7 @@ extension RoomEventsFactory {
         }
         let userAvatar = UserAvatar(
             size: CGSize(width: 48.0, height: 48.0),
-            placeholder: AvatarLetter(letter: userAvatarLetters, backColor: .dodgerTransBlue)
+            placeholder: AvatarLetter(letter: userAvatarLetters, backColor: .diamond)
         )
         let contactItem = ContactItem(
             id: event.id,
@@ -71,7 +72,8 @@ extension RoomEventsFactory {
         }
 
         let bubbleContainer = BubbleContainer(
-            edges: [.leading, .trailing],
+            offset: 8.0,
+            horizontalOffset: 12.0,
             isFromCurrentUser: event.isFromCurrentUser,
             fillColor: event.isFromCurrentUser ? .bubbles : .white,
             cornerRadius: event.isFromCurrentUser ? .right : .left,
@@ -84,18 +86,18 @@ extension RoomEventsFactory {
             return EventContainer(
                 id: event.id,
                 leadingContent: PaddingModel(),
-                centralContent: bubbleContainer, onLongPress: {
+                centralContent: bubbleContainer, nextMessagePadding: nextMessagePadding, onLongPress: {
                     onLongPressTap(event)
-                }
+                }, onTap: {}
             )
         }
 
         return EventContainer(
             id: event.id,
             centralContent: bubbleContainer,
-            trailingContent: PaddingModel(), onLongPress: {
+            trailingContent: PaddingModel(), nextMessagePadding: nextMessagePadding, onLongPress: {
                 onLongPressTap(event)
-            }
+            }, onTap: {}
         )
     }
 }

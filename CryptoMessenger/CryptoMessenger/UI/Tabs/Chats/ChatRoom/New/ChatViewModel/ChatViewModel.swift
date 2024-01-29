@@ -215,6 +215,14 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                         self.activeEditMessage = value
                         self.quickAction = .reply
                         self.replyDescriptionText = self.factory.makeReplyDescription(self.activeEditMessage)
+                    }, onTap: { value in
+                        if value.isReply {
+                            DispatchQueue.main.async {
+                                guard let event = self.room.events.first(where: { $0.eventId == value.rootEventId }) else { return }
+                                print("slalsaslsal  \(event)")
+                                self.scroolString = event.id
+                            }
+                        }
                     }
                 )
                 if let view = view {
@@ -263,7 +271,15 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                     guard let self = self else { return }
                     self.onTapNotSendedMessage(event)
                 },
-                onSwipeReply: { _ in }
+                onSwipeReply: { _ in },
+                onTap: { value in
+                    if value.isReply {
+                        DispatchQueue.main.async {
+                            guard let event = self.room.events.first(where: { $0.eventId == value.rootEventId }) else { return }
+                            self.scroolString = event.id
+                        }
+                    }
+                }
             )
             if let view = view {
                 currentViews.append(view)
@@ -326,6 +342,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                 self.itemsFromMatrix = currentViews
                 self.room = currentRoom
                 self.room.events = currentEvents
+                print("slasl;asl;  \(currentEvents)")
                 self.displayItems = self.itemsFromMatrix
                 delay(0.1) {
                     guard !self.itemsFromMatrix.isEmpty else { return }
@@ -677,7 +694,15 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             onTapNotSendedMessage: { [weak self] event in
                 self?.onTapNotSendedMessage(event)
             },
-            onSwipeReply: { _ in }
+            onSwipeReply: { _ in },
+            onTap: { value in
+                if value.isReply {
+                    DispatchQueue.main.async {
+                        guard let event = self.room.events.first(where: { $0.eventId == value.eventId }) else { return }
+                        self.scroolString = event.id
+                    }
+                }
+            }
         ) else {
             return
         }
@@ -780,7 +805,15 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             onLongPressMessage: { _ in },
             onReactionTap: { _ in },
             onTapNotSendedMessage: { _ in },
-            onSwipeReply: { _ in }
+            onSwipeReply: { _ in },
+            onTap: { value in
+                if value.isReply {
+                    DispatchQueue.main.async {
+                        guard let event = self.room.events.first(where: { $0.eventId == value.eventId }) else { return }
+                        self.scroolString = event.id
+                    }
+                }
+            }
         ) else {
             return
         }

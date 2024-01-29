@@ -3,6 +3,7 @@ import Foundation
 extension RoomEventsFactory {
     static func makeSystemEventItem(
         text: String,
+        nextMessagePadding: CGFloat,
         onTap: @escaping () -> Void
     ) -> any ViewGeneratable {
         let systemEvent = SystemEvent(
@@ -13,6 +14,11 @@ extension RoomEventsFactory {
             debugPrint("systemEvent onTap")
             onTap()
         }
-        return EventContainer(centralContent: systemEvent) { }
+        return EventContainer(centralContent: systemEvent,
+                              nextMessagePadding: nextMessagePadding) {
+            
+        } onTap: {
+            
+        }
     }
 }

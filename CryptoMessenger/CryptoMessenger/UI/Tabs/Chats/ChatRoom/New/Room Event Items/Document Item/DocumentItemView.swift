@@ -16,7 +16,7 @@ struct DocumentItemView<
     // MARK: - Body
 
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: .zero) {
             HStack(spacing: 8) {
                 DocumentImageStateView(state: $viewModel.state)
                 VStack(alignment: .leading, spacing: 4) {
@@ -29,11 +29,14 @@ struct DocumentItemView<
                         .foregroundColor(.manatee)
                 }
             }
-            HStack {
-                reactions
-                Spacer()
+            VStack(spacing: 2) {
+                HStack {
+                    reactions
+                    Spacer()
+                }
+                eventData
             }
-            eventData
+            .padding(.top, 8)
         }
         .frame(minWidth: 230, idealWidth: 230, maxWidth: 230)
         .fixedSize(horizontal: true, vertical: false)

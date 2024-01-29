@@ -28,32 +28,27 @@ struct CallItem: Identifiable, ViewGeneratable {
 
 struct CallItemType {
     let title: String
-    let imageName: String
-    let imageColor: Color
+    let image: Image
 
     static let sources: CallItemSourcesable.Type = CallItemSources.self
 
     static let incomeAnswered = CallItemType(
         title: sources.incomingCall,
-        imageName: sources.incomingCallImage,
-        imageColor: .dodgerBlue
+        image: sources.incomingCallImage
     )
 
     static let incomeUnanswered = CallItemType(
         title: sources.incomingCall,
-        imageName: sources.incomingCallImage,
-        imageColor: .spanishCrimson
+        image: sources.incomingCallUnanwseredImage
     )
 
     static let outcomeAnswered = CallItemType(
         title: sources.outcomingCall,
-        imageName: sources.outcomingCallImage,
-        imageColor: .dodgerBlue
+        image: sources.outcomingCallImage
     )
 
     static let outcomeUnanswered = CallItemType(
         title: sources.outcomingCall,
-        imageName: sources.outcomingCallImage,
-        imageColor: .spanishCrimson
+        image: sources.outcomingCallUnanwseredImage
     )
 }

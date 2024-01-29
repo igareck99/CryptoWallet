@@ -15,11 +15,11 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
         ScrollViewReader { proxy in
             VStack(spacing: .zero) {
                 ReversedScrollView(.vertical) {
-                    LazyVStack {
-                        ForEach(viewModel.displayItems, id: \.id) { item in
+                    LazyVStack(spacing: .zero) {
+                    ForEach(viewModel.displayItems, id: \.id) { item in
                             item.view()
-                                .listRowSeparator(.hidden)
-                                .listRowInsets(EdgeInsets())
+                            //                                .listRowSeparator(.hidden)
+                            //                                .listRowInsets(EdgeInsets())
                                 .id(item.id)
                         }
                     }

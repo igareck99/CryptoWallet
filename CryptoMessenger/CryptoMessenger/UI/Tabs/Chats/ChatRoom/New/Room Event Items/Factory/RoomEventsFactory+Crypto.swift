@@ -5,6 +5,7 @@ extension RoomEventsFactory {
     static func makeTransactionItem(
         delegate: ChatEventsDelegate,
         event: RoomEvent,
+        nextMessagePadding: CGFloat,
         onLongPressTap: @escaping (RoomEvent) -> Void,
         onSwipeReply: @escaping (RoomEvent) -> Void,
         onReactionTap: @escaping (ReactionNewEvent) -> Void
@@ -19,11 +20,8 @@ extension RoomEventsFactory {
         let eventData = EventData(
             date: event.shortDate,
             isFromCurrentUser: event.isFromCurrentUser,
-            dateColor: .white,
-            backColor: .osloGrayApprox,
-            readData: readData
+            readData: self.readData(isFromCurrentUser: event.isFromCurrentUser, eventSendType: event.sentState, messageType: event.eventType)
         )
-
         let reactionColor: Color = event.isFromCurrentUser ? .diamond : .aliceBlue
         let reactions = prepareReaction(
             event,
@@ -50,7 +48,7 @@ extension RoomEventsFactory {
             title: "Транзакция отправлена",
             subtitle: dateStr,
             amount: amount + " " + currency,
-            amountBackColor: .diamond,
+            amountBackColor: event.isFromCurrentUser ? .diamond : .antiFlashWhite,
             reactionsGrid: reactionsModel,
             eventData: eventData
         ) {
@@ -71,14 +69,16 @@ extension RoomEventsFactory {
             return EventContainer(
                 leadingContent: PaddingModel(),
                 centralContent: bubbleContainer,
-                onLongPress: { onLongPressTap(event) }
+                nextMessagePadding: nextMessagePadding, onLongPress: { onLongPressTap(event) },
+                onTap: {}
             )
         }
 
         return EventContainer(
             centralContent: bubbleContainer,
             trailingContent: PaddingModel(),
-            onLongPress: { onLongPressTap(event) }
+            nextMessagePadding: nextMessagePadding, onLongPress: { onLongPressTap(event) },
+            onTap: {}
         )
     }
 }

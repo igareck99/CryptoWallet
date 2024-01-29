@@ -126,10 +126,10 @@ struct VideoView: View {
                 Circle()
                     .frame(width: 48, height: 48)
                     .foregroundColor(.chineseBlack04)
-                Image(systemName: "play.fill")
+                R.image.chat.chatEventsState.playFill.image
                     .resizable()
                     .tint(.white)
-                    .frame(width: 15, height: 15)
+                    .frame(width: 30, height: 30)
             } else {
                 ProgressView()
                     .frame(width: 48, height: 48)

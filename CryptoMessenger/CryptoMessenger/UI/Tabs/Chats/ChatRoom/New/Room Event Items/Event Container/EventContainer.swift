@@ -8,7 +8,10 @@ struct EventContainer: Identifiable, ViewGeneratable {
     let centralContent: any ViewGeneratable
     let trailingContent: any ViewGeneratable
     let bottomContent: any ViewGeneratable
+    let reactionsSpacing: CGFloat
+    let nextMessagePadding: CGFloat
     var onLongPress: () -> Void
+    var onTap: () -> Void
 
     init(
         id: UUID = UUID(),
@@ -16,14 +19,20 @@ struct EventContainer: Identifiable, ViewGeneratable {
         centralContent: any ViewGeneratable = ZeroViewModel(),
         trailingContent: any ViewGeneratable = ZeroViewModel(),
         bottomContent: any ViewGeneratable = ZeroViewModel(),
-        onLongPress: @escaping () -> Void
+        reactionsSpacing: CGFloat = 0.0,
+        nextMessagePadding: CGFloat,
+        onLongPress: @escaping () -> Void,
+        onTap: @escaping () -> Void
     ) {
         self.id = id
         self.leadingContent = leadingContent
         self.centralContent = centralContent
         self.trailingContent = trailingContent
         self.bottomContent = bottomContent
+        self.reactionsSpacing = reactionsSpacing
         self.onLongPress = onLongPress
+        self.onTap = onTap
+        self.nextMessagePadding = nextMessagePadding
     }
 
     // MARK: - ViewGeneratable
@@ -34,7 +43,10 @@ struct EventContainer: Identifiable, ViewGeneratable {
             centralContent: centralContent.view(),
             trailingContent: trailingContent.view(),
             bottomContent: bottomContent.view(),
-            onLongPress: onLongPress
+            reactionsSpacing: reactionsSpacing,
+            nextMessagePadding: nextMessagePadding,
+            onLongPress: onLongPress,
+            onTap: onTap
         ).anyView()
     }
 }

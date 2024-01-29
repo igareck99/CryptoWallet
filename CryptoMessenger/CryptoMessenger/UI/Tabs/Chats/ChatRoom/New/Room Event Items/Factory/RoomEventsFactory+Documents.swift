@@ -3,6 +3,7 @@ import SwiftUI
 extension RoomEventsFactory {
     static func makeDocumentItem(
         event: RoomEvent,
+        nextMessagePadding: CGFloat,
         oldEvents: [RoomEvent],
         oldViews: [any ViewGeneratable],
         name: String?,
@@ -66,9 +67,9 @@ extension RoomEventsFactory {
             return EventContainer(
                 id: event.id,
                 leadingContent: PaddingModel(),
-                centralContent: bubbleContainer, onLongPress: {
+                centralContent: bubbleContainer, nextMessagePadding: nextMessagePadding, onLongPress: {
                     onLongPressTap(event)
-                }
+                }, onTap: {}
             )
         }
 
@@ -76,9 +77,9 @@ extension RoomEventsFactory {
             id: event.id,
             centralContent: bubbleContainer,
             trailingContent: PaddingModel(),
-            onLongPress: {
+            nextMessagePadding: nextMessagePadding, onLongPress: {
                 onLongPressTap(event)
-            }
+            }, onTap: {}
         )
     }
 }
