@@ -342,7 +342,6 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                 self.itemsFromMatrix = currentViews
                 self.room = currentRoom
                 self.room.events = currentEvents
-                print("slasl;asl;  \(currentEvents)")
                 self.displayItems = self.itemsFromMatrix
                 delay(0.1) {
                     guard !self.itemsFromMatrix.isEmpty else { return }

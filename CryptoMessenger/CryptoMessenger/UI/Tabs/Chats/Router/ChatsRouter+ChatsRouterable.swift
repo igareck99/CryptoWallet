@@ -13,8 +13,10 @@ extension ChatsRouter: ChatsRouterable {
         )
     }
     
-    func writeToUser(_ userId: String) {
-        
+    func writeToUser(_ room: AuraRoomData,
+                     _ coordinator: ChatsCoordinatable ) {
+        state.path.append(BaseContentLink.newChat(room: room,
+                                                  coordinator: coordinator))
     }
 
     func navPathChild() -> Binding<NavigationPath> {

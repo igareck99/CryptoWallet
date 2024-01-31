@@ -124,24 +124,43 @@ final class FriendProfileViewModel: FriendProfileViewModelProtocol {
     }
     
     func writeToUser() {
-        let room = self.matrixUseCase.customCheckRoomExist(mxId: userId)
-        print("slasl;asl  \(room)")
-        if let room = room {
-            chatHistoryCoordinator.popToRoot()
-            chatHistoryCoordinator.chatRoom(room: room)
+        let newRoom = self.matrixUseCase.customCheckRoomExist(mxId: userId)
+        if let newRoom = newRoom {
+            chatHistoryCoordinator.writeToUser(newRoom)
         } else {
-            matrixUseCase.createDirectRoom(userId: userId) { [weak self] state, roomId in
-                guard let self = self else { return }
-                switch state {
-                case .roomCreateError:
-                    break
-                case .roomCreateSucces, .roomAlreadyExist:
-                    if let mxRoomId = roomId,
-                       let room = self.matrixUseCase.customCheckRoomExist(mxId: userId) {
-                        self.chatHistoryCoordinator.chatRoom(room: room)
-                    }
+            Task {
+                let result = await matrixUseCase.createDirectRoom(userId: userId)
+                if let roomId = result.1 {
+                    let room = AuraRoomData(isChannel: false,
+                                            isAdmin: false,
+                                            isPinned: false,
+                                            isOnline: false,
+                                            isDirect: false,
+                                            lastMessage: .text(""),
+                                            lastMessageTime: Date(),
+                                            roomName: "",
+                                            numberUsers: 2,
+                                            topic: "",
+                                            roomId: roomId,
+                                            events: [],
+                                            eventCollections: EventCollection([]),
+                                            participants: [])
+                    chatHistoryCoordinator.writeToUser(room)
                 }
             }
+//            matrixUseCase.createDirectRoom(userId: userId) { [weak self] state, roomId in
+//                guard let self = self else { return }
+//                switch state {
+//                case .roomCreateError:
+//                    break
+//                case .roomCreateSucces, .roomAlreadyExist:
+//                    if let mxRoomId = roomId,
+//                       let room = self.matrixUseCase.customCheckRoomExist(mxId: userId) {
+//                        chatHistoryCoordinator.popToRoot()
+//                        chatHistoryCoordinator.chatRoom(room: room)
+//                    }
+//                }
+//            }
         }
     }
 

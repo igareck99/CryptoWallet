@@ -30,8 +30,8 @@ extension ChatsCoordinator: Coordinator {
 
 extension ChatsCoordinator: ChatsCoordinatable {
     
-    func writeToUser(_ userId: String) {
-        router.writeToUser(userId)
+    func writeToUser(_ room: AuraRoomData) {
+        router.writeToUser(room, self)
     }
 
     func onVideoTap(url: URL) {
@@ -258,6 +258,7 @@ extension ChatsCoordinator: ChatsCoordinatable {
     }
 
     func chatRoom(room: AuraRoomData) {
+        print("sklaklaskl  \(room)")
         router.chatRoom(
             room: room,
             coordinator: self

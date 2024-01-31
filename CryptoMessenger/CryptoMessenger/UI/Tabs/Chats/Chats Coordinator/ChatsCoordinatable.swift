@@ -2,7 +2,7 @@ import SwiftUI
 
 protocol ChatsCoordinatable: Coordinator {
     
-    func writeToUser(_ userId: String)
+    func writeToUser(_ room: AuraRoomData)
     
     func showImageViewer(image: Image?, imageUrl: URL?)
 
