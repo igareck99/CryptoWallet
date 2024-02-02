@@ -44,6 +44,7 @@ extension RoomEventsFactory {
             title: name ?? "", // "Экран для Aura.docx",
             size: event.dataSize,
             url: url ?? .mock,
+            hasReactions: !event.reactions.isEmpty,
             reactionsGrid: viewModel, // reactionsGrid,
             eventData: eventData
         ) {

@@ -86,6 +86,8 @@ protocol ChatViewModelProtocol: ObservableObject {
         chatData: Binding<ChatData>,
         isLeaveChannel: Binding<Bool>
     )
+    
+    func previousScreen()
 }
 
 // MARK: - ChatEventsDelegate

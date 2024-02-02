@@ -44,24 +44,17 @@ final class QuickMenuViewModel: ObservableObject {
         switch messageType {
         case .text(_):
             var actions: [QuickActionItem] = initCurrentUserActions()
-//            if hasReactions {
-//                actions.insert(QuickActionItem(action: .reaction), at: actions.count - 1)
-//            }
             self.items = actions
         case .file(_, _), .video(_), .image(_), .audio(_):
             var actions: [QuickActionItem] = initCurrentUserActions(false, false)
             if hasReactions {
                 actions.insert(QuickActionItem(action: .reaction), at: 2)
             }
-            // actions.insert(QuickActionItem(action: .save), at: actions.count - 1)
             self.items = actions
         case .contact(name: _, phone: _, url: _), .sendCrypto, .location((_, _)):
             var actions: [QuickActionItem] = [QuickActionItem(action: .reply),
                                               // QuickActionItem(action: .addReaction),
                                               QuickActionItem(action: .delete)]
-//            if hasReactions {
-//                actions.insert(QuickActionItem(action: .reaction), at: actions.count - 1)
-//            }
             self.items = actions
         default:
             break

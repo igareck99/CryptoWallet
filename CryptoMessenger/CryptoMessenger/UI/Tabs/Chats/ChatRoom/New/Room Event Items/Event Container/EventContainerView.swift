@@ -34,13 +34,11 @@ struct EventContainerView<
                 .onTapGesture(perform: onTap)
                 trailingContent
             }
-            .padding(.horizontal, 16)
             Rectangle()
                 .frame(width: 1,
                        height: nextMessagePadding)
                 .foreground(.clear)
         }
         .padding(.horizontal, 16)
-//        .padding(.vertical, 4)
     }
 }

@@ -18,7 +18,7 @@ struct BubbleContainer: Identifiable, ViewGeneratable {
         edges: Edge.Set = .vertical,
         offset: CGFloat = 8.0,
         horizontalEdges: Edge.Set = .horizontal,
-        horizontalOffset: CGFloat = 8.0,
+        horizontalOffset: CGFloat = 12.0,
         isFromCurrentUser: Bool,
         fillColor: Color,
         cornerRadius: CornersRadius,

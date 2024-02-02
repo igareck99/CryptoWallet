@@ -1,6 +1,6 @@
 import Combine
 import SwiftUI
-import PhoneNumberKit
+//import PhoneNumberKit
 
 // MARK: - ProfileDetailViewModel
 
@@ -38,6 +38,8 @@ final class ProfileDetailViewModel: ObservableObject {
     private let userSettings: UserFlowsStorage & UserCredentialsStorage
     private let keychainService: KeychainServiceProtocol
     private let privateDataCleaner: PrivateDataCleanerProtocol
+    private let contactsUseCase: ContactsUseCaseProtocol
+    let resources: ProfileDetailSourcable.Type
     private let config: ConfigType
 
     // MARK: - Lifecycle
@@ -47,11 +49,15 @@ final class ProfileDetailViewModel: ObservableObject {
         keychainService: KeychainServiceProtocol,
         coreDataService: CoreDataServiceProtocol,
         privateDataCleaner: PrivateDataCleanerProtocol,
+        contactsUseCase: ContactsUseCaseProtocol = ContactsUseCase.shared,
+        resources: ProfileDetailSourcable.Type = ProfileDetailResources.self,
         config: ConfigType = Configuration.shared
     ) {
         self.userSettings = userSettings
         self.keychainService = keychainService
         self.privateDataCleaner = privateDataCleaner
+        self.contactsUseCase = contactsUseCase
+        self.resources = resources
         self.config = config
         bindInput()
         bindOutput()
@@ -167,14 +173,10 @@ final class ProfileDetailViewModel: ObservableObject {
             let suffixIndex = str.index(str.startIndex, offsetBy: 3)
             profile.phone = String(str[suffixIndex...])
         }
-        let phoneNumberKit = PhoneNumberKit()
-        do {
-            let value = try phoneNumberKit.parse(keychainService.apiUserPhoneNumber ?? "")
-            let nationalPhone = phoneNumberKit.format(value, toType: .national).split(separator: " ")
-            self.phone = String(nationalPhone[safe: 1] ?? "") + " " + String(nationalPhone[safe: 2] ?? "")
-            self.countryCode = String(phoneNumberKit.format(value, toType: .international)
-                .split(separator: " ")[0])
-        } catch {
+        if let phone = keychainService.apiUserPhoneNumber {
+            let result = contactsUseCase.getCountryAndCode(phone)
+            self.phone = result.0
+            self.countryCode = result.1
         }
     }
 

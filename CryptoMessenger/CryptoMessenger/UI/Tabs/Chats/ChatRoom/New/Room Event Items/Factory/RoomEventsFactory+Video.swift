@@ -77,8 +77,8 @@ extension RoomEventsFactory {
                 leadingContent: PaddingModel(),
                 centralContent: bubbleContainer,
                 bottomContent: viewModel,
-                reactionsSpacing: 6.0,
-                nextMessagePadding: nextMessagePadding, onLongPress: {
+                reactionsSpacing: 0.0,
+                nextMessagePadding: event.reactions.isEmpty ? 4 : 8, onLongPress: {
                     onLongPressTap(event)
                 }, onTap: {}
             )
@@ -89,8 +89,8 @@ extension RoomEventsFactory {
             centralContent: bubbleContainer,
             trailingContent: PaddingModel(),
             bottomContent: viewModel,
-            reactionsSpacing: 6.0,
-            nextMessagePadding: nextMessagePadding, onLongPress: {
+            reactionsSpacing: 0.0,
+            nextMessagePadding: event.reactions.isEmpty ? 4 : 8, onLongPress: {
                 onLongPressTap(event)
             }, onTap: {}
         )

@@ -29,16 +29,20 @@ struct DocumentItemView<
                         .foregroundColor(.manatee)
                 }
             }
-            VStack(spacing: 2) {
-                HStack {
-                    reactions
-                    Spacer()
-                }
+            if !viewModel.model.hasReactions {
                 eventData
+            } else {
+                VStack(spacing: .zero) {
+                    HStack {
+                        reactions
+                        Spacer()
+                    }
+                    .padding(.top, 8)
+                    eventData
+                }
             }
-            .padding(.top, 8)
         }
-        .frame(minWidth: 230, idealWidth: 230, maxWidth: 230)
+        .frame(minWidth: 214, idealWidth: 214, maxWidth: 214)
         .fixedSize(horizontal: true, vertical: false)
         .onTapGesture {
             withAnimation(.easeOut(duration: 0.15)) {

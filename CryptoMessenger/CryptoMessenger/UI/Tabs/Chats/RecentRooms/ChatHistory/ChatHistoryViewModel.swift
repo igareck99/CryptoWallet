@@ -158,12 +158,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
             self.joinRoom(roomId: room.roomId, openChat: true)
         } completion: { [weak self] channels in
             guard let self = self else { return }
-            let result = channels.filter { item1 in
-                !self.chatHistoryRooms.contains { item2 in
-                    item1.roomId == item2.roomId
-                }
-            }.filter({ $0.name.contains(filter) })
-            self.isLoading = false
+            let result = channels.filter({ $0.name.contains(filter) || $0.name.contains(filter.lowercased()) })
             completion(result)
         }
     }
@@ -237,7 +232,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                             eventsFactory: roomFactory,
                             matrixUseCase: self.matrixUseCase
                         ).first else { return }
-                        self.coordinator?.chatRoom(room: auraRoom)
+                    self.coordinator?.chatRoom(room: auraRoom, roomOpenState: .chatHistory)
                 case let .onDeleteRoom(roomId):
                     self?.matrixUseCase.leaveRoom(roomId: roomId, completion: { _ in
                         self?.matrixUseCase.objectChangePublisher.send()
@@ -322,10 +317,12 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                     let group = DispatchGroup()
                     group.enter()
                     self.findRooms(with: text) { result in
+                        print("slaslasl  \(result)")
                         self.gloabalSearch = result
                         group.leave()
                     }
                     group.notify(queue: .main) {
+                        print("slaslasl;as  \(self.gloabalSearch)")
                         if !self.gloabalSearch.isEmpty {
                             chatSectionsCurrent.append(ChatHistorySection(data: .gloabalChats, views: self.gloabalSearch))
                         }

@@ -58,6 +58,7 @@ extension RoomEventsFactory {
             title: name ?? "",
             subtitle: phone ?? "",
             mxId: event.contactMxId,
+            hasReactions: !event.reactions.isEmpty,
             reactionsGrid: viewModel,
             eventData: eventData,
             avatar: userAvatar
@@ -72,7 +73,7 @@ extension RoomEventsFactory {
         }
 
         let bubbleContainer = BubbleContainer(
-            offset: 8.0,
+            offset: 4.0,
             horizontalOffset: 12.0,
             isFromCurrentUser: event.isFromCurrentUser,
             fillColor: event.isFromCurrentUser ? .bubbles : .white,

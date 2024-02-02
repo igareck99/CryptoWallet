@@ -11,7 +11,6 @@ struct ProfileDetailView: View {
 
     // MARK: - Private Properties
 
-    @State private var descriptionHeight = CGFloat(100)
     @State private var showLogoutAlert = false
     @State private var showActionImageAlert = false
     @State private var showImagePicker = false
@@ -45,11 +44,11 @@ struct ProfileDetailView: View {
                             buttons: [
                                 .cancel(),
                                 .default(
-                                    Text(R.string.localizable.profileFromGallery()),
+                                    Text(viewModel.resources.profileFromGallery),
                                     action: switchImagePicker
                                 ),
                                 .default(
-                                    Text(R.string.localizable.profileFromCamera()),
+                                    Text(viewModel.resources.profileFromCamera),
                                     action: switchCameraPicker
                                 )
                             ]
@@ -57,11 +56,11 @@ struct ProfileDetailView: View {
             }
             .alert(isPresented: $showLogoutAlert) {
                 return Alert(
-                    title: Text(R.string.localizable.profileDetailLogoutAlertTitle()),
-                    message: Text(R.string.localizable.profileDetailLogoutAlertMessage()),
-                    primaryButton: .default(Text(R.string.localizable.profileDetailLogoutAlertApprove()),
+                    title: Text(viewModel.resources.profileDetailLogoutAlertTitle),
+                    message: Text(viewModel.resources.profileDetailLogoutAlertMessage),
+                    primaryButton: .default(Text(viewModel.resources.profileDetailLogoutAlertApprove),
                                             action: { viewModel.send(.onLogout) }),
-                    secondaryButton: .cancel(Text(R.string.localizable.profileDetailLogoutAlertCancel()))
+                    secondaryButton: .cancel(Text(viewModel.resources.profileDetailLogoutAlertCancel))
                 )
             }
             .toolbar(.hidden, for: .tabBar)
@@ -90,7 +89,7 @@ struct ProfileDetailView: View {
                     .font(.bodyRegular17)
                     .frame(height: 134 - 22)
             } header: {
-                Text(R.string.localizable.profileAboutUser())
+                Text(viewModel.resources.profileAboutUser)
                     .foregroundColor(.romanSilver)
                     .font(Font.bodyRegular17)
                     .padding(.trailing, 16)
@@ -109,8 +108,8 @@ struct ProfileDetailView: View {
             .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             Section {
                 ProfileDetailActionRow(
-                    title: R.string.localizable.profileDetailFirstItemCell(),
-                    image: R.image.profileDetail.web.image
+                    title: viewModel.resources.profileDetailFirstItemCell,
+                    image: viewModel.resources.web
                 )
                 .background(.white)
                 .frame(height: 22)
@@ -120,8 +119,8 @@ struct ProfileDetailView: View {
             }
             Section {
                 ProfileDetailActionRow(
-                    title: R.string.localizable.profileDetailLogoutAlertApprove(),
-                    image: R.image.profileDetail.leave.image
+                    title: viewModel.resources.profileDetailLogoutAlertApprove,
+                    image: viewModel.resources.leave
                 )
                 .background(.white)
                 .frame(height: 22)
@@ -133,7 +132,7 @@ struct ProfileDetailView: View {
         }
         .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)
-        .background(Color.ghostWhite.edgesIgnoringSafeArea(.all))
+        .background(Color.ghostWhite)
     }
     
     private var avatarView: some View {
@@ -169,7 +168,7 @@ struct ProfileDetailView: View {
                 Circle()
                     .foregroundColor(.dodgerBlue)
                     .frame(width: 24, height: 24)
-                R.image.profileDetail.whiteCamera.image
+                viewModel.resources.whiteCamera
                     .resizable()
                     .frame(width: 10.5, height: 8.2)
                     .onTapGesture {showActionImageAlert.toggle()}
@@ -183,7 +182,7 @@ struct ProfileDetailView: View {
             TextField("", text: $viewModel.profile.name)
                 .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0))
                 .foregroundColor(.chineseBlack)
-                .frame(width: UIScreen.main.bounds.width - 68 - 16 - 16 - 16,
+                .frame(width: UIScreen.main.bounds.width - 116,
                        height: 46)
                 .font(.bodyRegular17)
                 .textFieldStyle(.plain)
@@ -211,7 +210,7 @@ struct ProfileDetailView: View {
                     .font(.bodyRegular17)
                     .foregroundColor(.chineseBlack)
                 Spacer()
-                R.image.profileDetail.approveBlue.image
+                viewModel.resources.approveBlue
                     .resizable()
                     .frame(width: 24, height: 24, alignment: .center)
             }
@@ -241,7 +240,7 @@ struct ProfileDetailView: View {
     @ToolbarContentBuilder
     private func createToolBar() -> some ToolbarContent {
         ToolbarItem(placement: .principal) {
-            Text(R.string.localizable.tabProfile(), [
+            Text(viewModel.resources.tabProfile, [
                 .paragraph(.init(lineHeightMultiple: 1.09, alignment: .center))
             ])
             .font(.bodySemibold17)
@@ -252,7 +251,7 @@ struct ProfileDetailView: View {
                 isSaving.toggle()
                 viewModel.send(.onDone)
             }, label: {
-                Text(R.string.localizable.profileDetailRightButton())
+                Text(viewModel.resources.profileDetailRightButton)
                     .font(.bodySemibold17)
                     .foregroundColor(.dodgerBlue)
             }).disabled(isSaving)
@@ -261,7 +260,7 @@ struct ProfileDetailView: View {
             Button {
                 presentationMode.wrappedValue.dismiss()
             } label: {
-                R.image.navigation.backButton.image
+                viewModel.resources.backImage
             }
         }
     }

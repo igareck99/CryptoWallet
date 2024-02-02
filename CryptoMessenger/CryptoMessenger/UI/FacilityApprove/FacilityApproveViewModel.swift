@@ -5,6 +5,8 @@ import SwiftUI
 
 protocol FacilityApproveViewCoordinatable {
     func onTransactionEnd(model: TransactionResult)
+    
+    func previousScreen()
 }
 
 // MARK: - FacilityApproveViewModel
@@ -59,6 +61,10 @@ final class FacilityApproveViewModel: ObservableObject {
 	func send(_ event: FacilityApproveFlow.Event) {
 		eventSubject.send(event)
 	}
+    
+    func previousScreen() {
+        coordinator.previousScreen()
+    }
 
 	func addTitles() {
 

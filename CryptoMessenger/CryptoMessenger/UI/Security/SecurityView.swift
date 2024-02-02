@@ -50,7 +50,7 @@ struct SecurityView: View {
         }
         .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)
-        .background(Color.ghostWhite.edgesIgnoringSafeArea(.all))
+        .background(Color.ghostWhite)
         .toolbar(.hidden, for: .tabBar)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)

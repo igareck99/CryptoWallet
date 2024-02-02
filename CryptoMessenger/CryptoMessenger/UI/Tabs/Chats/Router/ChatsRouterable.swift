@@ -3,10 +3,9 @@ import SwiftUI
 
 protocol ChatsRouterable: View {
     
-    func writeToUser(_ room: AuraRoomData,
-                     _ coordinator: ChatsCoordinatable)
-    
     func navPathChild() -> Binding<NavigationPath>
+    
+    func previousScreen()
 
     func showVideo(url: URL)
 
@@ -31,6 +30,7 @@ protocol ChatsRouterable: View {
 
     func chatRoom(
         room: AuraRoomData,
+        roomOpenState: RoomOpenState,
         coordinator: ChatsCoordinatable
     )
 

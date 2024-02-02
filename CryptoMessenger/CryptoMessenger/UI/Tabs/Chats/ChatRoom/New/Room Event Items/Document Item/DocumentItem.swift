@@ -8,6 +8,7 @@ struct DocumentItem: Identifiable, ViewGeneratable {
     let title: String
     let size: Int
     let url: URL
+    let hasReactions: Bool
     let reactionsGrid: any ViewGeneratable
     let eventData: any ViewGeneratable
     let onTap: () -> Void

@@ -42,8 +42,6 @@ struct SocialListItemView: View {
             .background(
                 RoundedRectangle(cornerRadius: 8)
                     .fill(Color.aliceBlue)
-                    .frame(width: UIScreen.main.bounds.width - 67,
-                           height: 46)
             )
             .padding(.leading, 16)
 			viewModel.resources.dragDropImage.padding(.trailing, 16)

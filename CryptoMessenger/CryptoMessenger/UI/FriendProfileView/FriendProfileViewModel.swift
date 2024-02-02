@@ -125,8 +125,11 @@ final class FriendProfileViewModel: FriendProfileViewModelProtocol {
     
     func writeToUser() {
         let newRoom = self.matrixUseCase.customCheckRoomExist(mxId: userId)
+        if matrixUseCase.getUserId() == userId {
+            return
+        }
         if let newRoom = newRoom {
-            chatHistoryCoordinator.writeToUser(newRoom)
+            chatHistoryCoordinator.chatRoom(room: newRoom, roomOpenState: .friendProfile)
         } else {
             Task {
                 let result = await matrixUseCase.createDirectRoom(userId: userId)
@@ -145,22 +148,9 @@ final class FriendProfileViewModel: FriendProfileViewModelProtocol {
                                             events: [],
                                             eventCollections: EventCollection([]),
                                             participants: [])
-                    chatHistoryCoordinator.writeToUser(room)
+                    chatHistoryCoordinator.chatRoom(room: room, roomOpenState: .friendProfile)
                 }
             }
-//            matrixUseCase.createDirectRoom(userId: userId) { [weak self] state, roomId in
-//                guard let self = self else { return }
-//                switch state {
-//                case .roomCreateError:
-//                    break
-//                case .roomCreateSucces, .roomAlreadyExist:
-//                    if let mxRoomId = roomId,
-//                       let room = self.matrixUseCase.customCheckRoomExist(mxId: userId) {
-//                        chatHistoryCoordinator.popToRoot()
-//                        chatHistoryCoordinator.chatRoom(room: room)
-//                    }
-//                }
-//            }
         }
     }
 

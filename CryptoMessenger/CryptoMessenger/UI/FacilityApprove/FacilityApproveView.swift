@@ -55,9 +55,9 @@ struct FacilityApproveView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button(action: {
-                    presentationMode.wrappedValue.dismiss()
+                    viewModel.previousScreen()
                 }, label: {
-                    R.image.navigation.backButton.image
+                    viewModel.resources.backButton
                 })
             }
             ToolbarItem(placement: .principal) {

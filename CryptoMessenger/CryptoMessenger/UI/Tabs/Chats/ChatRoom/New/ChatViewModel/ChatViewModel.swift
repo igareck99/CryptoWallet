@@ -21,6 +21,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     @Published var activeEditMessage: RoomEvent?
     @Published var quickAction: QuickActionCurrentUser?
     @Published var room: AuraRoomData
+    let openRoomState: RoomOpenState
     @Published var replyDescriptionText = ""
     var sources: ChatRoomSourcesable.Type = ChatRoomResources.self
     var coordinator: ChatsCoordinatable
@@ -85,6 +86,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
 
     init(
         room: AuraRoomData,
+        openRoomState: RoomOpenState,
         coordinator: ChatsCoordinatable,
         coreDataService: CoreDataServiceProtocol = CoreDataService.shared,
         walletModelsFactory: WalletModelsFactoryProtocol.Type = WalletModelsFactory.self,
@@ -99,6 +101,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
         availabilityFacade: ChatRoomTogglesFacadeProtocol = ChatRoomViewModelAssembly.build()
     ) {
         self.room = room
+        self.openRoomState = openRoomState
         self.coordinator = coordinator
         self.coreDataService = coreDataService
         self.walletModelsFactory = walletModelsFactory
@@ -118,6 +121,14 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     deinit {
         subscriptions.forEach { $0.cancel() }
         subscriptions.removeAll()
+    }
+    
+    func previousScreen() {
+        if openRoomState == .chatHistory {
+            coordinator.previousScreen()
+        } else if openRoomState == .friendProfile {
+            coordinator.popToRoot()
+        }
     }
 
     func updateToggles() {
@@ -216,10 +227,9 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                         self.quickAction = .reply
                         self.replyDescriptionText = self.factory.makeReplyDescription(self.activeEditMessage)
                     }, onTap: { value in
-                        if value.isReply {
+                        if value.isReply,
+                           let event = self.room.events.first(where: { $0.eventId == value.rootEventId }) {
                             DispatchQueue.main.async {
-                                guard let event = self.room.events.first(where: { $0.eventId == value.rootEventId }) else { return }
-                                print("slalsaslsal  \(event)")
                                 self.scroolString = event.id
                             }
                         }
@@ -273,9 +283,9 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                 },
                 onSwipeReply: { _ in },
                 onTap: { value in
-                    if value.isReply {
+                    if value.isReply,
+                       let event = self.room.events.first(where: { $0.eventId == value.rootEventId }) {
                         DispatchQueue.main.async {
-                            guard let event = self.room.events.first(where: { $0.eventId == value.rootEventId }) else { return }
                             self.scroolString = event.id
                         }
                     }
@@ -695,9 +705,9 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             },
             onSwipeReply: { _ in },
             onTap: { value in
-                if value.isReply {
+                if value.isReply,
+                   let event = self.room.events.first(where: { $0.eventId == value.rootEventId }) {
                     DispatchQueue.main.async {
-                        guard let event = self.room.events.first(where: { $0.eventId == value.eventId }) else { return }
                         self.scroolString = event.id
                     }
                 }
@@ -726,7 +736,9 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
         switch type {
         case .text:
             let event = self.makeOutputEventView(.text(inputText))
-            self.addOutputEvent(event: event)
+            if self.quickAction != .edit {
+                self.addOutputEvent(event: event)
+            }
             self.scrollToBottom()
             self.sendText()
         case .image:
@@ -806,9 +818,9 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             onTapNotSendedMessage: { _ in },
             onSwipeReply: { _ in },
             onTap: { value in
-                if value.isReply {
+                if value.isReply,
+                   let event = self.room.events.first(where: { $0.eventId == value.rootEventId }) {
                     DispatchQueue.main.async {
-                        guard let event = self.room.events.first(where: { $0.eventId == value.eventId }) else { return }
                         self.scroolString = event.id
                     }
                 }

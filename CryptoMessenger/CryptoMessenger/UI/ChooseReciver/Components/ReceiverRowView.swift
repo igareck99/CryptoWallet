@@ -46,7 +46,6 @@ struct ReceiverRowView: View {
                 data.onTap(data)
             }
         }
-        .frame(width: UIScreen.main.bounds.width - 32, height: 64)
     }
     
     // MARK: - Private Methods

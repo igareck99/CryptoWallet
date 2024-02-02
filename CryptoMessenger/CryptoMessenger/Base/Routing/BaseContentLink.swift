@@ -82,6 +82,7 @@ enum BaseContentLink: Hashable, Identifiable {
 
     case newChat(
         room: AuraRoomData,
+        openState: RoomOpenState,
         coordinator: ChatsCoordinatable
     )
 

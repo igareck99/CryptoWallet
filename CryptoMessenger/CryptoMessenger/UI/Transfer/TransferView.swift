@@ -15,7 +15,7 @@ struct TransferView: View {
 
 
 	// MARK: - Body
-    // 69
+
 	var body: some View {
 		VStack(spacing: 0) {
 			ScrollView {
@@ -31,7 +31,7 @@ struct TransferView: View {
                             chooseWalletShow: $showCoinSelector,
                             choosedWalletType: $viewModel.currentWalletType,
                             isSelectedWalletType: $isSelectedWalletType,
-                            wallletTypes: [viewModel.walletTypes[0],viewModel.walletTypes[1]]
+                            wallletTypes: viewModel.walletTypes
                         )
                         .padding()
                         .overlay {
@@ -271,12 +271,4 @@ struct TransferView: View {
         }
     }
 
-}
-
-
-struct InnerHeightPreferenceKey: PreferenceKey {
-    static var defaultValue: CGFloat = .zero
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = nextValue()
-    }
 }

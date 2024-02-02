@@ -15,13 +15,10 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
         ScrollViewReader { proxy in
             VStack(spacing: .zero) {
                 ReversedScrollView(.vertical) {
-                    LazyVStack(spacing: .zero) {
                     ForEach(viewModel.displayItems, id: \.id) { item in
-                            item.view()
-                            //                                .listRowSeparator(.hidden)
-                            //                                .listRowInsets(EdgeInsets())
-                                .id(item.id)
-                        }
+                        item.view()
+                            .clipped()
+                            .id(item.id)
                     }
                 }
                 .onChange(of: viewModel.isKeyboardVisible) { newValue in
@@ -74,7 +71,7 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
     private func createToolBar() -> some ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) {
             Button(action: {
-                presentationMode.wrappedValue.dismiss()
+                viewModel.previousScreen()
             }, label: {
                 R.image.navigation.backButton.image
             })

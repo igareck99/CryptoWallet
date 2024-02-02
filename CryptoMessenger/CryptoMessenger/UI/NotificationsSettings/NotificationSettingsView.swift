@@ -32,7 +32,7 @@ struct NotificationSettingsView: View {
         }
         .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)
-        .background(Color.ghostWhite.edgesIgnoringSafeArea(.all))
+        .background(Color.ghostWhite)
     }
 
     // MARK: - Private Methods

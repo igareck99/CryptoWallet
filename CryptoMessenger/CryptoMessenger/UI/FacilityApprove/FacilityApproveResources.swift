@@ -23,7 +23,10 @@ protocol FacilityApproveSourcesable {
     
     
     
+    
     static var userPlaceholder: Image { get }
+    
+    static var backButton: Image { get }
     
     
     
@@ -106,5 +109,9 @@ enum FacilityApproveSources: FacilityApproveSourcesable {
     
     static var titleColor: Color {
         .chineseBlack
+    }
+    
+    static var backButton: Image {
+        R.image.navigation.backButton.image
     }
 }

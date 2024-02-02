@@ -24,6 +24,7 @@ struct ReationsGridView: View {
                 }
             }
         }
+        .frame(minHeight: 0, maxHeight: 60)
     }
 
     // MARK: - Private Methods
