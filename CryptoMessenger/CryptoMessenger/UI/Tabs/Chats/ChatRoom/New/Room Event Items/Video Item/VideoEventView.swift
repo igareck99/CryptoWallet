@@ -20,8 +20,7 @@ struct VideoEventView<
                              thumbnailImage: $viewModel.thumbnailImage,
                              state: $viewModel.state)
                 .overlay {
-                    DocumentImageStateView(state: $viewModel.state,
-                                           circleColor: .chineseBlack.opacity(0.4))
+                    DocumentImageStateView(state: $viewModel.state, viewType: .image)
                 }
                 .overlay(alignment: .bottomTrailing) {
                     eventData.padding([.trailing, .bottom], 8)
@@ -52,12 +51,7 @@ struct VideoContentView: View {
                 .frame(width: 208, height: 250)
                 .cornerRadius(16)
                 .overlay {
-                    ZStack(alignment: .center) {
-                        Circle()
-                            .frame(width: 44, height: 44)
-                            .foreground(.chineseBlack04)
-                        R.image.chat.audio.audioPlay.image
-                    }
+                    R.image.chat.chatEventsState.playwithphone.image
                 }
         } else {
             thumbnailImage

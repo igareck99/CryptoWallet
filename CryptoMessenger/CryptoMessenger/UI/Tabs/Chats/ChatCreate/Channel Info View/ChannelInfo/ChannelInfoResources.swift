@@ -224,7 +224,7 @@ enum ChannelInfoResources: ChannelInfoResourcable {
     }
     
     static var removeChat: String {
-        R.string.localizable.chatHistoryRemove()
+        R.string.localizable.channelSettingsLeaveFromChat()
     }
     
     static var removeChatDescription: String {

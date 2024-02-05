@@ -3,12 +3,12 @@ import SwiftUI
 // MARK: - DocumentImageState
 
 enum DocumentImageState {
-    
+
     case download
     case loading
     case hasBeenDownloaded
     case hasBeenDownloadPhoto
-    
+
     var image: Image {
         switch self {
         case .download:
@@ -21,4 +21,19 @@ enum DocumentImageState {
             return Image("")
         }
     }
+    
+    var color: Color {
+        switch self {
+        case .hasBeenDownloaded:
+            return .clear
+        default:
+            return .chineseBlack04
+        }
+    }
+}
+
+enum DocumentImageStateType {
+    
+    case file
+    case image
 }
