@@ -12,4 +12,5 @@ protocol ContactsUseCaseProtocol {
                              _ mode: ContactViewMode,
                              completion: @escaping ([Contact]) -> Void,
                              onTap: @escaping (Contact) -> Void)
+    func getCountryAndCode(_ number: String) -> (String, String)
 }

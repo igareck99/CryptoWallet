@@ -33,6 +33,26 @@ extension MatrixUseCase {
             completion(state, mxRoom?.roomId)
         }
     }
+    
+    func createDirectRoom(userId: String) async -> (RoomCreateState, String?) {
+        if let roomId: String = isDirectRoomExists(userId: userId) {
+            return (.roomAlreadyExist, roomId)
+        }
+
+        let parameters = MXRoomCreationParameters()
+        parameters.inviteArray = [userId]
+        parameters.isDirect = true
+        parameters.visibility = kMXRoomDirectoryVisibilityPrivate
+        // parameters.preset = MXRoomPreset.privateChat.identifier
+        parameters.preset = kMXRoomPresetTrustedPrivateChat
+        let result = await withCheckedContinuation { continuation in
+            createRoom(parameters: parameters) { state, mxRoom in
+                continuation.resume(returning: (state, mxRoom?.roomId))
+            }
+        }
+        return result
+    }
+    
 
     func createDirectRoom(
         userId: String,

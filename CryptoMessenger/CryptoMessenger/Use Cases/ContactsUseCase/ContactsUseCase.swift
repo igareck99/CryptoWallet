@@ -60,6 +60,20 @@ final class ContactsUseCase: ContactsUseCaseProtocol {
         }
     }
     
+    func getCountryAndCode(_ number: String) -> (String, String) {
+        let phoneNumberKit = PhoneNumberKit()
+        do {
+            let value = try phoneNumberKit.parse(number)
+            let nationalPhone = phoneNumberKit.format(value, toType: .national).split(separator: " ")
+            let phone = String(nationalPhone[safe: 1] ?? "") + " " + String(nationalPhone[safe: 2] ?? "")
+            let countryCode = String(phoneNumberKit.format(value, toType: .international)
+                .split(separator: " ")[0])
+            return (phone, countryCode)
+        } catch {
+            return ("", "")
+        }
+    }
+    
     func reuqestUserContacts(completion: @escaping ([ContactInfo]) -> Void) {
         contactsStore.fetchContacts { [weak self] result in
             guard case let .success(userContacts) = result else { return }

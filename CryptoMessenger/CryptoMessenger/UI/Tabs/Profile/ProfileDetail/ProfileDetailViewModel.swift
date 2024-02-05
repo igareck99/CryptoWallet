@@ -1,5 +1,6 @@
 import Combine
 import SwiftUI
+//import PhoneNumberKit
 
 // MARK: - ProfileDetailViewModel
 
@@ -12,12 +13,13 @@ final class ProfileDetailViewModel: ObservableObject {
     @Published var profile = ProfileItem()
     @Published var closeScreen = false
     @Published private(set) var state: ProfileDetailFlow.ViewState = .idle
-
     @Published var selectedImg: UIImage? {
         didSet {
             self.objectWillChange.send()
         }
     }
+    var countryCode = ""
+    var phone = ""
 
     var selectedVid: URL? {
         didSet {
@@ -36,6 +38,8 @@ final class ProfileDetailViewModel: ObservableObject {
     private let userSettings: UserFlowsStorage & UserCredentialsStorage
     private let keychainService: KeychainServiceProtocol
     private let privateDataCleaner: PrivateDataCleanerProtocol
+    private let contactsUseCase: ContactsUseCaseProtocol
+    let resources: ProfileDetailSourcable.Type
     private let config: ConfigType
 
     // MARK: - Lifecycle
@@ -45,11 +49,15 @@ final class ProfileDetailViewModel: ObservableObject {
         keychainService: KeychainServiceProtocol,
         coreDataService: CoreDataServiceProtocol,
         privateDataCleaner: PrivateDataCleanerProtocol,
+        contactsUseCase: ContactsUseCaseProtocol = ContactsUseCase.shared,
+        resources: ProfileDetailSourcable.Type = ProfileDetailResources.self,
         config: ConfigType = Configuration.shared
     ) {
         self.userSettings = userSettings
         self.keychainService = keychainService
         self.privateDataCleaner = privateDataCleaner
+        self.contactsUseCase = contactsUseCase
+        self.resources = resources
         self.config = config
         bindInput()
         bindOutput()
@@ -68,7 +76,6 @@ final class ProfileDetailViewModel: ObservableObject {
     }
 
     // MARK: - Private Methods
-
     private func bindInput() {
         eventSubject
             .sink { [weak self] event in
@@ -165,6 +172,11 @@ final class ProfileDetailViewModel: ObservableObject {
         if let str = keychainService.apiUserPhoneNumber {
             let suffixIndex = str.index(str.startIndex, offsetBy: 3)
             profile.phone = String(str[suffixIndex...])
+        }
+        if let phone = keychainService.apiUserPhoneNumber {
+            let result = contactsUseCase.getCountryAndCode(phone)
+            self.phone = result.0
+            self.countryCode = result.1
         }
     }
 

@@ -10,7 +10,6 @@ enum SelectContactAssembly {
         channelParticipantsCoordinator: ChannelParticipantsFlowCoordinatorProtocol? = nil,
         onUsersSelected: @escaping ([Contact]) -> Void
     ) -> some View {
-        print("slaslasl;asl;asl;")
         let viewModel = SelectContactViewModel(
             mode: mode,
             contactsLimit: contactsLimit

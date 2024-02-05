@@ -15,21 +15,30 @@ struct EventContainerView<
     let centralContent: CentralContent
     let trailingContent: TrailingContent
     let bottomContent: BottomContent
+    let reactionsSpacing: CGFloat
+    let  nextMessagePadding: CGFloat
     var onLongPress: () -> Void
+    var onTap: () -> Void
 
     var body: some View {
-        HStack(spacing: 8) {
-            leadingContent
-            VStack(alignment: .leading, spacing: 8) {
-                centralContent
-                bottomContent
+        VStack {
+            HStack(spacing: 8) {
+                leadingContent
+                VStack(alignment: .leading, spacing: reactionsSpacing) {
+                    centralContent
+                    bottomContent
+                }
+                .onLongPressGesture {
+                    onLongPress()
+                }
+                .onTapGesture(perform: onTap)
+                trailingContent
             }
-            .onLongPressGesture {
-                onLongPress()
-            }
-            trailingContent
+            Rectangle()
+                .frame(width: 1,
+                       height: nextMessagePadding)
+                .foreground(.clear)
         }
         .padding(.horizontal, 16)
-        .padding(.vertical, 8)
     }
 }

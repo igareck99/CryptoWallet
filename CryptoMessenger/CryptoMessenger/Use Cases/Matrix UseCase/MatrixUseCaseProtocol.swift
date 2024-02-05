@@ -45,6 +45,7 @@ protocol MatrixUseCaseProtocol {
         userId: String,
         completion: @escaping (RoomCreateState, String?) -> Void
     )
+    func createDirectRoom(userId: String) async -> (RoomCreateState, String?)
 
     func customCheckRoomExist(mxId: String) -> AuraRoomData?
     func createGroupRoom(_ info: ChatData, completion: @escaping (RoomCreateState, String?) -> Void)

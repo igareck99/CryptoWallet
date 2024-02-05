@@ -4,6 +4,7 @@ extension RoomEventsFactory {
 
     static func makeCallItem(
         event: RoomEvent,
+        nextMessagePadding: CGFloat,
         delegate: ChatEventsDelegate,
         onLongPressTap: @escaping (RoomEvent) -> Void
     ) -> any ViewGeneratable {
@@ -28,13 +29,13 @@ extension RoomEventsFactory {
         if event.isFromCurrentUser {
             return EventContainer(
                 leadingContent: PaddingModel(),
-                centralContent: bubbleContainer, onLongPress: { onLongPressTap(event) }
+                centralContent: bubbleContainer, nextMessagePadding: nextMessagePadding, onLongPress: { onLongPressTap(event) }, onTap: {}
             )
         }
 
         return EventContainer(
             centralContent: bubbleContainer,
-            trailingContent: PaddingModel(), onLongPress: { onLongPressTap(event) }
+            trailingContent: PaddingModel(), nextMessagePadding: nextMessagePadding, onLongPress: { onLongPressTap(event) }, onTap: {}
         )
     }
 }

@@ -397,6 +397,8 @@
 		8B881274292285D200EDB348 /* MXPushRule+Externsion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B881273292285D200EDB348 /* MXPushRule+Externsion.swift */; };
 		8B8B9C1F27F31FEE0061F5E6 /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8B9C1E27F31FEE0061F5E6 /* Animation.swift */; };
 		8B8B9C2527F331C90061F5E6 /* SocialListFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8B9C2427F331C90061F5E6 /* SocialListFlow.swift */; };
+		8B8DDF532B71563A00761CC7 /* InnerHeightPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8DDF522B71563A00761CC7 /* InnerHeightPreferenceKey.swift */; };
+		8B8DDF552B715BBB00761CC7 /* ProfileDetailSourcable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8DDF542B715BBB00761CC7 /* ProfileDetailSourcable.swift */; };
 		8B964F6F28E2277A0012DA92 /* FriendProfileSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B964F6E28E2277A0012DA92 /* FriendProfileSettingsView.swift */; };
 		8B964F7228E22A050012DA92 /* FriendProfileMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B964F7128E22A050012DA92 /* FriendProfileMenu.swift */; };
 		8B971E0428ABC61700F111D9 /* LocationManagerUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B971E0328ABC61700F111D9 /* LocationManagerUseCase.swift */; };
@@ -509,6 +511,7 @@
 		8BD7310C2AD4C81B00E1855E /* ChatSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD7310B2AD4C81B00E1855E /* ChatSettingsViewModel.swift */; };
 		8BD7310E2AD4E93E00E1855E /* Units.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD7310D2AD4E93E00E1855E /* Units.swift */; };
 		8BD731102AD725AF00E1855E /* ChannelInfoViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD7310F2AD725AF00E1855E /* ChannelInfoViewModelProtocol.swift */; };
+		8BD82D042B6D15230016C4AB /* RoomOpenState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD82D032B6D15220016C4AB /* RoomOpenState.swift */; };
 		8BDADB5A2ABB6454007D3AD2 /* ChatViewModel+ChatViewModelSendable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDADB592ABB6454007D3AD2 /* ChatViewModel+ChatViewModelSendable.swift */; };
 		8BDADB5C2ABB6532007D3AD2 /* ChatViewModel+ChatEventsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDADB5B2ABB6532007D3AD2 /* ChatViewModel+ChatEventsDelegate.swift */; };
 		8BDBD92428FDA5BF00388C3D /* VideoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDBD92328FDA5BF00388C3D /* VideoViewModel.swift */; };
@@ -1433,6 +1436,8 @@
 		8B8B9C1E27F31FEE0061F5E6 /* Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animation.swift; sourceTree = "<group>"; };
 		8B8B9C2027F330040061F5E6 /* SocialListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListAssembly.swift; sourceTree = "<group>"; };
 		8B8B9C2427F331C90061F5E6 /* SocialListFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListFlow.swift; sourceTree = "<group>"; };
+		8B8DDF522B71563A00761CC7 /* InnerHeightPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InnerHeightPreferenceKey.swift; sourceTree = "<group>"; };
+		8B8DDF542B715BBB00761CC7 /* ProfileDetailSourcable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailSourcable.swift; sourceTree = "<group>"; };
 		8B964F6E28E2277A0012DA92 /* FriendProfileSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendProfileSettingsView.swift; sourceTree = "<group>"; };
 		8B964F7128E22A050012DA92 /* FriendProfileMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendProfileMenu.swift; sourceTree = "<group>"; };
 		8B971E0328ABC61700F111D9 /* LocationManagerUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerUseCase.swift; sourceTree = "<group>"; };
@@ -1545,6 +1550,7 @@
 		8BD7310B2AD4C81B00E1855E /* ChatSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSettingsViewModel.swift; sourceTree = "<group>"; };
 		8BD7310D2AD4E93E00E1855E /* Units.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Units.swift; sourceTree = "<group>"; };
 		8BD7310F2AD725AF00E1855E /* ChannelInfoViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelInfoViewModelProtocol.swift; sourceTree = "<group>"; };
+		8BD82D032B6D15220016C4AB /* RoomOpenState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomOpenState.swift; sourceTree = "<group>"; };
 		8BDADB592ABB6454007D3AD2 /* ChatViewModel+ChatViewModelSendable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatViewModel+ChatViewModelSendable.swift"; sourceTree = "<group>"; };
 		8BDADB5B2ABB6532007D3AD2 /* ChatViewModel+ChatEventsDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatViewModel+ChatEventsDelegate.swift"; sourceTree = "<group>"; };
 		8BDBD92328FDA5BF00388C3D /* VideoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewModel.swift; sourceTree = "<group>"; };
@@ -2243,6 +2249,7 @@
 				8B30D2AF2AE1BD6A00D05F34 /* OvalTextFieldStyle.swift */,
 				8B78FD952AF06D11009B3DB0 /* LargeButton.swift */,
 				8B03548B2B3BA44100066BC1 /* BackgroundModifier.swift */,
+				8B8DDF522B71563A00761CC7 /* InnerHeightPreferenceKey.swift */,
 			);
 			path = CustomComponents;
 			sourceTree = "<group>";
@@ -2735,6 +2742,7 @@
 				D4C9B72D283C20380060BFD3 /* ChatRoomViewModelAssembly.swift */,
 				8B0C4FF92890613500671BA3 /* ChatRoomResources.swift */,
 				8B7E290329C20AEF001A11C6 /* AsyncImage.swift */,
+				8BD82D032B6D15220016C4AB /* RoomOpenState.swift */,
 			);
 			path = ChatRoom;
 			sourceTree = "<group>";
@@ -2998,6 +3006,7 @@
 				8B3A8169275AC25D00E736E4 /* ProfileDetailView.swift */,
 				8B28B534276347AA00C3E486 /* ProfileDetailViewModel.swift */,
 				5A44FEEC2768B1E6006F9D92 /* ProfileDetailFlow.swift */,
+				8B8DDF542B715BBB00761CC7 /* ProfileDetailSourcable.swift */,
 			);
 			path = ProfileDetail;
 			sourceTree = "<group>";
@@ -5594,6 +5603,7 @@
 				D4F3229C2AA1F8150021AFAE /* RoomEventsFactory+Calls.swift in Sources */,
 				8BAB8D2D2A97BE3A0083167C /* ChooseReceiverNewViewModel.swift in Sources */,
 				D4D439FB28374B0C00AC0DEF /* MXRoom+Reply.m in Sources */,
+				8B8DDF552B715BBB00761CC7 /* ProfileDetailSourcable.swift in Sources */,
 				D49D8F7C2B1DCBE40026516E /* PinchZoom.swift in Sources */,
 				5A187EB8268070B3001957D3 /* String+Extensions.swift in Sources */,
 				D4137B2A2A9B2276001241B6 /* ReadData.swift in Sources */,
@@ -6189,6 +6199,7 @@
 				D4FB6C6C2AC4044500E9E6D9 /* MatrixUseCase+Users.swift in Sources */,
 				D4DF2B3C28F589090057499A /* MeasureSizeModifier.swift in Sources */,
 				8B34292B29786EC800F63DE1 /* SecurityCellItem.swift in Sources */,
+				8BD82D042B6D15230016C4AB /* RoomOpenState.swift in Sources */,
 				D4137B572A9C8242001241B6 /* ImageEvent.swift in Sources */,
 				D459E4392ADF9D7F00211D6E /* TransactionStatusViewModel.swift in Sources */,
 				D401A9B52AAEEC4200D347F2 /* AuraMapViewAssembly.swift in Sources */,
@@ -6316,6 +6327,7 @@
 				8B971E1028B5894E00F111D9 /* ImageCacheService.swift in Sources */,
 				D4E7A184298A237800398F93 /* UserSettingsFactory.swift in Sources */,
 				8B0353E42A8EBB2F0033965D /* ContactsObjectFactory.swift in Sources */,
+				8B8DDF532B71563A00761CC7 /* InnerHeightPreferenceKey.swift in Sources */,
 				D4584A352B1AF30200BCB15A /* WarningViewModel.swift in Sources */,
 				8BCE67B52ADDBC67004F02F6 /* SelectContactChipsView.swift in Sources */,
 				5AF8637226ADDDCE004A417C /* AppLaunchInstructor.swift in Sources */,

@@ -3,6 +3,7 @@ import SwiftUI
 extension RoomEventsFactory {
     static func makeVideoItem(
         event: RoomEvent,
+        nextMessagePadding: CGFloat,
         oldEvents: [RoomEvent],
         oldViews: [any ViewGeneratable],
         url: URL?,
@@ -22,7 +23,7 @@ extension RoomEventsFactory {
             date: event.shortDate,
             isFromCurrentUser: event.isFromCurrentUser,
             dateColor: .white,
-            backColor: .osloGrayApprox,
+            backColor: .chineseBlack04,
             readData: readData(isFromCurrentUser: event.isFromCurrentUser, eventSendType: event.sentState, messageType: event.eventType)
         )
         let reactionColor: Color = event.isFromCurrentUser ? .diamond: .aliceBlue
@@ -62,7 +63,7 @@ extension RoomEventsFactory {
 
         let bubbleContainer = BubbleContainer(
             offset: 0,
-            isFromCurrentUser: event.isFromCurrentUser,
+            horizontalOffset: 0.0, isFromCurrentUser: event.isFromCurrentUser,
             fillColor: event.isFromCurrentUser ? .bubbles : .white,
             cornerRadius: .equal,
             content: videoEventItem,
@@ -76,9 +77,10 @@ extension RoomEventsFactory {
                 leadingContent: PaddingModel(),
                 centralContent: bubbleContainer,
                 bottomContent: viewModel,
-                onLongPress: {
+                reactionsSpacing: 0.0,
+                nextMessagePadding: event.reactions.isEmpty ? 4 : 8, onLongPress: {
                     onLongPressTap(event)
-                }
+                }, onTap: {}
             )
         }
 
@@ -87,9 +89,10 @@ extension RoomEventsFactory {
             centralContent: bubbleContainer,
             trailingContent: PaddingModel(),
             bottomContent: viewModel,
-            onLongPress: {
+            reactionsSpacing: 0.0,
+            nextMessagePadding: event.reactions.isEmpty ? 4 : 8, onLongPress: {
                 onLongPressTap(event)
-            }
+            }, onTap: {}
         )
     }
 }

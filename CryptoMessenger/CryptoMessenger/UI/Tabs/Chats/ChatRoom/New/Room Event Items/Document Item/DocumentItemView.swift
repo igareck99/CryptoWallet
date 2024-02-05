@@ -16,7 +16,7 @@ struct DocumentItemView<
     // MARK: - Body
 
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: .zero) {
             HStack(spacing: 8) {
                 DocumentImageStateView(state: $viewModel.state)
                 VStack(alignment: .leading, spacing: 4) {
@@ -29,13 +29,20 @@ struct DocumentItemView<
                         .foregroundColor(.manatee)
                 }
             }
-            HStack {
-                reactions
-                Spacer()
+            if !viewModel.model.hasReactions {
+                eventData
+            } else {
+                VStack(spacing: .zero) {
+                    HStack {
+                        reactions
+                        Spacer()
+                    }
+                    .padding(.top, 8)
+                    eventData
+                }
             }
-            eventData
         }
-        .frame(minWidth: 230, idealWidth: 230, maxWidth: 230)
+        .frame(minWidth: 214, idealWidth: 214, maxWidth: 214)
         .fixedSize(horizontal: true, vertical: false)
         .onTapGesture {
             withAnimation(.easeOut(duration: 0.15)) {

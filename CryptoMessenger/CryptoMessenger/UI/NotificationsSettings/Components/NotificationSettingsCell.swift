@@ -12,9 +12,9 @@ struct NotificationSettingsCell: View {
 
     var body: some View {
         HStack(alignment: .center) {
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 2) {
                 Text(field.item.title)
-                    .font(.subheadlineRegular15)
+                    .font(.bodyRegular17)
                 if !field.item.description.isEmpty {
                     Text(field.item.description)
                         .font(.caption1Regular12)

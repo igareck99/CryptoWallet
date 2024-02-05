@@ -37,10 +37,6 @@ struct EmptyInfoViewModelView: View {
                     .foreground(.romanSilver)
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
-                if data.value == .noChats {
-                    sendButton
-                        .padding(.top, 80)
-                }
             }
             .frame(height: 218)
             Spacer()

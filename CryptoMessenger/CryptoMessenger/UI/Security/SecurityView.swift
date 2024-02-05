@@ -17,7 +17,6 @@ struct SecurityView: View {
 
     var body: some View {
         content
-        .background(viewModel.resources.innactiveBackground)
         .onAppear {
             viewModel.send(.onAppear)
         }
@@ -34,24 +33,24 @@ struct SecurityView: View {
     }
 
     private var content: some View {
-        NavigationView {
-            List {
+        List {
+            Section {
+                securitySection
+            } header: {
+                Text(viewModel.resources.securityTitle)
+            }
+            if viewModel.isPrivacyAvailable {
                 Section {
-                    securitySection
+                    privacySection
                 } header: {
-                    Text(viewModel.resources.securityTitle)
-                }
-                if viewModel.isPrivacyAvailable {
-                    Section {
-                        privacySection
-                    } header: {
-                        Text(viewModel.resources.securityPrivacy)
-                            .foregroundColor(viewModel.resources.textColor)
-                    }
+                    Text(viewModel.resources.securityPrivacy)
+                        .foregroundColor(viewModel.resources.textColor)
                 }
             }
-            .listStyle(.insetGrouped)
         }
+        .listStyle(.insetGrouped)
+        .scrollContentBackground(.hidden)
+        .background(Color.ghostWhite)
         .toolbar(.hidden, for: .tabBar)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
@@ -60,46 +59,41 @@ struct SecurityView: View {
         }
     }
 
+    @ViewBuilder
     private var securitySection: some View {
-        VStack(spacing: 0) {
-            Toggle(viewModel.resources.securityPinCodeTitle,
-                   isOn: $viewModel.isPinCodeOn)
-            .background(.white)
-            .frame(height: 44)
-            .listRowSeparator(.hidden)
-            .onAppear {
-                if viewModel.isPinCodeUpdate() {
-                    viewModel.dataIsUpdated = true
+        Toggle(viewModel.resources.securityPinCodeTitle,
+               isOn: $viewModel.isPinCodeOn)
+        .background(.white)
+        .onAppear {
+            if viewModel.isPinCodeUpdate() {
+                viewModel.dataIsUpdated = true
+            }
+        }
+        .onChange(of: viewModel.isPinCodeOn) { value in
+            viewModel.pinCodeAvailabilityDidChange(value: value)
+        }
+        if viewModel.isPinCodeOn { 
+            SecurityAdvancedCellView(title: viewModel.resources.securityBiometryEnterTitle,
+                                     description: viewModel.resources.securityBiometryEnterState,
+                                     currentState: $viewModel.isBiometryOn)
+            .onChange(of: viewModel.isBiometryOn) { item in
+                if item {
+                    viewModel.send(.biometryActivate)
+                } else {
+                    viewModel.updateIsBiometryOn(item: false)
                 }
             }
-            .onChange(of: viewModel.isPinCodeOn) { value in
-                viewModel.pinCodeAvailabilityDidChange(value: value)
-            }
-            if viewModel.isPinCodeOn {
-                SecurityAdvancedCellView(title: viewModel.resources.securityBiometryEnterTitle,
-                                         description: viewModel.resources.securityBiometryEnterState,
-                                         currentState: $viewModel.isBiometryOn)
-                .frame(height: 44)
-                .onChange(of: viewModel.isBiometryOn) { item in
+            if viewModel.isFalsePinCodeOnAvailable {
+                SecurityAdvancedCellView(
+                    title: viewModel.resources.securityFalsePasswordTitle,
+                    description: viewModel.resources.securityFalsePasswordState,
+                    currentState: $viewModel.isFalsePinCodeOn
+                )
+                .onChange(of: viewModel.isFalsePinCodeOn) { item in
                     if item {
-                        viewModel.send(.biometryActivate)
+                        viewModel.send(.onFalsePassword)
                     } else {
-                        viewModel.updateIsBiometryOn(item: false)
-                    }
-                }
-                if viewModel.isFalsePinCodeOnAvailable {
-                    SecurityAdvancedCellView(
-                        title: viewModel.resources.securityFalsePasswordTitle,
-                        description: viewModel.resources.securityFalsePasswordState,
-                        currentState: $viewModel.isFalsePinCodeOn
-                    )
-                    .frame(height: 44)
-                    .onChange(of: viewModel.isFalsePinCodeOn) { item in
-                        if item {
-                            viewModel.send(.onFalsePassword)
-                        } else {
-                            viewModel.updateIsFalsePinCode(item: false)
-                        }
+                        viewModel.updateIsFalsePinCode(item: false)
                     }
                 }
             }
@@ -115,28 +109,28 @@ struct SecurityView: View {
                     phraseStatus: viewModel.isPhraseExist()
                 )
                 .background(viewModel.resources.background)
-                .listRowSeparator(.visible,
+                .listRowSeparator(.hidden,
                                   edges: .bottom)
-                .frame(height: 73)
+                .frame(height: 51)
                 .onTapGesture {
                     viewModel.send(.onPhrase)
                 }
-            case .session:
-                PrivacyCellView(item: type)
-                .background(viewModel.resources.background)
-                .frame(height: 57)
-                .listRowSeparator(.visible,
-                                  edges: .top)
-                .onTapGesture {
-                    viewModel.send(.onSession)
-                }
-            case .blockList:
-                PrivacyCellView(item: type)
-                .background(viewModel.resources.background)
-                .frame(height: 44)
-                .onTapGesture {
-                    viewModel.send(.onBlockList)
-                }
+//            case .session:
+//                PrivacyCellView(item: type)
+//                .background(viewModel.resources.background)
+//                .frame(height: 37)
+//                .listRowSeparator(.visible,
+//                                  edges: .top)
+//                .onTapGesture {
+//                    viewModel.send(.onSession)
+//                }
+//            case .blockList:
+//                PrivacyCellView(item: type)
+//                .background(viewModel.resources.background)
+//                .frame(height: 24)
+//                .onTapGesture {
+//                    viewModel.send(.onBlockList)
+//                }
             default:
                 EmptyView()
             }

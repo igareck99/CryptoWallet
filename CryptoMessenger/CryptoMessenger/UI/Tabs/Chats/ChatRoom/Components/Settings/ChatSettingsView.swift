@@ -35,7 +35,6 @@ struct ChatSettingsView: View {
                 notificationsView()
             }
             Section {
-                blockUserView()
                 leaveChatView()
             }
         }

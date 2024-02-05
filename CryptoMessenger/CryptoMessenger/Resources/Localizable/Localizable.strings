@@ -666,4 +666,11 @@
 "ChatHistory.WatchProfile" = "Просмотреть профиль";
 "ChatHistory.Remove" = "Удалить чат";
 
+"SocialListItem.Twitter" = "Twitter";
+"SocialListItem.Facebook" = "Facebook";
+"SocialListItem.VK" = "VK";
+"SocialListItem.Instagram" = "Instagram";
+"SocialListItem.Linkedin" = "Linkedin";
+"SocialListItem.Tiktok" = "Tiktok";
+
 

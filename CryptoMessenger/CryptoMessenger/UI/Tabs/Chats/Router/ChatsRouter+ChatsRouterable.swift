@@ -12,10 +12,6 @@ extension ChatsRouter: ChatsRouterable {
             delegate: delegate
         )
     }
-    
-    func writeToUser(_ userId: String) {
-        
-    }
 
     func navPathChild() -> Binding<NavigationPath> {
         return $state.childPath
@@ -55,6 +51,10 @@ extension ChatsRouter: ChatsRouterable {
 
     func start() {
         state.path.append(BaseContentLink.chatHistory)
+    }
+    
+    func previousScreen() {
+        state.path.removeLast()
     }
 
     func popToRoot() {
@@ -278,11 +278,12 @@ extension ChatsRouter: ChatsRouterable {
 
     func chatRoom(
         room: AuraRoomData,
+        roomOpenState: RoomOpenState,
         coordinator: ChatsCoordinatable
     ) {
         state.path.append(
             BaseContentLink.newChat(
-                room: room,
+                room: room, openState: roomOpenState,
                 coordinator: coordinator
             )
         )

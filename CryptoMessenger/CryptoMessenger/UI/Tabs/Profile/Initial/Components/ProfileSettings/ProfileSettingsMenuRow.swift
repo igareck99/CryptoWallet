@@ -10,7 +10,7 @@ struct ProfileSettingsMenuRow: View {
     let image: Image
     let notifications: Int
     let showArrow = true
-    var color: Color = .chineseBlack04
+    var color: Color = .chineseBlack
 
     // MARK: - Body
 
@@ -18,12 +18,10 @@ struct ProfileSettingsMenuRow: View {
         HStack(spacing: 0) {
             image
             Text(title)
-                .font(.subheadlineRegular15)
-                .padding(.leading, 16)
+                .font(.calloutRegular16)
+                .padding(.leading, 10)
                 .foregroundColor(color)
-
             Spacer()
-
             if notifications > 0 {
                 ZStack {
                     Image(uiImage: UIImage())
@@ -36,7 +34,10 @@ struct ProfileSettingsMenuRow: View {
                 }
             }
             if showArrow {
-                R.image.additionalMenu.grayArrow.image
+                Image(systemName: "chevron.right")
+                    .resizable()
+                    .frame(width: 7.16, height: 12.3, alignment: .center)
+                    .foregroundColor(.romanSilver)
             }
         }
     }

@@ -7,6 +7,7 @@ struct ContactItem: Identifiable, Equatable, Hashable, ViewGeneratable {
     let title: String
     let subtitle: String
     let mxId: String
+    let hasReactions: Bool
     let reactionsGrid: any ViewGeneratable
     let eventData: any ViewGeneratable
     let avatar: any ViewGeneratable

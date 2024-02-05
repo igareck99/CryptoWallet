@@ -11,6 +11,7 @@ struct TransferView: View {
 	@State var showCoinSelector = false
 	@State var isSelectedWalletType = false
 	@State var address: String = ""
+    @State var sheetHeight: Double = 0
 
 
 	// MARK: - Body
@@ -32,8 +33,18 @@ struct TransferView: View {
                             isSelectedWalletType: $isSelectedWalletType,
                             wallletTypes: viewModel.walletTypes
                         )
-                        .presentationDetents([.height(CGFloat(viewModel.walletTypes.count * 54 + 70))])
+                        .padding()
+                        .overlay {
+                            GeometryReader { geometry in
+                                Color.clear.preference(key: InnerHeightPreferenceKey.self, value: geometry.size.height)
+                            }
+                        }
+                        .onPreferenceChange(InnerHeightPreferenceKey.self) { newHeight in
+                            sheetHeight = newHeight
+                        }
+                        .presentationDetents([.height(sheetHeight)])
                         .presentationDragIndicator(.visible)
+                        
                     }
                     .navigationBarTitleDisplayMode(.inline)
                     .navigationBarBackButtonHidden(true)
@@ -119,7 +130,6 @@ struct TransferView: View {
 			}
 			.frame(height: 48)
 			.padding([.top, .horizontal], 16)
-
             Spacer()
         }
     }
@@ -157,6 +167,8 @@ struct TransferView: View {
                         .fill(viewModel.resources.avatarBackground)
                         .frame(width: 40, height: 40)
                     viewModel.resources.contact
+                        .resizable()
+                        .frame(width: 24, height: 24)
                 }
                 if viewModel.receiverData.adress.isEmpty {
                     Text(viewModel.resources.transferChooseContact)
@@ -186,7 +198,7 @@ struct TransferView: View {
                     .frame(maxWidth: .infinity, maxHeight: 47)
 
 				Rectangle()
-                    .foregroundColor(viewModel.resources.textColor)
+                    .foregroundColor(viewModel.resources.separatorColor)
 					.frame(height: 1)
 			}
 			.frame(height: 47)
@@ -199,12 +211,11 @@ struct TransferView: View {
                     Text(viewModel.currentWallet.walletType.currency)
 						.font(.title3Regular20)
 						.foregroundColor(viewModel.resources.titleColor)
-					R.image.answers.downsideArrow.image
-						.foregroundColor(viewModel.resources.titleColor)
+                    viewModel.resources.chevronDown
 				}
 				.frame(maxWidth: .infinity, maxHeight: .infinity)
 				Rectangle()
-                    .foregroundColor(viewModel.resources.titleColor)
+                    .foregroundColor(viewModel.resources.separatorColor)
 					.frame(height: 1)
 			}
 			.frame(height: 47)
@@ -225,7 +236,7 @@ struct TransferView: View {
 				.font(.bodySemibold17)
 				.foregroundColor(
                     !viewModel.isTransferButtonEnabled ?
-                    viewModel.resources.background : viewModel.resources.inactiveButtonTextColor
+                        .ashGray : .white
                 )
                 .padding()
 				.frame(width: 237, height: 48)
@@ -233,7 +244,7 @@ struct TransferView: View {
 					Rectangle()
 						.fill(
 							!viewModel.isTransferButtonEnabled ?
-                            viewModel.resources.inactiveButtonBackground : viewModel.resources.buttonColor
+                                Color.ghostWhite : Color.dodgerBlue
 						)
 						.cornerRadius(8)
 				)

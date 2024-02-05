@@ -3,15 +3,14 @@ import SwiftUI
 // MARK: - ProfileDetailView
 
 struct ProfileDetailView: View {
-    
+
     // MARK: - Internal Properties
-    
+
     @StateObject var viewModel: ProfileDetailViewModel
     @Binding var selectedAvatarImage: UIImage?
-    
+
     // MARK: - Private Properties
-    
-    @State private var descriptionHeight = CGFloat(100)
+
     @State private var showLogoutAlert = false
     @State private var showActionImageAlert = false
     @State private var showImagePicker = false
@@ -45,11 +44,11 @@ struct ProfileDetailView: View {
                             buttons: [
                                 .cancel(),
                                 .default(
-                                    Text(R.string.localizable.profileFromGallery()),
+                                    Text(viewModel.resources.profileFromGallery),
                                     action: switchImagePicker
                                 ),
                                 .default(
-                                    Text(R.string.localizable.profileFromCamera()),
+                                    Text(viewModel.resources.profileFromCamera),
                                     action: switchCameraPicker
                                 )
                             ]
@@ -57,11 +56,11 @@ struct ProfileDetailView: View {
             }
             .alert(isPresented: $showLogoutAlert) {
                 return Alert(
-                    title: Text(R.string.localizable.profileDetailLogoutAlertTitle()),
-                    message: Text(R.string.localizable.profileDetailLogoutAlertMessage()),
-                    primaryButton: .default(Text(R.string.localizable.profileDetailLogoutAlertApprove()),
+                    title: Text(viewModel.resources.profileDetailLogoutAlertTitle),
+                    message: Text(viewModel.resources.profileDetailLogoutAlertMessage),
+                    primaryButton: .default(Text(viewModel.resources.profileDetailLogoutAlertApprove),
                                             action: { viewModel.send(.onLogout) }),
-                    secondaryButton: .cancel(Text(R.string.localizable.profileDetailLogoutAlertCancel()))
+                    secondaryButton: .cancel(Text(viewModel.resources.profileDetailLogoutAlertCancel))
                 )
             }
             .toolbar(.hidden, for: .tabBar)
@@ -75,42 +74,53 @@ struct ProfileDetailView: View {
             mainView
                 .listRowBackground(Color.clear)
                 .listRowSeparator(.hidden)
-                .frame(width: UIScreen.main.bounds.width - 32)
-            VStack(alignment: .leading,
-                   spacing: 10) {
-                Text(R.string.localizable.profileAboutUser())
-                    .foregroundColor(.romanSilver)
-                    .font(.calloutRegular16)
-                    .padding(.leading, 4)
+            Section {
                 TextEditor(text: $viewModel.profile.status)
-                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0))
-                    .background(Color.white)
-                    .placeholder(R.string.localizable.createChannelDescription(),
-                                 when: viewModel.profile.status.isEmpty)
-                    .foregroundColor(.chineseBlack)
+                    .placeholder(when: viewModel.profile.status.isEmpty,
+                                 alignment: .topLeading, placeholder: {
+                        Text("Описание")
+                            .foreground(.romanSilver07)
+                            .font(.bodyRegular17)
+                            .padding(.top, 8)
+                            .padding(.leading, 3)
+                    })
+                    .background(.white)
+                    .foregroundColor(Color.chineseBlack)
                     .font(.bodyRegular17)
-                    .frame(height: 134)
-                    .cornerRadius(8)
+                    .frame(height: 134 - 22)
+            } header: {
+                Text(viewModel.resources.profileAboutUser)
+                    .foregroundColor(.romanSilver)
+                    .font(Font.bodyRegular17)
+                    .padding(.trailing, 16)
             }
-                   .listRowBackground(Color.clear)
-                   .listRowSeparator(.hidden)
-                   .frame(width: UIScreen.main.bounds.width - 32)
+            .listRowBackground(Color.white)
+            .listRowSeparator(.hidden)
+            Section {
+                phone()
+            } header: {
+                Text("НОМЕР ТЕЛЕФОНА")
+                    .foregroundColor(.romanSilver)
+                    .font(Font.bodyRegular17)
+            }
+            .listRowBackground(Color.clear)
+            .listRowSeparator(.hidden)
+            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             Section {
                 ProfileDetailActionRow(
-                    title: R.string.localizable.profileDetailFirstItemCell(),
-                    image: R.image.profileDetail.socialNetwork.image
+                    title: viewModel.resources.profileDetailFirstItemCell,
+                    image: viewModel.resources.web
                 )
                 .background(.white)
                 .frame(height: 22)
-                .padding(.horizontal, 16)
                 .onTapGesture {
                     viewModel.send(.onSocial)
                 }
             }
             Section {
                 ProfileDetailActionRow(
-                    title: R.string.localizable.profileDetailLogoutAlertApprove(),
-                    image: R.image.profileDetail.exit.image
+                    title: viewModel.resources.profileDetailLogoutAlertApprove,
+                    image: viewModel.resources.leave
                 )
                 .background(.white)
                 .frame(height: 22)
@@ -119,74 +129,11 @@ struct ProfileDetailView: View {
                     showLogoutAlert.toggle()
                 }
             }
-        }.listStyle(.insetGrouped)
+        }
+        .listStyle(.insetGrouped)
+        .scrollContentBackground(.hidden)
+        .background(Color.ghostWhite)
     }
-    
-    //    var content: some View {
-    //        ZStack {
-    //            List {
-    //                ForEach(0..<ProfileDetailType.allCases.count, id: \.self) { index in
-    //                    let type = ProfileDetailType.allCases[index]
-    //                    switch type {
-    //                    case .avatar:
-    //                        mainView
-    //                            .padding(.horizontal, 16)
-    //                            .frame(height: 64)
-    //                    case .status:
-    //                        TextFieldView(
-    //                            title: type.title.uppercased(),
-    //                            text: $viewModel.profile.status,
-    //                            placeholder: type.title
-    //                        )
-    //                        .padding(.top, 24)
-    //                        .padding([.leading, .trailing], 16)
-    //                    case .phone:
-    //                        phone(type.title.uppercased())
-    //                            .padding(.top, 24)
-    //                            .padding([.leading, .trailing], 16)
-    //                    case .socialNetwork:
-    //                        ProfileDetailActionRow(
-    //                            title: "Ваши социальные сети",
-    //                            color: .white,
-    //                            image: R.image.profileDetail.socialNetwork.image
-    //                        )
-    //                        .onTapGesture {
-    //                            viewModel.send(.onSocial)
-    //                        }
-    //                        .background(.white)
-    //                        .frame(height: 64)
-    //                        .padding(.top, 24)
-    //                        .padding([.leading, .trailing], 16)
-    //                    case .exit:
-    //                        ProfileDetailActionRow(
-    //                            title: "Выход",
-    //                            color: .white,
-    //                            image: R.image.profileDetail.exit.image
-    //                        )
-    //                        .background(.white)
-    //                        .frame(height: 64)
-    //                        .padding(.top, 16)
-    //                        .padding([.leading, .trailing], 16)
-    //                        .onTapGesture {
-    //                            vibrate()
-    //                            showLogoutAlert.toggle()
-    //                        }
-    //                    }
-    //                }
-    //            }
-    //            .listStyle(.insetGrouped)
-    //
-    //            if isSaving {
-    //                ZStack {
-    //                    ProgressView()
-    //                        .tint(.dodgerBlue)
-    //                        .frame(width: 12, height: 12)
-    //                }
-    //            }
-    //        }
-    //        .background(isSaving ? Color.chineseBlackLoad : .ghostWhite)
-    //        .ignoresSafeArea()
-    //    }
     
     private var avatarView: some View {
         ZStack(alignment: .bottomTrailing) {
@@ -221,7 +168,7 @@ struct ProfileDetailView: View {
                 Circle()
                     .foregroundColor(.dodgerBlue)
                     .frame(width: 24, height: 24)
-                R.image.profileDetail.whiteCamera.image
+                viewModel.resources.whiteCamera
                     .resizable()
                     .frame(width: 10.5, height: 8.2)
                     .onTapGesture {showActionImageAlert.toggle()}
@@ -230,67 +177,70 @@ struct ProfileDetailView: View {
     }
     
     private var mainView: some View {
-        HStack(alignment: .center, spacing: 16) {
+        HStack(alignment: .center) {
             avatarView
-                .padding(.leading, 4 )
             TextField("", text: $viewModel.profile.name)
                 .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0))
                 .foregroundColor(.chineseBlack)
-                .frame(height: 46)
-                .font(.subheadlineRegular15)
-                .background(Color.white
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                )
+                .frame(width: UIScreen.main.bounds.width - 116,
+                       height: 46)
+                .font(.bodyRegular17)
+                .textFieldStyle(.plain)
+                .background(content: {
+                    Color.white
+                })
+                .cornerRadius(radius: 8, corners: .allCorners)
         }
     }
     
-    private func phone(_ title: String) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(title, [
-                .paragraph(.init(lineHeightMultiple: 1.54, alignment: .left))
-            ]).font(.caption1Regular12)
-                .frame(height: 22)
-                .foregroundColor(.romanSilver)
-            HStack(spacing: 0) {
-                Text(R.string.localizable.profileDetailPhoneExample())
+    @ViewBuilder
+    private func phone() -> some View {
+        HStack(spacing: 8) {
+            Text(viewModel.countryCode)
+                .font(.bodyRegular17)
+                .foregroundColor(.chineseBlack)
+                .frame(width: 64, height: 46, alignment: .center)
+                .background {
+                    RoundedRectangle(cornerRadius: 8)
+                        .frame(width: 64, height: 46, alignment: .center)
+                        .foregroundColor(.white)
+                }
+            HStack {
+                Text(viewModel.phone)
+                    .font(.bodyRegular17)
                     .foregroundColor(.chineseBlack)
-                    .frame(height: 44)
-                    .font(.subheadlineRegular15)
-                    .padding(.leading, 16)
                 Spacer()
-                R.image.profileDetail.arrow.image
-                    .padding(.trailing, 16)
+                viewModel.resources.approveBlue
+                    .resizable()
+                    .frame(width: 24, height: 24, alignment: .center)
             }
-            .background(.white)
-            .cornerRadius(8)
-            
-            HStack(spacing: 0) {
-                Text(viewModel.profile.phone)
-                    .foregroundColor(.chineseBlack)
-                    .frame(height: 44)
-                    .font(.subheadlineRegular15)
-                    .padding(.leading, 16)
-                Spacer()
+            .frame(width: UIScreen.main.bounds.width - 64 - 40 - 32,
+                   height: 46)
+            .padding(.horizontal, 16)
+            .background {
+                RoundedRectangle(cornerRadius: 8)
+                    .frame(width: UIScreen.main.bounds.width - 64 - 40,
+                           height: 46)
+                    .foregroundColor(.white)
             }
-            .background(.white)
-            .cornerRadius(8)
         }
+        .padding(.horizontal, 4)
     }
-    
+
     // MARK: - Private Methods
-    
+
     private func switchImagePicker() {
         viewModel.send(.onGallery(.photoLibrary))
     }
-    
+
     private func switchCameraPicker() {
         viewModel.send(.onGallery(.camera))
     }
-    
+
     @ToolbarContentBuilder
     private func createToolBar() -> some ToolbarContent {
         ToolbarItem(placement: .principal) {
-            Text(R.string.localizable.tabProfile(), [
+            Text(viewModel.resources.tabProfile, [
                 .paragraph(.init(lineHeightMultiple: 1.09, alignment: .center))
             ])
             .font(.bodySemibold17)
@@ -301,7 +251,7 @@ struct ProfileDetailView: View {
                 isSaving.toggle()
                 viewModel.send(.onDone)
             }, label: {
-                Text(R.string.localizable.profileDetailRightButton())
+                Text(viewModel.resources.profileDetailRightButton)
                     .font(.bodySemibold17)
                     .foregroundColor(.dodgerBlue)
             }).disabled(isSaving)
@@ -310,7 +260,7 @@ struct ProfileDetailView: View {
             Button {
                 presentationMode.wrappedValue.dismiss()
             } label: {
-                R.image.navigation.backButton.image
+                viewModel.resources.backImage
             }
         }
     }

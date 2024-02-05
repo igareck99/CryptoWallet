@@ -29,7 +29,7 @@ struct SocialListView: View {
                 ForEach(viewModel.listData) { item in
                     SocialListItemView(item: item, viewModel: viewModel)
                         .ignoresSafeArea()
-                        .listRowSeparator(.visible)
+                        .listRowSeparator(.hidden)
                         .onDrag {
                             self.viewModel.dragging = item
                             return NSItemProvider(object: NSString())
@@ -38,8 +38,6 @@ struct SocialListView: View {
                 .onMove(perform: { indexSet, value in
                     viewModel.onMove(source: indexSet, destination: value)
                 })
-                .listRowBackground(viewModel.resources.avatarBackground)
-                Spacer().listRowSeparator(.hidden)
             }
         }
         .onAppear {

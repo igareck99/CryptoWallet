@@ -135,8 +135,9 @@ extension ViewsBaseFactory {
                     onUsersSelected(value)
                 }
             )
-        case let .newChat(room: room, coordinator: coordinator):
-            ChatViewAssembly.build(room: room, coordinator: coordinator)
+        case let .newChat(room: room, openState: openState, coordinator: coordinator):
+            ChatViewAssembly.build(room: room,openState: openState,
+                                   coordinator: coordinator)
         case let .createChat(coordinator):
             ChatCreateAssembly.build(coordinator: coordinator)
         case let .createContact(coordinator):

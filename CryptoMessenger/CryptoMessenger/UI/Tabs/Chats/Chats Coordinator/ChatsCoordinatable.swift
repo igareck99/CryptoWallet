@@ -2,13 +2,9 @@ import SwiftUI
 
 protocol ChatsCoordinatable: Coordinator {
     
-    func writeToUser(_ userId: String)
-    
     func showImageViewer(image: Image?, imageUrl: URL?)
 
-    func chatRoom(
-        room: AuraRoomData
-    )
+    func chatRoom(room: AuraRoomData, roomOpenState: RoomOpenState)
 
     func firstAction(
         room: AuraRoom
@@ -48,6 +44,8 @@ protocol ChatsCoordinatable: Coordinator {
     )
 
     func popToRoot()
+    
+    func previousScreen()
 
     func galleryPickerFullScreen(
         sourceType: UIImagePickerController.SourceType,

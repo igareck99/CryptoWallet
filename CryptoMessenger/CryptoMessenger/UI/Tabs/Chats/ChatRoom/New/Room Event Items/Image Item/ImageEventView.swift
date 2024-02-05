@@ -65,7 +65,7 @@ struct DownloadImageView: View {
                     .foregroundColor(.white)
                 }
             .padding(.horizontal, 12)
-            .background(Color.osloGrayApprox)
+            .background(Color.chineseBlack04)
             .clipShape(
                 RoundedRectangle(cornerRadius: 30)
             )

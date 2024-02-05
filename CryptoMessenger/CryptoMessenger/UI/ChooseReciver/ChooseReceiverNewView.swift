@@ -29,9 +29,15 @@ struct ChooseReceiverNewView<ViewModel>: View where ViewModel: ChooseReceiverVie
             List {
                 ForEach(viewModel.userWalletsViews, id: \.id) { value in
                     value.view()
+                        .listRowSpacing(0)
+                        .listRowSeparatorTint(.ashGray)
+                        .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                            return viewDimensions[.listRowSeparatorLeading] + 36
+                        }
+                        .frame(height: 43)
                 }
             }
-            .listStyle(.plain)
+            .listStyle(.inset)
         }
         .toolbar {
             toolBarContent()

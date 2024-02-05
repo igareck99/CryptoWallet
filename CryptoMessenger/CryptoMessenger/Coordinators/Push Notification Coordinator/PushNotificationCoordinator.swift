@@ -52,6 +52,6 @@ extension PushNotificationCoordinator: Coordinator {
         else {
             return
         }
-        chatsCoordinator?.chatRoom(room: room)
+        chatsCoordinator?.chatRoom(room: room, roomOpenState: .chatHistory)
 	}
 }

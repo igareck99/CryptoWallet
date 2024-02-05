@@ -16,7 +16,7 @@ final class ChatsCoordinator<Router: ChatsRouterable> {
     }
 
     deinit {
-        print("ChatHistoryFlowCoordinator was deinit")
+        debugPrint("ChatHistoryFlowCoordinator was deinit")
     }
 }
 
@@ -29,10 +29,6 @@ extension ChatsCoordinator: Coordinator {
 // MARK: - ChatsCoordinatable
 
 extension ChatsCoordinator: ChatsCoordinatable {
-    
-    func writeToUser(_ userId: String) {
-        router.writeToUser(userId)
-    }
 
     func onVideoTap(url: URL) {
         router.showVideo(url: url)
@@ -146,6 +142,10 @@ extension ChatsCoordinator: ChatsCoordinatable {
     func popToRoot() {
         router.popToRoot()
     }
+    
+    func previousScreen() {
+        router.previousScreen()
+    }
 
     func galleryPickerFullScreen(
         sourceType: UIImagePickerController.SourceType,
@@ -257,9 +257,10 @@ extension ChatsCoordinator: ChatsCoordinatable {
         )
     }
 
-    func chatRoom(room: AuraRoomData) {
+    func chatRoom(room: AuraRoomData, roomOpenState: RoomOpenState = .chatHistory) {
         router.chatRoom(
             room: room,
+            roomOpenState: roomOpenState,
             coordinator: self
         )
     }

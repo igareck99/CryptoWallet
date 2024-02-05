@@ -21,7 +21,8 @@ protocol RoomEventsFactoryProtocol {
         onLongPressMessage: @escaping (RoomEvent) -> Void,
         onReactionTap: @escaping (ReactionNewEvent) -> Void,
         onTapNotSendedMessage: @escaping (RoomEvent) -> Void,
-        onSwipeReply: @escaping (RoomEvent) -> Void
+        onSwipeReply: @escaping (RoomEvent) -> Void,
+        onTap: @escaping (RoomEvent) -> Void
     ) -> (any ViewGeneratable)?
 }
 
@@ -111,6 +112,18 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
         return textColor
     }
     
+    static func nextMessagePadding(_ event: RoomEvent,
+                                   _ events: [RoomEvent]) -> CGFloat {
+        guard let nextEvent = events.next(item: event) else { return 4.0 }
+        if event.isFromCurrentUser && nextEvent.isFromCurrentUser {
+            return 4.0
+        } else if !event.isFromCurrentUser && !nextEvent.isFromCurrentUser {
+            return 4.0
+        } else {
+            return 8.0
+        }
+    }
+    
     static func makeOneEventView(
         value: RoomEvent,
         events: [RoomEvent],
@@ -120,27 +133,32 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
         onLongPressMessage: @escaping (RoomEvent) -> Void,
         onReactionTap: @escaping (ReactionNewEvent) -> Void,
         onTapNotSendedMessage: @escaping (RoomEvent) -> Void,
-        onSwipeReply: @escaping (RoomEvent) -> Void
+        onSwipeReply: @escaping (RoomEvent) -> Void,
+        onTap: @escaping (RoomEvent) -> Void
     ) -> (any ViewGeneratable)? {
+        let nextMessagePadding = nextMessagePadding(value, currentEvents)
         switch value.eventType {
         case let .text(string):
-            return makeTextView(value, events, currentEvents, oldViews, string, onLongPressTap: { eventId in
+            return makeTextView(value, nextMessagePadding,
+                                events, currentEvents, oldViews, string, onLongPressTap: { eventId in
                 onLongPressMessage(eventId)
             }, onReactionTap: { reaction in
                 onReactionTap(reaction)
             }, onSwipeReply: { value in
                 onSwipeReply(value)
+            }, onTap: { value in
+                onTap(value)
             })
         case .call:
             return makeCallItem(
-                event: value,
+                event: value, nextMessagePadding: nextMessagePadding,
                 delegate: delegate
             ) { event in
                 onLongPressMessage(event)
             }
         case let .contact(name, phone, url):
             return makeContactItem(
-                event: value,
+                event: value, nextMessagePadding: nextMessagePadding,
                 oldEvents: events,
                 oldViews: oldViews,
                 name: name,
@@ -156,7 +174,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                 })
         case let .file(name, url):
             return makeDocumentItem(
-                event: value,
+                event: value, nextMessagePadding: nextMessagePadding,
                 oldEvents: events,
                 oldViews: oldViews,
                 name: name,
@@ -171,7 +189,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                 })
         case let .location((lat, lon)):
             return makeMapItem(
-                event: value,
+                event: value, nextMessagePadding: nextMessagePadding,
                 oldEvents: events,
                 oldViews: oldViews,
                 lat: lat,
@@ -188,7 +206,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                 })
         case let .image(url):
             return makeImageItem(
-                event: value, oldEvents: events, oldViews: oldViews,
+                event: value, nextMessagePadding: nextMessagePadding, oldEvents: events, oldViews: oldViews,
                 url: url,
                 delegate: delegate,
                 onLongPressTap: { event in
@@ -200,7 +218,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                 })
         case let .audio(url):
             return makeAudioItem(
-                event: value,
+                event: value, nextMessagePadding: nextMessagePadding,
                 oldEvents: events,
                 oldViews: oldViews,
                 url: url,
@@ -210,7 +228,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
             )
         case let .video(url):
             return makeVideoItem(
-                event: value,
+                event: value, nextMessagePadding: nextMessagePadding,
                 oldEvents: events,
                 oldViews: oldViews,
                 url: url,
@@ -220,30 +238,30 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                 onSwipeReply: { value in onSwipeReply(value) }
             )
             case let .groupCall(eventId, text):
-                return makeSystemEventItem(text: text) {
+            return makeSystemEventItem(text: text, nextMessagePadding: nextMessagePadding) {
                     debugPrint("onTap groupCall SystemEventItem")
                     delegate.onGroupCallTap(eventId: eventId)
                 }
             case let .encryption(text):
-                return makeSystemEventItem(text: text) {
+            return makeSystemEventItem(text: text, nextMessagePadding: nextMessagePadding) {
                     debugPrint("onTap encryption SystemEventItem")
                 }
             case let .avatarChange(text):
-                return makeSystemEventItem(text: text) {
+            return makeSystemEventItem(text: text, nextMessagePadding: nextMessagePadding) {
                     debugPrint("onTap avatarChange SystemEventItem")
                 }
             case let .leaveRoom(text):
-                return makeSystemEventItem(text: text) {
+            return makeSystemEventItem(text: text, nextMessagePadding: nextMessagePadding) {
                     debugPrint("onTap leaveRoom SystemEventItem")
                 }
             case let .inviteToRoom(text):
-                return makeSystemEventItem(text: text) {
+            return makeSystemEventItem(text: text, nextMessagePadding: nextMessagePadding) {
                     debugPrint("onTap inviteToRoom SystemEventItem")
                 }
-            case let .sendCrypto:
+            case .sendCrypto:
                 return makeTransactionItem(
                     delegate: delegate,
-                    event: value,
+                    event: value, nextMessagePadding: nextMessagePadding,
                     onLongPressTap: onLongPressMessage,
                     onSwipeReply: onSwipeReply,
                     onReactionTap: onReactionTap
@@ -260,13 +278,15 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
     }
 
     static func makeTextView(_ event: RoomEvent,
+                             _ nextMessagePadding: CGFloat,
                              _ oldEvents: [RoomEvent],
                              _ currentEvents: [RoomEvent],
                              _ oldViews: [any ViewGeneratable],
                              _ text: String,
                              onLongPressTap: @escaping (RoomEvent) -> Void,
                              onReactionTap: @escaping (ReactionNewEvent) -> Void,
-                             onSwipeReply: @escaping (RoomEvent) -> Void) -> (any ViewGeneratable)? {
+                             onSwipeReply: @escaping (RoomEvent) -> Void,
+                             onTap: @escaping (RoomEvent) -> Void) -> (any ViewGeneratable)? {
         var event = event
         var eventReply = ""
         let oldEvent = oldEvents.first(where: { $0.eventId == event.eventId })
@@ -359,6 +379,8 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
         var contatiner: BubbleContainer
         if event.isFromCurrentUser {
             contatiner = BubbleContainer(
+                offset: 8.0,
+                horizontalOffset: 12.0,
                 isFromCurrentUser: event.isFromCurrentUser, fillColor: .bubbles,
                 cornerRadius: .right,
                 content: textEvent, onSwipe: {
@@ -368,12 +390,18 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
             return EventContainer(
                 id: event.id,
                 leadingContent: PaddingModel(),
-                centralContent: contatiner, onLongPress: {
+                centralContent: contatiner,
+                reactionsSpacing: 24,
+                nextMessagePadding: nextMessagePadding, onLongPress: {
                     onLongPressTap(event)
+                }, onTap: {
+                    onTap(event)
                 }
             )
         } else {
             contatiner = BubbleContainer(
+                offset: 8.0,
+                horizontalOffset: 12.0,
                 isFromCurrentUser: event.isFromCurrentUser, fillColor: .white,
                 cornerRadius: .left,
                 content: textEvent, onSwipe: {
@@ -383,8 +411,12 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
             return EventContainer(
                 id: event.id,
                 centralContent: contatiner,
-                trailingContent: PaddingModel(), onLongPress: {
+                trailingContent: PaddingModel(),
+                reactionsSpacing: 24,
+                nextMessagePadding: nextMessagePadding, onLongPress: {
                     onLongPressTap(event)
+                }, onTap: {
+                    onTap(event)
                 }
             )
         }

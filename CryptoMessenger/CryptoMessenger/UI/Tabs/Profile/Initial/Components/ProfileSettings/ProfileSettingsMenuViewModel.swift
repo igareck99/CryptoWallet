@@ -34,14 +34,14 @@ extension ProfileSettingsMenuViewModel: ProfileSettingsMenuProtocol {
     }
 
     func viewHeight() -> CGFloat {
-        CGFloat(settingsTypes().count) * CGFloat(70)
+        CGFloat(settingsTypes().count) * CGFloat(52) + CGFloat(18)
     }
 
     func settingsTypes() -> [ProfileSettingsMenu] {
         [
             .profile,
             // TODO: ???? почему-то нет перехода в координаторе
-//            .personalization,
+            // .personalization,
             .security,
             .notifications,
             .about

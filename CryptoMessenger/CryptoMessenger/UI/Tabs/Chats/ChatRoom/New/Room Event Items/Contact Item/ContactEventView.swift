@@ -13,26 +13,27 @@ struct ContactEventView<
     let avatar: Avatar
 
     var body: some View {
-        VStack {
+        VStack(spacing: .zero) {
             HStack(alignment: .center, spacing: 8) {
                 avatar
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: .zero) {
                     Text(model.title)
-                        .font(.bodyRegular17)
+                        .font(.calloutRegular16)
                         .foregroundColor(.chineseBlack)
                     Text(model.subtitle)
                         .font(.footnoteRegular13)
                         .foregroundColor(.dodgerBlue)
                 }
-                .frame(height: 39)
+                .frame(height: 38)
+                .padding(.top, 5)
                 Spacer()
             }
+            .frame(height: 48)
             if !model.mxId.isEmpty {
                 RoundedRectangle(cornerRadius: 8)
                     .stroke(Color.dodgerBlue, lineWidth: 2.0)
                     .frame(height: 44.0)
-                    .frame(maxWidth: .infinity)
-                    .padding(.horizontal, 4)
+                    .frame(width: 215, height: 44)
                     .padding(.vertical, 8)
                     .overlay {
                         Text("Профиль AURA")
@@ -44,13 +45,20 @@ struct ContactEventView<
                         model.onTap()
                     }
             }
-            HStack {
-                reactions
-                Spacer()
+            if !model.hasReactions {
+                eventData
+            } else {
+                VStack(spacing: .zero) {
+                    HStack {
+                        reactions
+                        Spacer()
+                    }
+                    .padding(.top, 10)
+                    eventData
+                }
             }
-            eventData
         }
-        .frame(minWidth: 238, idealWidth: 238, maxWidth: 238, minHeight: 82, maxHeight: 202)
+        .frame(minWidth: 212, idealWidth: 212, maxWidth: 212)
         .fixedSize(horizontal: true, vertical: false)
     }
 }
