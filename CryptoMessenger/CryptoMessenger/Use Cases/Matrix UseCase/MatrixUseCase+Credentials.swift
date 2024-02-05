@@ -5,19 +5,17 @@ extension MatrixUseCase {
 
     func save(credentials: MXCredentials) {
         debugPrint("MATRIX DEBUG MatrixUseCase save(credentials: MXCredentials) \(credentials)")
-        // MARK: - Пока оставил для отладки
-//        guard
-//            let userId = credentials.userId,
-//            let homeServer = credentials.homeServer,
-//            let accessToken = credentials.accessToken,
-//            let deviceId = credentials.deviceId else {
-//            return
-//        }
-
-//        userSettings.userId = userId
-//        keychainService.homeServer = homeServer
-//        keychainService.accessToken = accessToken
-//        keychainService.deviceId = deviceId
+        guard
+            let userId = credentials.userId,
+            let homeServer = credentials.homeServer,
+            let accessToken = credentials.accessToken,
+            let deviceId = credentials.deviceId else {
+            return
+        }
+        userSettings.userId = userId
+        keychainService.homeServer = homeServer
+        keychainService.accessToken = accessToken
+        keychainService.deviceId = deviceId
         debugPrint("Credetials saved")
     }
 

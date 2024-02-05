@@ -78,6 +78,7 @@ final class ProfileDetailViewModel: ObservableObject {
     // MARK: - Private Methods
     private func bindInput() {
         eventSubject
+            .removeDuplicates { $0 == $1 }
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
@@ -109,39 +110,39 @@ final class ProfileDetailViewModel: ObservableObject {
                 case .onLogout:
                     self?.matrixUseCase.logoutDevices { [weak self] _ in
                         debugPrint("MATRIX DEBUG ProfileDetailViewModel matrixUseCase.logoutDevices")
+                        guard let self = self else { return }
                         // TODO: Обработать результат
-                        self?.matrixUseCase.closeSession()
-                        self?.privateDataCleaner.clearWalletPrivateData()
-                        self?.privateDataCleaner.clearMatrixPrivateData()
-                        self?.matrixUseCase.clearCredentials()
-                        self?.keychainService.isApiUserAuthenticated = false
-                        self?.keychainService.isPinCodeEnabled = false
-                        NotificationCenter.default.post(name: .userDidLoggedOut, object: nil)
+                        self.matrixUseCase.closeSession()
+                        self.privateDataCleaner.clearWalletPrivateData()
+                        self.privateDataCleaner.clearMatrixPrivateData()
+                        self.matrixUseCase.clearCredentials()
+                        self.keychainService.isApiUserAuthenticated = false
+                        self.keychainService.isPinCodeEnabled = false
+                        NotificationCenter.default.post(
+                            name: .userDidLoggedOut,
+                            object: nil
+                        )
                         debugPrint("ProfileDetailViewModel: LOGOUT")
                     }
                 }
-            }
-            .store(in: &subscriptions)
+            }.store(in: &subscriptions)
 
-        matrixUseCase.loginStatePublisher.sink { [weak self] status in
-            debugPrint("MATRIX DEBUG ProfileDetailViewModel loginStatePublisher \(status)")
-            switch status {
-            case .loggedOut:
-                self?.userSettings.isAuthFlowFinished = false
-                self?.userSettings.isOnboardingFlowFinished = false
-                self?.keychainService.isPinCodeEnabled = false
-                self?.keychainService.removeObject(forKey: .apiUserPinCode)
-                self?.privateDataCleaner.clearWalletPrivateData()
-                self?.privateDataCleaner.clearMatrixPrivateData()
-                self?.matrixUseCase.clearCredentials()
+        matrixUseCase.loginStatePublisher
+            .removeDuplicates()
+            .sink { [weak self] status in
+                debugPrint("MATRIX DEBUG ProfileDetailViewModel loginStatePublisher \(status)")
+                guard let self = self, case .loggedOut = status else { return }
+                self.userSettings.isAuthFlowFinished = false
+                self.userSettings.isOnboardingFlowFinished = false
+                self.keychainService.isPinCodeEnabled = false
+                self.keychainService.removeObject(forKey: .apiUserPinCode)
+                self.privateDataCleaner.clearWalletPrivateData()
+                self.privateDataCleaner.clearMatrixPrivateData()
+                self.matrixUseCase.clearCredentials()
                 DispatchQueue.main.async {
-                    self?.coordinator?.onLogout()
+                    self.coordinator?.onLogout()
                 }
-            default:
-                break
-            }
-        }
-        .store(in: &subscriptions)
+            }.store(in: &subscriptions)
     }
 
     private func bindOutput() {

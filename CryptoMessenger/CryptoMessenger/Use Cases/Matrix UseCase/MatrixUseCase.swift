@@ -77,9 +77,9 @@ final class MatrixUseCase {
         ) { result in
             
             if case .success = result {
-                debugPrint("MatrixUseCase tokenRefreshed loginByJWT TOKEN REFRESHED")
+                debugPrint("MATRIX DEBUG MatrixUseCase tokenRefreshed loginByJWT TOKEN REFRESHED")
             } else {
-                debugPrint("MatrixUseCase tokenRefreshed loginByJWT TOKEN NOT REFRESHED")
+                debugPrint("MATRIX DEBUG MatrixUseCase tokenRefreshed loginByJWT TOKEN NOT REFRESHED")
             }
         }
     }

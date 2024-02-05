@@ -35,29 +35,33 @@ extension ChatViewModel {
         coordinator.dismissCurrentSheet()
 
         delay(0.5) {
-            let wallets = self.coreDataService.getWalletNetworks()
-            let tokens = self.coreDataService.getNetworksTokens()
-            let cards: [WalletInfo] = self.walletModelsFactory.makeDisplayCards(
-                wallets: wallets,
-                tokens: tokens
-            )
-            guard let wallet = cards.first(
-                where: { $0.walletType == .aura }
-            ) else {
-                return
-            }
-            let receiverData = UserReceiverData(
-                name: receiverWallet.name,
-                url: nil,
-                adress: receiverWallet.aura,
-                walletType: .aura
-            )
-            self.coordinator.transferCrypto(
-                wallet: wallet,
-                receiverData: receiverData
-            ) { [weak self] rawTransaction in
-                guard let self = self else { return }
-                self.sendCryptoEvent(rawTransaction: rawTransaction)
+            Task {
+                let wallets = await self.coreDataService.getWalletNetworks()
+                let tokens = await self.coreDataService.getNetworksTokens()
+                let cards: [WalletInfo] = self.walletModelsFactory.makeDisplayCards(
+                    wallets: wallets,
+                    tokens: tokens
+                )
+                guard let wallet = cards.first(
+                    where: { $0.walletType == .aura }
+                ) else {
+                    return
+                }
+                let receiverData = UserReceiverData(
+                    name: receiverWallet.name,
+                    url: nil,
+                    adress: receiverWallet.aura,
+                    walletType: .aura
+                )
+                await MainActor.run {
+                    self.coordinator.transferCrypto(
+                        wallet: wallet,
+                        receiverData: receiverData
+                    ) { [weak self] rawTransaction in
+                        guard let self = self else { return }
+                        self.sendCryptoEvent(rawTransaction: rawTransaction)
+                    }
+                }
             }
         }
     }

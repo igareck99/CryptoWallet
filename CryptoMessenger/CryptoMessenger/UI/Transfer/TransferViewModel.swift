@@ -156,54 +156,57 @@ final class TransferViewModel: ObservableObject {
         currentSpeed = item
     }
 
-	func updateWallet() {
-
-        let networkWallets: [String: WalletNetwork] = coreDataService.getWalletNetworks()
-            .reduce(into: [String: WalletNetwork]()) { partialResult, wallet in
-                if let key: String = wallet.cryptoType {
-                    partialResult[key] = wallet
+    func updateWallet() {
+        Task {
+            let networkWallets: [String: WalletNetwork] = await coreDataService.getWalletNetworks()
+                .reduce(into: [String: WalletNetwork]()) { partialResult, wallet in
+                    if let key: String = wallet.cryptoType {
+                        partialResult[key] = wallet
+                    }
                 }
-            }
-        let tokenNetworks = coreDataService.getNetworksTokens()
-            .reduce(into: [String: NetworkToken]()) { partialResult, token in
-                if let network = token.network,
-                    let symbol = token.symbol {
-                    let key: String = network + symbol
-                    partialResult[key] = token
+            let tokenNetworks: [String: NetworkToken] = await coreDataService.getNetworksTokens()
+                .reduce(into: [String: NetworkToken]()) { partialResult, token in
+                    if let network = token.network,
+                       let symbol = token.symbol {
+                        let key: String = network + symbol
+                        partialResult[key] = token
+                    }
                 }
+            
+            if let selectedWallet = networkWallets[currentWalletType.rawValue],
+               let cryptoType = selectedWallet.cryptoType,
+               let walletType = WalletType(rawValue: cryptoType) {
+                
+                currentWallet = WalletInfo(
+                    decimals: Int(selectedWallet.decimals),
+                    walletType: walletType,
+                    address: selectedWallet.address ?? "",
+                    coinAmount: selectedWallet.balance ?? "",
+                    fiatAmount: selectedWallet.balance ?? ""
+                )
+            } else if let tokenNetwork = tokenNetworks[currentWalletType.rawValue],
+                      let network = tokenNetwork.network,
+                      let symbol = tokenNetwork.symbol,
+                      let walletType = WalletType(rawValue: network + symbol),
+                      let networkWallet = networkWallets[network],
+                      let address = networkWallet.address {
+                
+                currentWallet = WalletInfo(
+                    decimals: Int(tokenNetwork.decimals),
+                    walletType: walletType,
+                    address: address,
+                    tokenAddress: tokenNetwork.address,
+                    coinAmount: tokenNetwork.balance ?? "",
+                    fiatAmount: tokenNetwork.balance ?? ""
+                )
             }
-
-        if let selectedWallet = networkWallets[currentWalletType.rawValue],
-           let cryptoType = selectedWallet.cryptoType,
-           let walletType = WalletType(rawValue: cryptoType) {
-
-            currentWallet = WalletInfo(
-                decimals: Int(selectedWallet.decimals),
-                walletType: walletType,
-                address: selectedWallet.address ?? "",
-                coinAmount: selectedWallet.balance ?? "",
-                fiatAmount: selectedWallet.balance ?? ""
-            )
-        } else if let tokenNetwork = tokenNetworks[currentWalletType.rawValue],
-           let network = tokenNetwork.network,
-           let symbol = tokenNetwork.symbol,
-           let walletType = WalletType(rawValue: network + symbol),
-                 let networkWallet = networkWallets[network],
-                 let address = networkWallet.address {
-
-            currentWallet = WalletInfo(
-                decimals: Int(tokenNetwork.decimals),
-                walletType: walletType,
-                address: address,
-                tokenAddress: tokenNetwork.address,
-                coinAmount: tokenNetwork.balance ?? "",
-                fiatAmount: tokenNetwork.balance ?? ""
-            )
+            
+            getFees()
+            await MainActor.run {
+                objectWillChange.send()
+            }
         }
-
-		getFees()
-		objectWillChange.send()
-	}
+    }
 
     // MARK: - Private Methods
 
@@ -388,8 +391,10 @@ final class TransferViewModel: ObservableObject {
 	}
 
 	private func getWallets() {
-        let tokenWalletTypes = coreDataService.getNetworkTokensWalletsTypes()
-        let networkWalletTypes = coreDataService.getNetworkWalletsTypes()
-		walletTypes = networkWalletTypes + tokenWalletTypes
+        Task {
+            let tokenWalletTypes = await coreDataService.getNetworkTokensWalletsTypes()
+            let networkWalletTypes = await coreDataService.getNetworkWalletsTypes()
+            walletTypes = networkWalletTypes + tokenWalletTypes
+        }
 	}
 }

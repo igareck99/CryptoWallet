@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-typealias WalletCoordinatorType = WalletCoordinator<WalletRouter<WalletView,WalletRouterState,ViewsBaseFactory>>
+typealias WalletCoordinatorType = WalletCoordinator<WalletRouter<WalletView<WalletViewModel>,WalletRouterState,ViewsBaseFactory>>
 
 enum WalletAssembly {
 

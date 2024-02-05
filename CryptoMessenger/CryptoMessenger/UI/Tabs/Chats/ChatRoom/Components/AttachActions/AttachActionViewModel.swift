@@ -98,8 +98,12 @@ final class AttachActionViewModel: ObservableObject {
         // TODO: нужно включить флаг в Firebase
         isTransactionAvailable = true //  togglesFacade.isTransactionAvailable
         // Есть ли созданные кошельки у текущего пользователя
-        let wallets = coreDataService.getWalletNetworks()
-        isTransactionAvailable = wallets.isEmpty == false
+        Task {
+            let wallets = await coreDataService.getWalletNetworks()
+            await MainActor.run {
+                isTransactionAvailable = wallets.isEmpty == false
+            }
+        }
     }
 
     private func fetchPhotos() {

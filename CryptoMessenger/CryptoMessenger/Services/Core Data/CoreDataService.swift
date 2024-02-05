@@ -22,9 +22,6 @@ final class CoreDataService: NSObject, CoreDataServiceProtocol {
         container.persistentStoreDescriptions.first?.shouldInferMappingModelAutomatically = true
         
 		container.loadPersistentStores { storeDescription, err in
-
-			debugPrint("storeDescription: \(storeDescription)")
-            
             storeDescription.shouldMigrateStoreAutomatically = true
             storeDescription.shouldInferMappingModelAutomatically = false
 
@@ -38,11 +35,11 @@ final class CoreDataService: NSObject, CoreDataServiceProtocol {
     let mainQueueContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     let privateQueueContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
 
-    override init() {
-        super.init()
-        subscribeToNotifications()
+	override init() {
+		super.init()
+		subscribeToNotifications()
         configureContexts()
-    }
+	}
     
     private func configureContexts() {
         mainQueueContext.persistentStoreCoordinator = persistentContainer.persistentStoreCoordinator
@@ -80,4 +77,27 @@ extension CoreDataService: NSFetchedResultsControllerDelegate {
 			  let fetchedObjects = fetchedController.fetchedObjects else { return }
 		fetchResultClosure(fetchedObjects)
 	}
+}
+
+// MARK: - Private Queue Context
+
+extension CoreDataService {
+    
+    /// Creates and configures a private queue context.
+    func newTaskContext(
+        name: String = .empty,
+        author: String = .empty
+    ) -> NSManagedObjectContext {
+        // Create a private queue context.
+        /// - Tag: newBackgroundContext
+        let taskContext = persistentContainer.newBackgroundContext()
+        taskContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        // Set unused undoManager to nil for macOS (it is nil by default on iOS)
+        // to reduce resource requirements.
+        taskContext.undoManager = nil
+        // Add name and author to identify source of persistent history changes.
+        taskContext.name = name
+        taskContext.transactionAuthor = author
+        return taskContext
+    }
 }
