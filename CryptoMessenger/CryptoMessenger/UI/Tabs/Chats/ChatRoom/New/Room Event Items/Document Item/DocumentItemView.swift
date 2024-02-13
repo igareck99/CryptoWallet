@@ -18,7 +18,7 @@ struct DocumentItemView<
     var body: some View {
         VStack(alignment: .leading, spacing: .zero) {
             HStack(spacing: 8) {
-                DocumentImageStateView(state: $viewModel.state)
+                DocumentImageStateView(state: $viewModel.state, viewType: .file)
                 VStack(alignment: .leading, spacing: 4) {
                     Text(viewModel.model.title)
                         .lineLimit(1)

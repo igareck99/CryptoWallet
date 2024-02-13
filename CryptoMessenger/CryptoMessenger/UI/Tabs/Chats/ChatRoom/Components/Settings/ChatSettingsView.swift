@@ -38,11 +38,15 @@ struct ChatSettingsView: View {
                 leaveChatView()
             }
         }
+        .scrollContentBackground(.hidden)
+        .background(Color.ghostWhite)
     }
 
     private var encryptionView: some View {
-        HStack(alignment: .center, spacing: 12) {
+        HStack(alignment: .center, spacing: 4) {
             R.image.chatSettings.chatSettingsLock.image
+                .resizable()
+                .frame(width: 22, height: 22)
             Text("Используется сквозное шифрование")
                 .font(.regular(13))
                 .foreground(.romanSilver)
@@ -109,8 +113,8 @@ struct ChatSettingsView: View {
     private func attachmentsView() -> some View {
         ChannelSettingsView(
             title: viewModel.resources.attachments,
-            imageName: "folder",
-            accessoryImageName: "chevron.right"
+            image: R.image.channelSettings.folder.image,
+            accessoryImage: R.image.chatSettings.chevron.image
         )
         .onTapGesture {
             viewModel.onMedia()
@@ -120,8 +124,8 @@ struct ChatSettingsView: View {
     private func notificationsView() -> some View {
         ChannelSettingsView(
             title: viewModel.resources.notifications,
-            imageName: "bell",
-            accessoryImageName: "chevron.right"
+            image: R.image.channelSettings.bell.image,
+            accessoryImage: R.image.chatSettings.chevron.image
         )
         .onTapGesture {
             viewModel.onNotifications()
@@ -132,9 +136,7 @@ struct ChatSettingsView: View {
         ChannelSettingsView(
             title: viewModel.resources.removeChat,
             titleColor: .amaranthApprox,
-            imageName: "rectangle.portrait.and.arrow.right",
-            imageColor: viewModel.resources.negativeColor,
-            accessoryImageName: ""
+            image: R.image.channelSettings.leaveChannellOrChat.image
         )
         .onTapGesture {
             viewModel.showActionSheet = true

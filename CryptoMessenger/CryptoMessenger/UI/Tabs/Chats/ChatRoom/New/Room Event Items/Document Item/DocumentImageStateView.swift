@@ -3,16 +3,24 @@ import SwiftUI
 // MARK: - DocumentImageState
 
 struct DocumentImageStateView: View {
-    
+
     @Binding var state: DocumentImageState
-    var circleColor: Color
+    let viewType: DocumentImageStateType
     @State private var isLoading: Bool
+
+    var circleColor: Color {
+        if viewType == .file {
+            return .dodgerBlue
+        } else {
+            return state.color
+        }
+    }
     
     init(state: Binding<DocumentImageState>,
-         circleColor: Color = .dodgerBlue,
+         viewType: DocumentImageStateType,
          isLoading: Bool = false) {
         self._state = state
-        self.circleColor = circleColor
+        self.viewType = viewType
         self.isLoading = isLoading
     }
     

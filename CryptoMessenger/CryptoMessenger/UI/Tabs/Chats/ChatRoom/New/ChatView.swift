@@ -15,10 +15,12 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
         ScrollViewReader { proxy in
             VStack(spacing: .zero) {
                 ReversedScrollView(.vertical) {
-                    ForEach(viewModel.displayItems, id: \.id) { item in
-                        item.view()
-                            .clipped()
-                            .id(item.id)
+                    VStack(spacing: .zero) {
+                        ForEach(viewModel.displayItems, id: \.id) { item in
+                            item.view()
+                                .clipped()
+                                .id(item.id)
+                        }
                     }
                 }
                 .onChange(of: viewModel.isKeyboardVisible) { newValue in

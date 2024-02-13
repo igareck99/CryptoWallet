@@ -245,6 +245,9 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                         .frame(height: 28)
                 }
                 .listRowSeparatorTint(.gainsboro)
+                .alignmentGuide(.listRowSeparatorLeading) { _ in
+                    return 50
+                }
             }
             Section {
                 copyLinkView()
@@ -433,7 +436,8 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         ChannelSettingsView(
             title: resources.attachments,
             accessoryImageName: "",
-            image: R.image.channelSettings.folder.image
+            image: R.image.channelSettings.folder.image,
+            accessoryImage: R.image.chatSettings.chevron.image
         )
         .onTapGesture {
             viewModel.nextScene(scene: .onMedia(viewModel.room.roomId))
@@ -444,7 +448,8 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         ChannelSettingsView(
             title: resources.notifications,
             accessoryImageName: "",
-            image: R.image.channelSettings.bell.image
+            image: R.image.channelSettings.bell.image,
+            accessoryImage: R.image.chatSettings.chevron.image
         )
         .onTapGesture {
             viewModel.showNotifications()

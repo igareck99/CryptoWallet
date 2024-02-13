@@ -11,6 +11,7 @@ struct ChannelSettingsView: View {
     let imageName: String
     let image: Image?
     let imageColor: Color
+    let accessoryImage: Image?
     let accessoryImageName: String
     let value: String
 
@@ -23,6 +24,7 @@ struct ChannelSettingsView: View {
         imageColor: Color = .dodgerBlue,
         accessoryImageName: String = "",
         image: Image? = nil,
+        accessoryImage: Image? = nil,
         value: String = ""
     ) {
         self.title = title
@@ -31,6 +33,7 @@ struct ChannelSettingsView: View {
         self.imageColor = imageColor
         self.accessoryImageName = accessoryImageName
         self.image = image
+        self.accessoryImage = accessoryImage
         self.value = value
     }
 
@@ -41,7 +44,6 @@ struct ChannelSettingsView: View {
             if !imageName.isEmpty {
                 Image(systemName: imageName)
                     .foregroundColor(imageColor)
-                    .frame(width: 30, height: 30)
             } else {
                 image?
                     .resizable()
@@ -56,8 +58,7 @@ struct ChannelSettingsView: View {
                     .font(.bodyRegular17)
                     .foregroundColor(.dodgerBlue)
             } else {
-                Image(systemName: accessoryImageName)
-                    .foregroundColor(Color.ashGray)
+                accessoryImage
                     .frame(width: 7.16, height: 12.3)
             }
         }

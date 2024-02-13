@@ -16,7 +16,7 @@ struct EventContainerView<
     let trailingContent: TrailingContent
     let bottomContent: BottomContent
     let reactionsSpacing: CGFloat
-    let  nextMessagePadding: CGFloat
+    let nextMessagePadding: CGFloat
     var onLongPress: () -> Void
     var onTap: () -> Void
 
@@ -24,7 +24,7 @@ struct EventContainerView<
         VStack {
             HStack(spacing: 8) {
                 leadingContent
-                VStack(alignment: .leading, spacing: reactionsSpacing) {
+                VStack(alignment: .leading, spacing: 4) {
                     centralContent
                     bottomContent
                 }
@@ -34,11 +34,11 @@ struct EventContainerView<
                 .onTapGesture(perform: onTap)
                 trailingContent
             }
-            Rectangle()
-                .frame(width: 1,
-                       height: nextMessagePadding)
-                .foreground(.clear)
         }
+        .padding(.top, nextMessagePadding)
         .padding(.horizontal, 16)
+        .onAppear {
+            print("sklasklaskl  \(nextMessagePadding)")
+        }
     }
 }

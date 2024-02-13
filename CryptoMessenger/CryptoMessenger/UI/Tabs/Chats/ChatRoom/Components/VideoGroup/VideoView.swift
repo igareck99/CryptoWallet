@@ -123,9 +123,6 @@ struct VideoView: View {
     private func makePlayView() -> some View {
         ZStack(alignment: .center) {
             if viewModel.isVideoUpload {
-                Circle()
-                    .frame(width: 48, height: 48)
-                    .foregroundColor(.chineseBlack04)
                 R.image.chat.chatEventsState.playFill.image
                     .resizable()
                     .tint(.white)
